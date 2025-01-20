@@ -1,24 +1,29 @@
+import { useState } from 'react';
 import logo from '../../assets/haven-logo.png'
 import { IoIosSearch } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 
 
 const Header = () => {
+
+    const [toggle, setToggle] = useState(false);
+
     return (
 
         <header>
             <nav className="container mx-auto px-3">
-                <div className="flex justify-between items-center w-full font-roboto py-4 md:gap-4">
+                <div className="relative flex justify-between items-center w-full font-roboto py-4 md:gap-4">
                     {/* Logo */}
                     <a href="#">
                         <img src={logo} className="w-44 md:w-44 lg:w-52" alt="Eduport Logo" />
                     </a>
 
                     {/* Navigation Links and Search */}
-                    <div className="hidden md:flex justify-between items-center w-[70%]">
+                    <div className={`${toggle === true ? 'flex flex-col items-start block absolute mt-96 border w-full space-y-4 bg-white' : 'hidden items-center'} md:flex justify-between w-[70%]`}>
                         {/* Category Dropdown */}
-                        <ul className="flex items-center space-x-4">
-                            <li className="flex items-center space-x-2 px-4 py-2 text-[#066ac9] bg-[#E7F0FA] rounded-md cursor-pointer">
+                        <ul className={`${toggle === true ? 'w-full' : ''} flex items-center space-x-4`}>
+                            <li className={`${toggle === true ? 'my-2 w-full' : ''} flex items-center space-x-2 px-4 py-2 text-[#066ac9] bg-[#E7F0FA] rounded-md cursor-pointer`}>
                                 <svg
                                     width="1em"
                                     height="1em"
@@ -35,23 +40,23 @@ const Header = () => {
                         </ul>
 
                         {/* Main Navigation */}
-                        <ul className="flex items-center space-x-6">
-                            <li>
+                        <ul className={`${toggle === true ? 'flex-col w-full overflow-auto' : 'items-center space-x-6'} flex`}>
+                            <li className={`${toggle === true ? 'px-4 py-2 border-y-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
                                     Home
                                 </a>
                             </li>
-                            <li>
+                            <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
                                     Courses
                                 </a>
                             </li>
-                            <li>
+                            <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
                                     Dashboard
                                 </a>
                             </li>
-                            <li>
+                            <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
                                     Contact
                                 </a>
@@ -59,7 +64,7 @@ const Header = () => {
                         </ul>
 
                         {/* Search Form */}
-                        <div className='md:hidden lg:block'>
+                        <div className={`${toggle === true ? 'w-full':''} md:hidden lg:block`}>
                             <form className="flex items-center border rounded-md overflow-hidden">
                                 <input
                                     type="text"
@@ -77,8 +82,13 @@ const Header = () => {
                     <div className='flex items-center justify-between gap-2'>
 
                         {/* Mobile Menu Button */}
-                        <button className="md:hidden">
-                            <MdMenu size={30} />
+                        <button
+                            onClick={() => setToggle(!toggle)}
+                            className="md:hidden cursor-pointer">
+                            {
+                                toggle ? <IoClose size={30} /> : <MdMenu size={30} />
+
+                            }
                         </button>
 
                         <button
