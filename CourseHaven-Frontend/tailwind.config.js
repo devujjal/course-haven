@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {},
     fontFamily: {
-      roboto: ['"Roboto", serif']
+      roboto: ['"Roboto", serif'],
+      heebo: ['"Heebo", serif']
     }
   },
   plugins: [],
