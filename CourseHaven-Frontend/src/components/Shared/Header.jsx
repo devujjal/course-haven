@@ -8,10 +8,10 @@ const Header = () => {
 
         <header>
             <nav className="container mx-auto px-3">
-                <div className="flex justify-between items-center w-full font-roboto py-4">
+                <div className="flex justify-between items-center w-full font-roboto py-4 md:gap-4">
                     {/* Logo */}
                     <a href="#">
-                        <img src={logo} className="w-44 md:w-52" alt="Eduport Logo" />
+                        <img src={logo} className="w-44 md:w-44 lg:w-52" alt="Eduport Logo" />
                     </a>
 
                     {/* Navigation Links and Search */}
@@ -59,7 +59,7 @@ const Header = () => {
                         </ul>
 
                         {/* Search Form */}
-                        <div>
+                        <div className='md:hidden lg:block'>
                             <form className="flex items-center border rounded-md overflow-hidden">
                                 <input
                                     type="text"
