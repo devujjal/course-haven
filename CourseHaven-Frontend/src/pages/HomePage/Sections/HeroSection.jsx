@@ -12,7 +12,7 @@ const HeroSection = () => {
     return (
         <section>
             <div className="container mx-auto px-2">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center py-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center px-10 py-20">
                     <div>
                         <h1 className="font-heebo text-6xl font-bold text-[#24292d] mb-8">Limitless learning at your
                             <span> fingertips</span>
@@ -20,8 +20,8 @@ const HeroSection = () => {
                                 {/* Here willl be SVG */}
                             </span>
                         </h1>
-                        <p className="w-[92%] font-roboto text-xl font-normal text-[#747579] mb-4">Online learning and teaching marketplace with 5K+ courses & 10M students. Taught by experts to help you acquire new skills.</p>
-                        <ul className="flex items-center gap-3 text-[#747579] mb-8">
+                        <p className=" font-roboto text-xl font-normal text-[#747579] mb-6">Online learning and teaching marketplace with 5K+ courses & 10M students. Taught by experts to help you acquire new skills.</p>
+                        <ul className="flex items-center gap-3 text-[#747579] mb-7">
                             <li className="flex items-center font-roboto">
                                 <BsFillPatchCheckFill color="#24292D" className="mr-1" />
                                 Learn with experts
@@ -36,11 +36,16 @@ const HeroSection = () => {
                             </li>
                         </ul>
                         <div className="flex">
-                            <a href="">Get Started</a>
-                            <div className="flex items-center">
-                                <FaPlayCircle />
-                                <a href="">Watch Video</a>
+                            <a href="" className="px-6 py-3 bg-[#F9E8EC] font-roboto text-lg text-[#d6293e] font-medium rounded-lg hover:bg-[#d6293e] hover:text-white transition mr-6">Get Started</a>
+                            <div className="flex items-center font-heebo text-base gap-3 cursor-pointer group">
+                                <FaPlayCircle
+                                    size={40}
+                                    color="#346AC9"
+                                    className="outline outline-offset-0 outline-[6px] outline-[#A2C3EA] rounded-full transition-all duration-300 ease-in group-hover:outline-[8px] group-hover:outline-[#A2C3EA]"
+                                />
+                                Watch Video
                             </div>
+
                         </div>
                     </div>
                     <div className="relative">
@@ -56,7 +61,7 @@ const HeroSection = () => {
                         <div className="absolute bottom-56 right-20">
                             <IoLogoFigma color="#e70e0e" />
                         </div>
-                        <div className="absolute z-10 bottom-32">
+                        <div className="absolute z-10 bottom-20">
                             <div className="flex items-center gap-2 p-4 border rounded-xl backdrop-blur-sm shadow-md">
                                 <span className="p-3 bg-[#F5C32F] rounded-full">
                                     <CgMail size={25} color="#FFFFFF" />
@@ -73,7 +78,7 @@ const HeroSection = () => {
                             </div>
                         </div>
 
-                        <div className="absolute top-36 right-14 bg-userBg bg-contain bg-[#0cbc87] z-10 px-4 py-4 rounded-xl">
+                        <div className="absolute top-36 right-4 bg-userBg bg-contain bg-[#0cbc87] z-10 px-4 py-4 rounded-xl">
                             <p className="font-roboto mb-4">Our daily new students</p>
                             <div className="flex -space-x-3 justify-center">
                                 <img className="h-8 w-8 rounded-full ring-2 ring-white inline-block" src="https://readymadeui.com/team-1.webp" alt="avatar" />
@@ -83,9 +88,16 @@ const HeroSection = () => {
                                 <span className="h-8 w-8 rounded-full ring-2 ring-white inline-block bg-[#346AC9] text-sm font-roboto flex justify-center items-center">1K+</span>
                             </div>
                         </div>
-                        <div className="absolute z-0 -top-16 ml-14">
-                            <img src={man} className="w-full" alt="" />
+
+                        <div className="absolute w-full -top-[56px] rounded-full overflow-hidden flex justify-center items-center">
+                            <img src={man} alt="Student" className="relative -bottom-14" />
                         </div>
+
+
+
+                        {/* <div className="absolute z-0 -top-20 ml-14">
+                            <img src={man} className="w-full" alt="" />
+                        </div> */}
                     </div>
                 </div>
             </div>
