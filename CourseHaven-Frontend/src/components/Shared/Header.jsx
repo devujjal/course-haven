@@ -20,7 +20,7 @@ const Header = () => {
                     </a>
 
                     {/* Navigation Links and Search */}
-                    <div className={`${toggle === true ? 'flex flex-col items-start block absolute mt-96 border w-full space-y-4 bg-white' : 'hidden items-center'} md:flex justify-between w-[70%]`}>
+                    <div className={`${toggle === true ? 'flex flex-col items-start block absolute mt-96 border w-full space-y-4 bg-white z-20' : 'hidden items-center'} md:flex justify-between w-[70%]`}>
                         {/* Category Dropdown */}
                         <ul className={`${toggle === true ? 'w-full' : ''} flex items-center space-x-4`}>
                             <li className={`${toggle === true ? 'my-2 w-full' : ''} flex items-center space-x-2 px-4 py-2 text-[#066ac9] bg-[#E7F0FA] rounded-md cursor-pointer`}>
