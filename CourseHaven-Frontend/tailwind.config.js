@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        userBg: "url('./src/assets/hero/user-bg.png')"
+      }
+    },
     fontFamily: {
       roboto: ['"Roboto", serif'],
       heebo: ['"Heebo", serif']
