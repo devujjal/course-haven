@@ -1,3 +1,4 @@
+import PopularCourseCard from "../../../components/CourseCard/PopularCourseCard";
 import PopularCourseTab from "../../../components/Tab/PopularCourseTab";
 
 const PopularCourses = () => {
@@ -9,8 +10,12 @@ const PopularCourses = () => {
 
                     </div>
                     <PopularCourseTab />
-                    <div>
+                    <div className="flex flex-wrap justify-between">
                         {/* Here will be content show */}
+                        <PopularCourseCard />
+                        <PopularCourseCard />
+                        <PopularCourseCard />
+                        <PopularCourseCard />
                     </div>
                 </div>
             </div>

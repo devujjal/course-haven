@@ -8,7 +8,12 @@ const PopularCourseTab = () => {
 
     console.log(getIndex)
 
-    //color: #066ac9
+    const handleTab = async(index, category) => {
+        setGetIndex(index)
+        console.log(category)
+    }
+
+
     return (
         <div className="w-full">
             <div className="flex flex-wrap lg:justify-center items-center gap-3 lg:space-x-4  rounded-lg bg-blue-100 p-3">
@@ -16,9 +21,9 @@ const PopularCourseTab = () => {
                 {
                     categories.map((category, index) => (
                         <button
-                            onClick={() => setGetIndex(index)}
+                            onClick={() => handleTab(index, category)}
                             key={index}
-                            className={`${index === getIndex ? 'bg-[#066ac9] text-white' : ''} text-[#066ac9] px-6 py-2 rounded-md  font-semibold`}>
+                            className={`${index === getIndex ? 'bg-[#066ac9] text-white font-semibold' : ''} font-roboto text-[#066ac9] px-6 py-2 rounded-md text-base`}>
                             {category}
                         </button>
                     ))
