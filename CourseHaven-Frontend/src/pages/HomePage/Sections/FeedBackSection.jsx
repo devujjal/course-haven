@@ -8,7 +8,7 @@ import { AiFillSafetyCertificate } from "react-icons/ai";
 
 const FeedbackSection = () => {
     return (
-        <section className='bg-[#F5F7F9] relative'>
+        <section className='bg-[#F5F7F9] relative md:mt-12'>
             <div className="container mx-auto px-3 md:px-2">
                 <div className="grid grid-cols-1 lg:grid-cols-5 items-center gap-4 lg:gap-14 py-6 md:py-20 md:px-12">
                     <div className='absolute left-10 top-10 z-0'>
