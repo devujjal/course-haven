@@ -1,3 +1,4 @@
+import FilterStuff from "./Sections/FilterStuff";
 import SubscribeSection from "./Sections/SubscribeSection";
 
 const CoursePage = () => {
@@ -5,10 +6,9 @@ const CoursePage = () => {
         <>
             <section>
                 <div className="container mx-auto px-3 md:px-2">
-                    <div>
-                        <div>
-                            {/* Search filter options */}
-                        </div>
+                    <div className="md:px-12 py-10">
+                        {/* Search filter options */}
+                        <FilterStuff />
                         <div>
                             {/* Show course Data */}
                         </div>
