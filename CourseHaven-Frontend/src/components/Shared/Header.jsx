@@ -3,6 +3,7 @@ import logo from '../../assets/haven-logo.png'
 import { IoIosSearch } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import { Link, NavLink } from 'react-router';
 
 
 const Header = () => {
@@ -42,14 +43,14 @@ const Header = () => {
                         {/* Main Navigation */}
                         <ul className={`${toggle === true ? 'flex-col w-full overflow-auto' : 'items-center space-x-6'} flex`}>
                             <li className={`${toggle === true ? 'px-4 py-2 border-y-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/'} className="text-gray-700 font-medium hover:text-blue-600">
                                     Home
-                                </a>
+                                </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/courses'} className="text-gray-700 font-medium hover:text-blue-600">
                                     Courses
-                                </a>
+                                </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
@@ -91,8 +92,9 @@ const Header = () => {
                             }
                         </button>
 
-                        <button
-                            className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</button>
+                        <Link
+                        to={'/sign-in'}
+                            className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</Link>
 
 
 
