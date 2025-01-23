@@ -5,6 +5,7 @@ import SignInPage from "../pages/SignInPage/SignInPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import CoursePage from "../pages/CoursePage/CoursePage";
 import ContactPage from "../pages/ContactPage/ContactPage";
+import Layout from "../layouts/DashBoard";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: 'sign-up',
         element: <SignUpPage />
+    },
+    {
+        path: '/dashboard',
+        element: <Layout />
     }
 ])
 

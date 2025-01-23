@@ -16,7 +16,7 @@ const Header = () => {
             <nav className="container mx-auto px-3">
                 <div className="relative flex justify-between items-center w-full font-roboto py-4 md:gap-4">
                     {/* Logo */}
-                    <a href="#">
+                    <a href="/">
                         <img src={logo} className="w-44 md:w-44 lg:w-52" alt="Eduport Logo" />
                     </a>
 
@@ -42,30 +42,38 @@ const Header = () => {
 
                         {/* Main Navigation */}
                         <ul className={`${toggle === true ? 'flex-col w-full overflow-auto' : 'items-center space-x-6'} flex`}>
+                            
                             <li className={`${toggle === true ? 'px-4 py-2 border-y-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <NavLink to={'/'} className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/'}
+                                    className={({ isActive }) =>
+                                        `${isActive ? "text-blue-600 " : "text-gray-700"} font-medium hover:text-blue-600`
+                                    }
+                                >
                                     Home
                                 </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <NavLink to={'/courses'} className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/courses'}
+                                    className={({ isActive }) => `${isActive ? 'text-blue-600' : 'text-gray-700'} font-medium hover:text-blue-600`}>
                                     Courses
                                 </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink href="#"
+                                    className={({ isActive }) => `${isActive ? 'text-blue-600' : 'text-gray-700'} font-medium hover:text-blue-600`}>
                                     Dashboard
-                                </a>
+                                </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <NavLink to={'/contact'} className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/contact'}
+                                    className={({ isActive }) => `${isActive ? 'text-blue-600' : 'text-gray-700'} font-medium hover:text-blue-600`}>
                                     Contact
                                 </NavLink>
                             </li>
                         </ul>
 
                         {/* Search Form */}
-                        <div className={`${toggle === true ? 'w-full':''} md:hidden lg:block`}>
+                        <div className={`${toggle === true ? 'w-full' : ''} md:hidden lg:block`}>
                             <form className="flex items-center border rounded-md overflow-hidden">
                                 <input
                                     type="text"
@@ -93,7 +101,7 @@ const Header = () => {
                         </button>
 
                         <Link
-                        to={'/sign-in'}
+                            to={'/sign-in'}
                             className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</Link>
 
 
@@ -114,7 +122,7 @@ const Header = () => {
 
                 </div>
             </nav>
-        </header>
+        </header >
 
 
     );

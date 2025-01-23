@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        userBg: "url('./src/assets/hero/user-bg.png')"
+        userBg: "url('./src/assets/hero/user-bg.png')",
+        dashboardBanner: "url('./src/assets/dashboard/dashoboardHome/banner.png')",
       }
     },
     fontFamily: {
