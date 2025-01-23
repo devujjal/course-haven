@@ -9,6 +9,7 @@ import { FaCircle } from "react-icons/fa";
 import { MdOutlineStar } from "react-icons/md";
 // import man from '../../../assets/hero/man.png';
 import MainBg from '../../../assets/hero/main-bg.png';
+import { Link } from "react-router";
 
 
 const HeroSection = () => {
@@ -51,7 +52,7 @@ const HeroSection = () => {
                             </li>
                         </ul>
                         <div className="flex items-cetner justify-center lg:justify-start">
-                            <a href="" className="px-6 py-3 bg-[#F9E8EC] font-roboto text-base md:text-lg text-[#d6293e] font-medium rounded-lg hover:bg-[#d6293e] hover:text-white transition mr-6">Get Started</a>
+                            <Link to={'/sign-in'} className="px-6 py-3 bg-[#F9E8EC] font-roboto text-base md:text-lg text-[#d6293e] font-medium rounded-lg hover:bg-[#d6293e] hover:text-white transition mr-6">Get Started</Link>
                             <div className="flex items-center font-heebo text-base gap-3 cursor-pointer group">
                                 <FaPlayCircle
                                     size={40}
