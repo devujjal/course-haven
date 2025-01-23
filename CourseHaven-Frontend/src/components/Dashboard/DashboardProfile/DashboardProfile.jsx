@@ -13,8 +13,8 @@ const DashboardProfile = () => {
                         <div className=''>
                             <div className='flex gap-2'>
                                 <div className='coll-auto px-2 mdpx-4'>
-                                    <div className='w-28 h-28 md:w-40 md:h-40 inline-block relative -mt-4 md-mt-7'>
-                                        <img className="w-28 h-28 md:w-40 md:h-40 shrink-0 z-20 rounded-full border-2 border-blue-600 ring-2 ring-white inline-block" src="https://readymadeui.com/team-1.webp" alt="avatar" />
+                                    <div className='w-28 h-28 md:w-40 md:h-40 inline-block relative -mt-4 md:-mt-7'>
+                                        <img referrerPolicy="no-referrer" className="w-28 h-28 md:w-40 md:h-40 shrink-0 z-20 rounded-full border-2 border-blue-600 ring-2 ring-white inline-block" src="https://readymadeui.com/team-1.webp" alt="avatar" />
 
                                         {/* conditional if the student pro */}
                                         <span className='absolute -ml-12 bottom-1 px-5 py-1 bg-[#4CBC87] rounded-3xl text-sm font-roboto text-[#fff] font-medium'>Pro</span>
