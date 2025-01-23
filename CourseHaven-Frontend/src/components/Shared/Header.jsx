@@ -58,9 +58,9 @@ const Header = () => {
                                 </a>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <a href="#" className="text-gray-700 font-medium hover:text-blue-600">
+                                <NavLink to={'/contact'} className="text-gray-700 font-medium hover:text-blue-600">
                                     Contact
-                                </a>
+                                </NavLink>
                             </li>
                         </ul>
 

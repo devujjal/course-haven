@@ -24,10 +24,12 @@ const SignUpPage = () => {
                         </div>
                         <div className="p-4 lg:p-20">
                             <h2 className="text-[37px] font-heebo font-bold text-[#24292d] mb-4">
-                                <span className="mr-2 block">👋</span>
-                                Login into Eduport!
+                                <span className="mr-2 block">
+                                🙏
+                                </span>
+                                Sign up for your account!
                             </h2>
-                            <p className="text-[#747579] font-roboto font-normal text-[19px] mb-6">Nice to see you! Please log in with your account.</p>
+                            <p className="text-[#747579] font-roboto font-normal text-[19px] mb-6">Nice to see you! Please Sign up with your account.</p>
                             <form>
                                 <div>
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Email address *</label>
