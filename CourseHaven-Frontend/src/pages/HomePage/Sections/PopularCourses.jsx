@@ -41,16 +41,18 @@ const PopularCourses = () => {
                         {/* Here will be content show */}
 
                         {
-                            isLoading ? 
+                            isLoading ?
 
-                            loadingDatas.map((unUsed, index) => (
-                                <SkeletonLoader key={index} />
-                            )) :
+                                loadingDatas.map((unUsed, index) => (
+                                    <SkeletonLoader key={index} />
+                                )) :
 
                                 courses.map(course => {
                                     return <PopularCourseCard
                                         key={course._id}
-                                        course={course} />
+                                        course={course}
+                                        isDes={true}
+                                    />
                                 })
                         }
 

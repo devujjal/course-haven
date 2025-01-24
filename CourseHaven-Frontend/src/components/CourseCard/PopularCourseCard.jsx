@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router";
 
 
-const PopularCourseCard = ({ course }) => {
+const PopularCourseCard = ({ course, isDes }) => {
 
     const {
         _id,
@@ -27,7 +27,7 @@ const PopularCourseCard = ({ course }) => {
             </div>
 
             <div className="p-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-1">
                     <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full font-semibold font-roboto cursor-pointer">{level}</span>
                     <button>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
@@ -38,7 +38,12 @@ const PopularCourseCard = ({ course }) => {
                 <Link
                     to={`/${_id}`}
                     className="text-lg font-semibold font-heebo mt-2 text-xl text-[#24292d] hover:text-[#066ac9] transition cursor-pointer">{title.length <= 35 ? title : `${title.slice(0, 35) + '....'}`}</Link>
-                <p className="text-[15px] font-roboto text-gray-600 mt-1">{courseDescription.length <= 54 ? courseDescription : courseDescription.slice(0, 54) + '....'}</p>
+
+                {
+                    isDes && (
+                        <p className="text-[15px] font-roboto text-gray-600 mt-1">{courseDescription.length <= 54 ? courseDescription : courseDescription.slice(0, 54) + '....'}</p>
+                    )
+                }
 
                 <div className="flex items-center mt-3 text-yellow-400">
                     <div className="flex">
@@ -70,7 +75,8 @@ const PopularCourseCard = ({ course }) => {
 };
 
 PopularCourseCard.propTypes = {
-    course: PropTypes.object
+    course: PropTypes.object,
+    isDes: PropTypes.bool
 }
 
 export default PopularCourseCard;
