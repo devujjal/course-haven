@@ -21,7 +21,7 @@ const PopularCourseCard = ({ course }) => {
     } = course;
 
     return (
-        <div className="max-w-[260px] bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="w-full md:max-w-[260px] bg-white rounded-lg shadow-md overflow-hidden">
             <div className="h-44">
                 <img src={image} alt="Photoshop Logo" className="w-full h-44" />
             </div>

@@ -5,11 +5,13 @@ import PopularCourseTab from "../../../components/Tab/PopularCourseTab";
 import { useState } from "react";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from 'react-hot-toast'
+import SkeletonLoader from "../../../components/SkeletonLoader/SkeletonLoader";
 
 const PopularCourses = () => {
 
     const [category, setCategory] = useState('Web Design');
     const axiosPublic = useAxiosPublic();
+    const loadingDatas = Array(8).fill(null)
 
     const categoryText = category.replace(' ', '-').toLowerCase();
 
@@ -38,16 +40,23 @@ const PopularCourses = () => {
                         title={'Most Popular Courses'}
                         des={'Choose from hundreds of courses from specialist organizations'} />
                     <PopularCourseTab setCategory={setCategory} />
-                    <div className={`flex flex-wrap ${courses.length <= 3 ? 'justify-start gap-10' : 'justify-between'} mt-10`}>
+                    <div className={`flex flex-col md:flex-row flex-wrap ${courses.length <= 3 ? 'justify-start gap-10' : 'justify-between'}  mt-10 gap-10`}>
                         {/* Here will be content show */}
 
                         {
-                            courses.map(course => {
-                                return <PopularCourseCard
-                                    key={course._id}
-                                    course={course} />
-                            })
+                            isLoading ? 
+
+                            loadingDatas.map((unUsed, index) => (
+                                <SkeletonLoader key={index} />
+                            )) :
+
+                                courses.map(course => {
+                                    return <PopularCourseCard
+                                        key={course._id}
+                                        course={course} />
+                                })
                         }
+
                         {/* <PopularCourseCard />
                         <PopularCourseCard />
                         <PopularCourseCard />
