@@ -49,7 +49,7 @@ async function run() {
                         "lectures": 1
 
                     }
-                }).toArray()
+                }).limit(8).toArray()
 
                 res.send(result)
             } catch (error) {

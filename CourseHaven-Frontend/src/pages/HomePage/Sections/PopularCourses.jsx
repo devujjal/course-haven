@@ -38,12 +38,14 @@ const PopularCourses = () => {
                         title={'Most Popular Courses'}
                         des={'Choose from hundreds of courses from specialist organizations'} />
                     <PopularCourseTab setCategory={setCategory} />
-                    <div className="flex flex-wrap justify-between mt-10">
+                    <div className={`flex flex-wrap ${courses.length <= 3 ? 'justify-start gap-10' : 'justify-between'} mt-10`}>
                         {/* Here will be content show */}
 
                         {
                             courses.map(course => {
-                                return <PopularCourseCard key={course._id} />
+                                return <PopularCourseCard
+                                    key={course._id}
+                                    course={course} />
                             })
                         }
                         {/* <PopularCourseCard />
