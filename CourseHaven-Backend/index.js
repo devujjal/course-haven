@@ -75,7 +75,7 @@ async function run() {
                             category: 1,
                             lectures: 1,
                             duration: 1,
-                            name:1,
+                            name: 1,
                             userImg: 1
 
                         }
@@ -84,6 +84,30 @@ async function run() {
                         $sort: { totalReviewNumber: -1 }
                     }
                 ]).limit(3).toArray();
+
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
+        //All Courses
+        app.get('/courses', async (req, res) => {
+            try {
+                const result = await courses.aggregate([
+                    {
+                        $project: {
+                            image: 1,
+                            title: 1,
+                            level: 1,
+                            rating: 1,
+                            duration: 1,
+                            lectures: 1
+                        }
+                    }
+                ]).toArray();
 
                 res.send(result)
 

@@ -1,7 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
 import FilterStuff from "./Sections/FilterStuff";
 import SubscribeSection from "./Sections/SubscribeSection";
 
 const CoursePage = () => {
+
+
+    // const { data } = useQuery({
+    //     queryKey: ['all-courses'],
+    //     queryFn: async() => {
+
+    //     }
+    // })
+
+
     return (
         <>
             <section>
