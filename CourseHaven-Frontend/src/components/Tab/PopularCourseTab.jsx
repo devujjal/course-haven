@@ -1,16 +1,19 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-const PopularCourseTab = () => {
 
-    const [getIndex, setGetIndex] = useState(0)
+const PopularCourseTab = ({ setCategory }) => {
+
+    const [getIndex, setGetIndex] = useState(0);
     const categories = ['Web Design', 'Development', 'Graphic Design', 'Marketing', 'Finance'];
 
 
     console.log(getIndex)
 
-    const handleTab = async(index, category) => {
+    const handleTab = (index, category) => {
         setGetIndex(index)
-        console.log(category)
+        // console.log(category)
+        setCategory(category)
     }
 
 
@@ -38,5 +41,9 @@ const PopularCourseTab = () => {
 
     );
 };
+
+PopularCourseTab.propTypes = {
+    setCategory: PropTypes.func
+}
 
 export default PopularCourseTab;

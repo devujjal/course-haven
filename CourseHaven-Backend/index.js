@@ -1,9 +1,16 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const port = process.env.PROT || 5000;
 
+
+const options = {
+    origin: ['http://localhost:5173']
+}
+
+app.use(cors())
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -28,7 +35,23 @@ async function run() {
         app.get('/courses/:category', async (req, res) => {
             try {
                 const category = req.params.category;
-                console.log(category)
+                const query = { category: category };
+                const result = await courses.find(
+                    query, {
+                    projection: {
+                        "_id": 1,
+                        'title': 1,
+                        "image": 1,
+                        "level": 1,
+                        "courseDescription": 1,
+                        "rating": 1,
+                        "duration": 1,
+                        "lectures": 1
+
+                    }
+                }).toArray()
+
+                res.send(result)
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
