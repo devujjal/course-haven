@@ -32,6 +32,7 @@ async function run() {
         const database = client.db('courseHaven');
         const courses = database.collection('courses');
 
+        //Popular Courses
         app.get('/courses/:category', async (req, res) => {
             try {
                 const category = req.params.category;
@@ -56,6 +57,39 @@ async function run() {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
+
+
+        //Trending Courses
+        app.get('/trending-courses', async (req, res) => {
+            try {
+                const result = await courses.aggregate([
+                    {
+                        $project: {
+                            image: 1,
+                            title: 1,
+                            rating: 1,
+                            totalReviewNumber: 1,
+                            enrolled: 1,
+                            level: 1,
+                            price: 1,
+                            category: 1,
+                            lectures: 1,
+                            duration: 1
+
+                        }
+                    },
+                    {
+                        $sort: { totalReviewNumber: -1 }
+                    }
+                ]).limit(3).toArray();
+
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
 
 
         // Send a ping to confirm a successful connection
