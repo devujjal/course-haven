@@ -8,15 +8,18 @@ import {
 import { RouterProvider } from 'react-router'
 import router from './routes/AppRoutes.jsx'
 import { Toaster } from 'react-hot-toast';
+import { HelmetProvider } from 'react-helmet-async';
 
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient} >
-      <RouterProvider router={router} />
-      <Toaster />
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient} >
+        <RouterProvider router={router} />
+        <Toaster />
+      </QueryClientProvider>
+    </HelmetProvider>
   </StrictMode>
 )

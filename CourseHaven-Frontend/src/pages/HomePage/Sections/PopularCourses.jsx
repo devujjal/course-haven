@@ -56,10 +56,6 @@ const PopularCourses = () => {
                                 })
                         }
 
-                        {/* <PopularCourseCard />
-                        <PopularCourseCard />
-                        <PopularCourseCard />
-                        <PopularCourseCard /> */}
                     </div>
                 </div>
             </div>

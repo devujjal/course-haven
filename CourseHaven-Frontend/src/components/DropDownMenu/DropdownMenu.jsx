@@ -1,11 +1,10 @@
-import { Field, Select } from '@headlessui/react'
-import clsx from 'clsx'
-import { useState } from 'react'
+import { Field, Select } from '@headlessui/react';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
-const DropdownMenu = () => {
-    const [getValue, setGetValue] = useState('')
 
-    console.log(getValue)
+const DropdownMenu = ({ setGetValue }) => {
+
 
     return (
         <div className=" w-full md:w-[20%]">
@@ -20,6 +19,7 @@ const DropdownMenu = () => {
                             '*:text-[#404448]'
                         )}
                     >
+                        <option value="">Filter by Category</option>
                         <option value="Web Design">Web Design</option>
                         <option value="Development">Development</option>
                         <option value="Graphic Design">Graphic Design</option>
@@ -31,6 +31,10 @@ const DropdownMenu = () => {
             </Field>
         </div>
     )
+}
+
+DropdownMenu.propTypes = {
+    setGetValue: PropTypes.func
 }
 
 export default DropdownMenu;
