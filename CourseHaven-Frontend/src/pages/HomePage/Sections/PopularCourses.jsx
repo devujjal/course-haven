@@ -28,9 +28,6 @@ const PopularCourses = () => {
     }
 
 
-    console.log(categoryText)
-    console.log(courses)
-
 
     return (
         <section className="py-12">

@@ -74,7 +74,9 @@ async function run() {
                             price: 1,
                             category: 1,
                             lectures: 1,
-                            duration: 1
+                            duration: 1,
+                            name:1,
+                            userImg: 1
 
                         }
                     },
