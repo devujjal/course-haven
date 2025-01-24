@@ -6,26 +6,33 @@ import PopularCourseCard from "../../components/CourseCard/PopularCourseCard";
 import { Helmet } from 'react-helmet-async';
 import { useState } from "react";
 import PropTypes from "prop-types";
+import toast from 'react-hot-toast'
+import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 
 
 const CoursePage = () => {
 
     const [getValue, setGetValue] = useState('')
     const axiosPublic = useAxiosPublic();
+    const loadingArrays = Array(12).fill(null);
 
-    const category = getValue.replace(' ', '-').toLowerCase();
 
-    const { data: courses = [] } = useQuery({
-        queryKey: ['all-courses'],
+    const { data: courses = [], isError, error, isLoading } = useQuery({
+        queryKey: ['all-courses', getValue],
         queryFn: async () => {
-            const response = await axiosPublic.get(`/courses?category=${category}`);
+            const response = await axiosPublic.get(`/courses?category=${getValue}`);
             return response.data;
         }
     })
 
 
+    if (isError) {
+        return toast.error(error.message)
+    }
+
+
     console.log(courses)
-    console.log(category)
+    console.log(getValue)
 
 
 
@@ -42,12 +49,16 @@ const CoursePage = () => {
                         <div className={`flex flex-col md:flex-row flex-wrap mt-10 gap-10 md:px-1`}>
                             {/* Show course Data */}
                             {
-                                courses.map(course => (
-                                    <PopularCourseCard
-                                        key={course._id}
-                                        course={course}
-                                    />
-                                ))
+                                isLoading ?
+                                    loadingArrays.map((unUsed, index) => (
+                                        <SkeletonLoader key={index} />
+                                    )) :
+                                    courses.map(course => (
+                                        <PopularCourseCard
+                                            key={course._id}
+                                            course={course}
+                                        />
+                                    ))
                             }
                         </div>
                     </div>

@@ -9,14 +9,14 @@ import SkeletonLoader from "../../../components/SkeletonLoader/SkeletonLoader";
 
 const PopularCourses = () => {
 
-    const [category, setCategory] = useState('Web Design');
+    const [category, setCategory] = useState('web-design');
     const axiosPublic = useAxiosPublic();
     const loadingDatas = Array(8).fill(null)
 
     const categoryText = category.replace(' ', '-').toLowerCase();
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
-        queryKey: ['cate-courses', categoryText],
+        queryKey: ['cate-courses', category],
         queryFn: async () => {
             const response = await axiosPublic.get(`/courses/${categoryText}`);
             return response.data;
@@ -28,6 +28,7 @@ const PopularCourses = () => {
     }
 
 
+    console.log(category)
 
     return (
         <section className="py-12">

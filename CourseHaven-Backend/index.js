@@ -96,10 +96,9 @@ async function run() {
         //All Courses
         app.get('/courses', async (req, res) => {
             try {
-
                 const category = req.query?.category;
-                console.log(category)
-                
+                console.log(req.query)
+
                 let query = {};
                 if (category) {
                     query = { category: category }
@@ -115,19 +114,6 @@ async function run() {
                         lectures: 1
                     }
                 }).toArray();
-
-                // const result = await courses.aggregate([
-                //     {
-                //         $project: {
-                //             image: 1,
-                //             title: 1,
-                //             level: 1,
-                //             rating: 1,
-                //             duration: 1,
-                //             lectures: 1
-                //         }
-                //     }
-                // ]).toArray();
 
                 res.send(result)
 

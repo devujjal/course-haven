@@ -20,11 +20,11 @@ const DropdownMenu = ({ setGetValue }) => {
                         )}
                     >
                         <option value="">Filter by Category</option>
-                        <option value="Web Design">Web Design</option>
-                        <option value="Development">Development</option>
-                        <option value="Graphic Design">Graphic Design</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Finance">Finance</option>
+                        <option value="web-design">Web Design</option>
+                        <option value="development">Development</option>
+                        <option value="graphic-design">Graphic Design</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="finance">Finance</option>
                     </Select>
 
                 </div>
