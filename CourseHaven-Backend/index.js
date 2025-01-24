@@ -97,12 +97,15 @@ async function run() {
         app.get('/courses', async (req, res) => {
             try {
                 const category = req.query?.category;
+                const searchText = req.query?.search;
                 console.log(req.query)
-
+                
                 let query = {};
                 if (category) {
                     query = { category: category }
                 }
+
+                if (searchText) query.title = { $regex: searchText, $options: 'i' };
 
                 const result = await courses.find(query, {
                     projection: {

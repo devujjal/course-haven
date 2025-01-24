@@ -15,7 +15,7 @@ const TrendingCourses = () => {
         }
     })
 
-    console.log(trendingCourses)
+    // console.log(trendingCourses)
 
 
     return (

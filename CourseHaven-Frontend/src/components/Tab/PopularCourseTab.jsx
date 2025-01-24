@@ -8,7 +8,7 @@ const PopularCourseTab = ({ setCategory }) => {
     const categories = ['Web Design', 'Development', 'Graphic Design', 'Marketing', 'Finance'];
 
 
-    console.log(getIndex)
+    // console.log(getIndex)
 
     const handleTab = (index, category) => {
         setGetIndex(index)
