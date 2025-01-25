@@ -18,7 +18,7 @@ const CourseDescription = () => {
                 </p>
 
                 <h3 className="text-[#24292d] text-[22px] font-bold mb-5">What you’ll learn</h3>
-                <ul className="grid grid-cols-2 gap-3">
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <li className="flex items-center">
                         <FaCheckCircle color='#4CBC87' className={'mr-2'} />
                         Digital marketing course introduction
