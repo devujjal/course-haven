@@ -1,4 +1,5 @@
 import IntroDiv from "./Divs/IntroDiv";
+import VideoPlay from "./Divs/VideoPlay";
 
 const CourseDetails = () => {
     return (
@@ -9,6 +10,7 @@ const CourseDetails = () => {
                     <div className="md:col-span-2 p-2">
                         <div>
                             <IntroDiv />
+                            <VideoPlay />
                         </div>
                     </div>
 
