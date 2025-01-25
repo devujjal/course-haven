@@ -98,7 +98,9 @@ async function run() {
             try {
                 const category = req.query?.category;
                 const searchText = req.query?.search;
-                console.log(req.query)
+                const page = parseInt(req.query?.page) || 0;
+                const size = parseInt(req.query?.size) || 10;
+                // console.log(req.query)
 
                 let query = {};
                 if (category) {
@@ -116,11 +118,12 @@ async function run() {
                         duration: 1,
                         lectures: 1
                     }
-                }).toArray();
+                }).skip(page * size).limit(size).toArray();
 
                 res.send(result)
 
             } catch (error) {
+                console.log(error)
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
@@ -129,7 +132,20 @@ async function run() {
         //All Product length count
         app.get('/products-length', async (req, res) => {
             try {
-                const result = await courses.countDocuments();
+                // console.log(req.query)
+                const category = req.query?.category;
+                const search = req.query?.search;
+
+                let query = {}; // we can give the name like filter
+                if (category) {
+                    query = { category: category }
+                }
+
+                if (search) {
+                    query.title = { $regex: search, $options: 'i' }
+                }
+
+                const result = await courses.countDocuments(query);
                 res.send({ result })
 
             } catch (error) {

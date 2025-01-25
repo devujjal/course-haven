@@ -7,27 +7,45 @@ import { Helmet } from 'react-helmet-async';
 
 import toast from 'react-hot-toast'
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const CoursePage = () => {
 
     const [getValue, setGetValue] = useState('')
     const [getSearch, setGetSearch] = useState('')
+    const [numberOfCourses, setNumberOfCourses] = useState(0)
+    const [currentPage, setCurrentPage] = useState(0)
+    // eslint-disable-next-line no-unused-vars
+    const [perPageItems, setPerPageItems] = useState(10)
     const axiosPublic = useAxiosPublic();
     const loadingArrays = Array(12).fill(null);
 
+    const totalPages = numberOfCourses ? Math.ceil(numberOfCourses / perPageItems) : 0;
+    const pages = [...Array(totalPages).keys()];
+
+
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
-        queryKey: ['all-courses', getValue, getSearch],
+        queryKey: ['all-courses', getValue, getSearch, currentPage, perPageItems],
         queryFn: async () => {
-            const response = await axiosPublic.get(`/courses?category=${getValue}&search=${getSearch}`);
+            const response = await axiosPublic.get(`/courses?category=${getValue}&search=${getSearch}&page=${currentPage}&size=${perPageItems}`);
             return response.data;
         }
     })
 
 
+    useEffect(() => {
+        axiosPublic.get(`/products-length?category=${getValue}&search=${getSearch}`)
+            .then(res => {
+                setNumberOfCourses(res.data?.result)
+            })
+    }, [axiosPublic, getValue, getSearch])
+
+
+
     if (isError) {
+        console.log(error)
         return toast.error(error.message)
     }
 
@@ -50,6 +68,11 @@ const CoursePage = () => {
 
     }
 
+
+    // console.log(numberOfCourses)
+    // console.log(perPageItems)
+    // console.log(totalPages)
+    // console.log(pages)
 
     // console.log(getSearch)
     // console.log(getValue)
@@ -83,29 +106,31 @@ const CoursePage = () => {
 
                         <div className="mt-14">
                             <ul className="flex space-x-5 justify-center font-roboto">
-                                <li className="flex items-center justify-center shrink-0 bg-gray-100 w-10 h-10 rounded-full">
+                                <li 
+
+                                className="flex items-center justify-center shrink-0 bg-gray-100 w-10 h-10 rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-300" viewBox="0 0 55.753 55.753">
                                         <path
                                             d="M12.745 23.915c.283-.282.59-.52.913-.727L35.266 1.581a5.4 5.4 0 0 1 7.637 7.638L24.294 27.828l18.705 18.706a5.4 5.4 0 0 1-7.636 7.637L13.658 32.464a5.367 5.367 0 0 1-.913-.727 5.367 5.367 0 0 1-1.572-3.911 5.369 5.369 0 0 1 1.572-3.911z"
                                             data-original="#000000" />
                                     </svg>
                                 </li>
-                                <li
-                                    className="flex items-center justify-center shrink-0 bg-blue-500  border-2 border-blue-500 cursor-pointer text-base font-bold text-white w-10 h-10 rounded-full">
-                                    1
-                                </li>
-                                <li
-                                    className="flex items-center justify-center shrink-0 hover:bg-gray-50  border-2 cursor-pointer text-base font-bold text-[#333] w-10 h-10 rounded-full">
-                                    2
-                                </li>
-                                <li
-                                    className="flex items-center justify-center shrink-0 hover:bg-gray-50  border-2 cursor-pointer text-base font-bold text-[#333] w-10 h-10 rounded-full">
-                                    3
-                                </li>
-                                <li
-                                    className="flex items-center justify-center shrink-0 hover:bg-gray-50  border-2 cursor-pointer text-base font-bold text-[#333] w-10 h-10 rounded-full">
-                                    4
-                                </li>
+
+
+
+                                {
+                                    pages.map((page) => (
+                                        <li
+                                            onClick={() => setCurrentPage(page)}
+                                            key={page}
+                                            className={`${currentPage === page ? 'border-blue-500 bg-blue-500 text-white' : 'text-[#333] hover:bg-gray-50'} flex items-center justify-center shrink-0 border-2 cursor-pointer text-base font-bold  w-10 h-10 rounded-full`}>
+                                            {page}
+                                        </li>
+                                    ))
+                                }
+
+
+
                                 <li className="flex items-center justify-center shrink-0 hover:bg-gray-50 border-2 cursor-pointer w-10 h-10 rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-3 fill-gray-400 rotate-180" viewBox="0 0 55.753 55.753">
                                         <path
