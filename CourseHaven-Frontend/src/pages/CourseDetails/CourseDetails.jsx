@@ -10,6 +10,17 @@ import { LiaCertificateSolid } from "react-icons/lia";
 import { FaShareNodes } from "react-icons/fa6";
 import toast from 'react-hot-toast'
 
+// URL Copy Function
+const handleShare = async () => {
+    try {
+        const currentURL = window.location.href;
+        await navigator.clipboard.writeText(currentURL);
+        toast.success('Link copied to clipboard!')
+    } catch (error) {
+        toast.error('Failed to copy URL:', error.message)
+    }
+}
+
 
 
 const CourseDetails = () => {
