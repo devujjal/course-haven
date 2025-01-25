@@ -99,7 +99,7 @@ async function run() {
                 const category = req.query?.category;
                 const searchText = req.query?.search;
                 console.log(req.query)
-                
+
                 let query = {};
                 if (category) {
                     query = { category: category }
@@ -119,6 +119,18 @@ async function run() {
                 }).toArray();
 
                 res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
+        //All Product length count
+        app.get('/products-length', async (req, res) => {
+            try {
+                const result = await courses.countDocuments();
+                res.send({ result })
 
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });
