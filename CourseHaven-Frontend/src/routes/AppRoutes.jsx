@@ -6,6 +6,7 @@ import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import CoursePage from "../pages/CoursePage/CoursePage";
 import ContactPage from "../pages/ContactPage/ContactPage";
 import Layout from "../layouts/DashBoard";
+import CourseDetails from "../pages/CourseDetails/CourseDetails";
 
 const router = createBrowserRouter([
     {
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
             {
                 path: 'contact',
                 element: <ContactPage />
+            },
+            {
+                path: '/details',
+                element: <CourseDetails />
             }
-            
+
+
         ]
     },
     {

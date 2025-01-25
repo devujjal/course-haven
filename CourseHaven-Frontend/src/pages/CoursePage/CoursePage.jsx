@@ -25,6 +25,10 @@ const CoursePage = () => {
     const pages = [...Array(totalPages).keys()];
 
 
+    useEffect(() => {
+        setCurrentPage(0)
+    },[getValue])
+
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
         queryKey: ['all-courses', getValue, getSearch, currentPage, perPageItems],
