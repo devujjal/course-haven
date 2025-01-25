@@ -1,3 +1,4 @@
+import CourseDescription from "./Divs/CourseDescription";
 import IntroDiv from "./Divs/IntroDiv";
 import VideoPlay from "./Divs/VideoPlay";
 
@@ -11,6 +12,7 @@ const CourseDetails = () => {
                         <div>
                             <IntroDiv />
                             <VideoPlay />
+                            <CourseDescription />
                         </div>
                     </div>
 
