@@ -10,12 +10,35 @@ import { LiaCertificateSolid } from "react-icons/lia";
 import { FaShareNodes } from "react-icons/fa6";
 import toast from 'react-hot-toast'
 import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 
 
 const CourseDetails = () => {
 
     const { id } = useParams();
-    console.log(id)
+    const axiosSecure = useAxiosSecure();
+
+
+    const { data: course = {}, isError, error, isLoading } = useQuery({
+        queryKey: ['individual-course'],
+        queryFn: async () => {
+            const response = await axiosSecure.get(`/course/${id}`);
+            return response.data;
+        }
+    })
+
+
+    if (isError) {
+        return toast.error(error.message)
+    }
+
+    if (isLoading) {
+        return <PrimarySpinner />
+    }
+
+    console.log(course)
 
     // URL Copy Function
     const handleShare = async () => {
@@ -36,9 +59,21 @@ const CourseDetails = () => {
                     {/* <!-- Left Side --> */}
                     <div className="md:col-span-2 p-2">
                         <div>
-                            <IntroDiv />
+                            <IntroDiv
+                                title={course?.title}
+                                introDes={course?.introDes}
+                                rating={course?.rating}
+                                enrolled={course?.enrolled}
+                                level={course?.level}
+                                lastUpdated={course?.lastUpdated}
+                                language={course?.language}
+                            />
                             <VideoPlay />
-                            <CourseDescription />
+                            <CourseDescription
+                                description={course?.courseDescription}
+                                curriculums={course?.curriculum}
+                                finalDescription={course?.finalEndingDescription}
+                            />
                         </div>
                     </div>
 
@@ -47,7 +82,7 @@ const CourseDetails = () => {
                         <div className="border rounded-lg">
                             <div className="px-5 py-6">
                                 <div className="flex items-center justify-between text-3xl text-[#24292d] font-bold font-heebo mb-5">
-                                    <span>$295.55</span>
+                                    <span>{course?.price}</span>
                                     <span
                                         onClick={handleShare}
                                         className="px-4 py-3 bg-[#EFF1F2] rounded-md hover:bg-[#e1e5e7] transition duration-400 cursor-pointer"><FaShareNodes size={14} /></span>
@@ -64,42 +99,42 @@ const CourseDetails = () => {
                                                 <FaBookOpen color="#066ac9" />
                                                 Lectures
                                             </span>
-                                            <span>30</span>
+                                            <span>{course?.lectures}</span>
                                         </li>
                                         <li className="flex justify-between py-1">
                                             <span className="flex items-center gap-2">
                                                 <AiFillClockCircle color="#066ac9" />
                                                 Duration
                                             </span>
-                                            <span>4h 50m</span>
+                                            <span>{course?.duration}</span>
                                         </li>
                                         <li className="flex justify-between py-1">
                                             <span className="flex items-center gap-2">
                                                 <TbAntennaBars5 color="#066ac9" />
                                                 Skills
                                             </span>
-                                            <span>Beginner</span>
+                                            <span>{course?.skills}</span>
                                         </li>
                                         <li className="flex justify-between py-1">
                                             <span className="flex items-center gap-2">
                                                 <TbWorld color="#066ac9" />
                                                 Language
                                             </span>
-                                            <span>English</span>
+                                            <span>{course?.language}</span>
                                         </li>
                                         <li className="flex justify-between py-1">
                                             <span className="flex items-center gap-2">
                                                 <FaUserClock color="#066ac9" />
                                                 Deadline
                                             </span>
-                                            <span>Nov 30 2021</span>
+                                            <span>{course?.deadline}</span>
                                         </li>
                                         <li className="flex justify-between py-1">
                                             <span className="flex items-center gap-2">
                                                 <LiaCertificateSolid color="#066ac9" />
                                                 Certificate
                                             </span>
-                                            <span>Yes</span>
+                                            <span>{course?.certificate ? "Yes" : 'No'}</span>
                                         </li>
                                     </ul>
                                 </div>

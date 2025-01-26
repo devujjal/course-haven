@@ -154,6 +154,7 @@ async function run() {
         })
 
 
+        /* Need Verify Token */
         //Individual Course
         app.get('/course/:id', async (req, res) => {
             try {

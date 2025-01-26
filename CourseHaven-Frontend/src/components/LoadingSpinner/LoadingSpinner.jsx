@@ -2,7 +2,9 @@ import { ImSpinner9 } from "react-icons/im";
 
 const LoadingSpinner = () => {
     return (
-        <ImSpinner9 className="m-auto animate-spin" />
+        <div className="flex items-center justify-center h-screen">
+            <ImSpinner9 className="m-auto animate-spin" />
+        </div>
     );
 };
 

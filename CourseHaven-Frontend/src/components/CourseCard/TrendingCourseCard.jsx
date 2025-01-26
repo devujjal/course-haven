@@ -45,7 +45,7 @@ const TrendingCourseCard = ({ trendingCourse }) => {
                 </div>
 
                 <Link
-                    to={`/${_id}`}
+                    to={`/courses/${_id}`}
                     className="text-lg font-heebo font-bold text-[#24292d] hover:text-[#066ac9] transition cursor-pointer">
                     {title}
                 </Link>
