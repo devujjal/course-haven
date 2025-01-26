@@ -23,13 +23,14 @@ const router = createBrowserRouter([
                 element: <CoursePage />
             },
             {
+                path: 'courses/:id',
+                element: <CourseDetails />
+            },
+            {
                 path: 'contact',
                 element: <ContactPage />
             },
-            {
-                path: '/details',
-                element: <CourseDetails />
-            }
+
 
 
         ]

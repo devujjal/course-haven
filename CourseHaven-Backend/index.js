@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
 
 
@@ -147,6 +147,20 @@ async function run() {
 
                 const result = await courses.countDocuments(query);
                 res.send({ result })
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
+        //Individual Course
+        app.get('/course/:id', async (req, res) => {
+            try {
+                const id = req.params.id;
+                const query = { _id: new ObjectId(id) };
+                const result = await courses.findOne(query);
+                res.send(result)
 
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });

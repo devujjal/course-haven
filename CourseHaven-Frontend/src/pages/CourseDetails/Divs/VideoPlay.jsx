@@ -34,7 +34,7 @@ const VideoPlay = () => {
             {/* Video Player */}
             <ReactPlayer
                 ref={playerRef}
-                url="https://themes.stackbros.in/eduport_r/assets/360p-NV8MzT2Y.mp4"
+                url="https://www.dropbox.com/scl/fi/07lj0mkwnpjyi3inoy3aa/MERN-Stack-Tutorial-1-What-is-the-MERN-Stack_.mp4?rlkey=qmlmiee29cifcbuqzotqhw6vg&e=1&st=ruu3ngs2&dl=0"
                 playing={playing}
                 muted={muted}
                 volume={volume}
@@ -45,7 +45,7 @@ const VideoPlay = () => {
             />
 
             {/* Custom Controls */}
-            <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white flex flex-col p-2 space-y-2">
+            <div className="absolute bottom-1 left-1 w-[99%] bg-black bg-opacity-50 text-white flex flex-col p-2 space-y-2 rounded-b-[16px]">
                 {/* Progress Bar */}
                 <div
                     className="w-full h-1 bg-gray-400 cursor-pointer"

@@ -36,7 +36,7 @@ const PopularCourseCard = ({ course, isDes }) => {
                     </button>
                 </div>
                 <Link
-                    to={`/${_id}`}
+                    to={`/courses/${_id}`}
                     className="text-lg font-semibold font-heebo mt-2 text-xl text-[#24292d] hover:text-[#066ac9] transition cursor-pointer">{title.length <= 35 ? title : `${title.slice(0, 35) + '....'}`}</Link>
 
                 {

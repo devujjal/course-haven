@@ -9,21 +9,26 @@ import { FaUserClock } from "react-icons/fa";
 import { LiaCertificateSolid } from "react-icons/lia";
 import { FaShareNodes } from "react-icons/fa6";
 import toast from 'react-hot-toast'
-
-// URL Copy Function
-const handleShare = async () => {
-    try {
-        const currentURL = window.location.href;
-        await navigator.clipboard.writeText(currentURL);
-        toast.success('Link copied to clipboard!')
-    } catch (error) {
-        toast.error('Failed to copy URL:', error.message)
-    }
-}
-
+import { useParams } from "react-router";
 
 
 const CourseDetails = () => {
+
+    const { id } = useParams();
+    console.log(id)
+
+    // URL Copy Function
+    const handleShare = async () => {
+        try {
+            const currentURL = window.location.href;
+            await navigator.clipboard.writeText(currentURL);
+            toast.success('Link copied to clipboard!')
+        } catch (error) {
+            toast.error('Failed to copy URL:', error.message)
+        }
+    }
+
+
     return (
         <section>
             <div className="container mx-auto px-3 md:px-2">
