@@ -3,7 +3,7 @@ const DashboardProfile = () => {
     return (
         <section>
             <div className="px-0">
-                <div className="bg-dashboardBanner h-[100px] md:h-[200px] bg-cover bg-no-repeat bg-[#1d3b53]">
+                <div className="bg-dashboardBanner h-[100px] md:h-[160px] bg-cover bg-no-repeat bg-[#1d3b53]">
                 </div>
             </div>
             <div className="container mx-auto px-5 md:px-8 lg:px-20">

@@ -7,7 +7,7 @@ const Layout = () => {
         <main>
             <DashboardProfile />
 
-            <section className='pt-14'>
+            <section className='py-14'>
                 <div className='container mx-auto px-3 lg:px-14'>
                     <div className="flex justify-center">
 
