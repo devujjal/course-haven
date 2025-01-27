@@ -1,34 +1,46 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from 'react-hot-toast'
 import { useState } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
+
+const fetchURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMBB_API}`
 const SignUpPage = () => {
 
-    const { createNewUser, isLoading, setIsLoading } = useAuth();
+    const { createNewUser, updateUserProfile, isLoading, setIsLoading } = useAuth();
     const [passError, setPassError] = useState('');
+    const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
-    console.log(isLoading)
+
 
     const handleSignUp = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
         const form = new FormData(e.currentTarget);
         const name = form.get('name');
         const email = form.get('email');
         const password = form.get('password');
         const confirmPassword = form.get('confirmPassword');
         const accept = e.target.term.checked;
+        const image = form.get('photo');  //e.target.name.files[0]
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{6,}$/;
         const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
+        const formData = new FormData();
+        formData.append('image', image)
 
         setPassError('');
 
+
+
         if (!gmailRegex.test(email)) {
             setPassError('Invalid Gmail address');
+            setIsLoading(false)
             return;
         }
 
@@ -39,21 +51,32 @@ const SignUpPage = () => {
 
         if (password !== confirmPassword) {
             setPassError('Passwords do not match')
+            setIsLoading(false)
             return;
         }
 
         if (!accept) {
             toast.error('Please accept the terms')
+            setIsLoading(false)
             return;
         }
 
 
+
         try {
+
+            const res = await axiosPublic.post(fetchURL, formData);
+
+            const imageUrl = res.data.data.display_url;
+
+
             const userCredential = await createNewUser(email, password)
             if (userCredential.user) {
+                await updateUserProfile(name, imageUrl)
                 toast.success('Signup successful!')
                 e.target.reset();
-            }
+                navigate('/');
+            };
 
             setIsLoading(false)
 
@@ -104,6 +127,13 @@ const SignUpPage = () => {
                                     </div>
 
                                 </div>
+
+                                <div className="font-roboto mt-4 ">
+                                    <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Upload Image *</label>
+                                    <input name="photo" type="file" className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-2.5 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-600 rounded" />
+
+                                </div>
+
                                 <div className="mt-4">
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Email address *</label>
                                     <div className="relative flex items-center">
