@@ -4,6 +4,17 @@ import { Link } from "react-router";
 
 
 const SignInPage = () => {
+
+    
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        const form = new FormData(e.currentTarget);
+        const email = form.get('email');
+        console.log(email)
+
+    }
+
+
     return (
         <section>
             <div className="container mx-auto px-3 md:px-2">
@@ -26,11 +37,13 @@ const SignInPage = () => {
                                 Login into Eduport!
                             </h2>
                             <p className="text-[#747579] font-roboto font-normal text-[19px] mb-6">Nice to see you! Please log in with your account.</p>
-                            <form>
+                            <form
+                            onSubmit={handleSubmit}
+                            >
                                 <div>
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Email address *</label>
                                     <div className="relative flex items-center">
-                                        <input name="email" type="text" required className="w-full font-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter email" />
+                                        <input name="email" type="email" required className="w-full font-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter email" />
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" className="w-[18px] h-[18px] absolute right-4" viewBox="0 0 682.667 682.667">
                                             <defs>
                                                 <clipPath id="a" clipPathUnits="userSpaceOnUse">

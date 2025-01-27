@@ -1,9 +1,59 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router";
-
+import useAuth from "../../hooks/useAuth";
+import toast from 'react-hot-toast'
+import { useState } from "react";
 
 const SignUpPage = () => {
+
+    const { createNewUser } = useAuth();
+    const [passError, setPassError] = useState('');
+
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const form = new FormData(e.currentTarget);
+        const name = form.get('name');
+        const email = form.get('email');
+        const password = form.get('password');
+        const confirmPassword = form.get('confirmPassword');
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{6,}$/;
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+
+        setPassError('');
+
+        if (!gmailRegex.test(email)) {
+            setPassError('Invalid Gmail address');
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            setPassError('Password: 6+ chars, uppercase, number, special');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setPassError('Passwords do not match')
+            return;
+        }
+
+        try {
+            const userCredential = await createNewUser(email, password)
+            if (userCredential.user) {
+                toast.success('Signup successful!')
+            }
+
+
+            // eslint-disable-next-line no-unused-vars
+        } catch (error) {
+            toast.error('Signup failed. Try again.')
+        }
+
+    }
+
+
 
 
     return (
@@ -25,13 +75,23 @@ const SignUpPage = () => {
                         <div className="p-4 lg:p-20">
                             <h2 className="text-[37px] font-heebo font-bold text-[#24292d] mb-4">
                                 <span className="mr-2 block">
-                                🙏
+                                    🙏
                                 </span>
                                 Sign up for your account!
                             </h2>
                             <p className="text-[#747579] font-roboto font-normal text-[19px] mb-6">Nice to see you! Please Sign up with your account.</p>
-                            <form>
+                            <form
+                                onSubmit={handleSignUp}
+                            >
                                 <div>
+                                    <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Full Name *</label>
+                                    <div className="relative flex items-center">
+                                        <input name="name" type="text" required className="w-full text-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter password" />
+
+                                    </div>
+
+                                </div>
+                                <div className="mt-4">
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Email address *</label>
                                     <div className="relative flex items-center">
                                         <input name="email" type="text" required className="w-full text-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter email" />
@@ -70,7 +130,11 @@ const SignUpPage = () => {
                                     </div>
 
                                 </div>
-
+                                <div className="mb-4">
+                                    {
+                                        passError && <p className="font-sm font-roboto text-red-500">{passError}</p>
+                                    }
+                                </div>
 
 
                                 <div className="mb-4">
