@@ -1,16 +1,31 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const SignInPage = () => {
 
-    
-    const handleSubmit = async(e) => {
+    const { userSignIn } = useAuth();
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const form = new FormData(e.currentTarget);
         const email = form.get('email');
+        const password = form.get('password');
         console.log(email)
+
+        try {
+            const userCredential = await userSignIn(email, password)
+            if (userCredential.user) {
+                toast.success('Successfully Logged In!')
+            }
+
+            // eslint-disable-next-line no-unused-vars
+        } catch (error) {
+            toast.error('Invalid Credentials')
+        }
 
     }
 
@@ -38,7 +53,7 @@ const SignInPage = () => {
                             </h2>
                             <p className="text-[#747579] font-roboto font-normal text-[19px] mb-6">Nice to see you! Please log in with your account.</p>
                             <form
-                            onSubmit={handleSubmit}
+                                onSubmit={handleSubmit}
                             >
                                 <div>
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Email address *</label>
