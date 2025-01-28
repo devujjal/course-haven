@@ -49,6 +49,7 @@ const AuthProvider = ({ children }) => {
             const email = currentUser?.email || user?.email;
             setUser(currentUser);
             setIsLoading(false)
+
             const userEmail = { email: email }
 
             if (currentUser) {

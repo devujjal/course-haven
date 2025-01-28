@@ -19,6 +19,28 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+//verify token
+const verifyToken = (req, res, next) => {
+    const token = req.cookies.token;
+    console.log(token)
+    if (!token) {
+        return res.status(401).send({ message: 'Unauthorized Access' })
+    };
+
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (error, decoded) => {
+        if (error) {
+            return res.status(401).send({ message: 'Unauthorized Access' })
+        };
+
+        req.user = decoded;
+        next();
+
+
+    })
+
+}
+
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -190,9 +212,8 @@ async function run() {
 
         /* Need Verify Token */
         //Individual Course
-        app.get('/course/:id', async (req, res) => {
-            console.log(req.cookies.token)
-
+        app.get('/course/:id', verifyToken, async (req, res) => {
+            console.log(req.user)
             try {
                 const id = req.params.id;
                 const query = { _id: new ObjectId(id) };
