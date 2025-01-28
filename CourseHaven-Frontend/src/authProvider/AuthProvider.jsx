@@ -1,11 +1,12 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import PropTypes from "prop-types";
 import AuthContext from "../context/AuthContext";
 import auth from "../firebase/Firebase.config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const AuthProvider = ({ children }) => {
 
+    const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const createNewUser = (email, password) => {
@@ -25,6 +26,21 @@ const AuthProvider = ({ children }) => {
             photoURL: photo
         })
     }
+
+
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+            setIsLoading(false)
+        });
+
+        return () => {
+            unSubscribe();
+        }
+
+    }, [])
+
+    console.log(user)
 
 
     const info = {
