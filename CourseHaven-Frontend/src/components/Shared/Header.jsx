@@ -4,11 +4,16 @@ import { IoIosSearch } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { Link, NavLink } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+import DropdownProfile from '../DropdownProfile/DropdownProfile';
 
 
 const Header = () => {
 
+    const { user } = useAuth();
     const [toggle, setToggle] = useState(false);
+    const [profileToggle, setProfileToggle] = useState(false);
+
 
     return (
 
@@ -42,7 +47,7 @@ const Header = () => {
 
                         {/* Main Navigation */}
                         <ul className={`${toggle === true ? 'flex-col w-full overflow-auto' : 'items-center space-x-6'} flex`}>
-                            
+
                             <li className={`${toggle === true ? 'px-4 py-2 border-y-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
                                 <NavLink to={'/'}
                                     className={({ isActive }) =>
@@ -100,9 +105,27 @@ const Header = () => {
                             }
                         </button>
 
-                        <Link
-                            to={'/sign-in'}
-                            className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</Link>
+
+
+                        {
+                            user ? <>
+                                <div className="flex items-center space-x-4">
+                                    {/* <a href="#">
+                                        <img
+                                            src="https://readymadeui.com/team-3.webp"
+                                            className="w-10 h-10 rounded-full border-2 border-blue-600"
+                                            alt="Profile"
+                                        />
+                                    </a> */}
+
+                                    <DropdownProfile profileToggle={profileToggle} setProfileToggle={setProfileToggle} />
+                                </div>
+                            </> : <>
+                                <Link
+                                    to={'/sign-in'}
+                                    className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</Link>
+                            </>
+                        }
 
 
 
@@ -129,3 +152,4 @@ const Header = () => {
 };
 
 export default Header;
+
