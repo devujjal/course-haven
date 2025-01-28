@@ -59,6 +59,7 @@ async function run() {
 
         const database = client.db('courseHaven');
         const courses = database.collection('courses');
+        const users = database.collection('users');
 
         //token generate
         app.post('/jwt', async (req, res) => {
@@ -85,6 +86,20 @@ async function run() {
 
             res.send({ success: true });
 
+        })
+
+
+        //Saved user in DB
+        app.post('/user', async (req, res) => {
+            try {
+                const user = req.body;
+
+                const result = await users.insertOne(user);
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
         })
 
 

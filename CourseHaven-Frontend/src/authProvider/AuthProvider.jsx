@@ -36,10 +36,13 @@ const AuthProvider = ({ children }) => {
 
     //Saved in DB
     // const savedUser = async (info) => {
+
     //     const newUser = {
     //         email: info,
-    //         role: 'student',
+    //         role: 'student'
     //     }
+
+    //     await axios.post('http://localhost:5000/user', newUser);
 
     // }
 
@@ -48,29 +51,37 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
             const email = currentUser?.email || user?.email;
             setUser(currentUser);
-            setIsLoading(false)
+            setIsLoading(false);
 
-            const userEmail = { email: email }
+            const userEmail = { email: email };
+
+            const newUser = {
+                email: currentUser?.email,
+                role: 'student'
+            };
 
             if (currentUser) {
+                // Sending JWT token request
                 await axios.post('http://localhost:5000/jwt', userEmail, {
                     withCredentials: true
-                })
+                });
+
+                // Send the user data to be saved
+                await axios.post('http://localhost:5000/user', newUser);
 
             } else {
+                // Handle logout
                 await axios.post('http://localhost:5000/api/logout', userEmail, {
                     withCredentials: true
-                })
+                });
             }
-
-
         });
 
         return () => {
             unSubscribe();
-        }
+        };
 
-    }, [user?.email])
+    }, [user?.email]);
 
     console.log(user)
 
