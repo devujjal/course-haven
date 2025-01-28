@@ -6,13 +6,25 @@ import { IoClose } from "react-icons/io5";
 import { Link, NavLink } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import DropdownProfile from '../DropdownProfile/DropdownProfile';
-
+import toast from 'react-hot-toast';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 const Header = () => {
 
-    const { user, isLoading } = useAuth();
+    const { user, userSignOut, isLoading } = useAuth();
     const [toggle, setToggle] = useState(false);
     const [profileToggle, setProfileToggle] = useState(false);
+
+
+    const handleUserSignOut = async () => {
+        try {
+            await userSignOut();
+
+            // eslint-disable-next-line no-unused-vars
+        } catch (error) {
+            toast.error('Something went wrong!')
+        }
+    }
 
 
     return (
@@ -109,17 +121,23 @@ const Header = () => {
 
                         {
                             isLoading ?
-                                (
-                                    <div className="flex items-center space-x-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300 animate-pulse"></div>
-                                    </div>
-                                ) :
+
+                                <LoadingSpinner />
+
+                                // (
+                                // <div className="flex items-center space-x-4">
+                                //         <div className="w-10 h-10 rounded-full bg-gray-300 animate-pulse"></div>
+                                // </div>
+                                // ) 
+
+                                :
                                 user ? (
                                     <div className="flex items-center space-x-4">
                                         {/* Profile dropdown */}
                                         <DropdownProfile
                                             profileToggle={profileToggle}
                                             setProfileToggle={setProfileToggle}
+                                            handleUserSignOut={handleUserSignOut}
                                         />
                                     </div>
                                 ) : (

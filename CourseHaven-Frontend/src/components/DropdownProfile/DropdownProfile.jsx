@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
 
-const DropdownProfile = ({ profileToggle, setProfileToggle }) => {
+const DropdownProfile = ({ profileToggle, setProfileToggle, handleUserSignOut }) => {
 
     // Ref to the dropdown container
     const dropdownRef = useRef(null);
@@ -17,7 +17,7 @@ const DropdownProfile = ({ profileToggle, setProfileToggle }) => {
         };
 
         document.addEventListener("mousedown", handleClickOutside);
-        
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -75,8 +75,11 @@ const DropdownProfile = ({ profileToggle, setProfileToggle }) => {
 
                         Help
                     </li>
+
                     <hr className="my-2 border-slate-200" role="menuitem" />
+
                     <li
+                        onClick={handleUserSignOut}
                         className="cursor-pointer text-[#747579] flex w-full text-[15px] font-medium items-center rounded-md p-3 transition-all hover:bg-[#F9E8EC] hover:text-[#d6293e] focus:bg-[#F9E8EC]"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5  mr-2">
@@ -95,7 +98,8 @@ const DropdownProfile = ({ profileToggle, setProfileToggle }) => {
 
 DropdownProfile.propTypes = {
     profileToggle: PropTypes.bool,
-    setProfileToggle: PropTypes.func
+    setProfileToggle: PropTypes.func,
+    handleUserSignOut: PropTypes.func
 }
 
 export default DropdownProfile;
