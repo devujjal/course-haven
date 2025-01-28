@@ -92,9 +92,15 @@ async function run() {
         //Saved user in DB
         app.post('/user', async (req, res) => {
             try {
-                const user = req.body;
+                const body = req.body;
+                console.log(body)
+                const query = { email: body?.email }
+                const isExist = await users.findOne(query);
+                if (isExist) {
+                    return res.send({ message: 'user already exsit', insertedId: null })
+                }
 
-                const result = await users.insertOne(user);
+                const result = await users.insertOne(body);
                 res.send(result);
 
             } catch (error) {
