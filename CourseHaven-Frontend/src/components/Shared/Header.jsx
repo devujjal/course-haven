@@ -10,7 +10,7 @@ import DropdownProfile from '../DropdownProfile/DropdownProfile';
 
 const Header = () => {
 
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
     const [toggle, setToggle] = useState(false);
     const [profileToggle, setProfileToggle] = useState(false);
 
@@ -108,36 +108,31 @@ const Header = () => {
 
 
                         {
-                            user ? <>
-                                <div className="flex items-center space-x-4">
-                                    {/* <a href="#">
-                                        <img
-                                            src="https://readymadeui.com/team-3.webp"
-                                            className="w-10 h-10 rounded-full border-2 border-blue-600"
-                                            alt="Profile"
+                            isLoading ?
+                                (
+                                    <div className="flex items-center space-x-4">
+                                        <div className="w-10 h-10 rounded-full bg-gray-300 animate-pulse"></div>
+                                    </div>
+                                ) :
+                                user ? (
+                                    <div className="flex items-center space-x-4">
+                                        {/* Profile dropdown */}
+                                        <DropdownProfile
+                                            profileToggle={profileToggle}
+                                            setProfileToggle={setProfileToggle}
                                         />
-                                    </a> */}
-
-                                    <DropdownProfile profileToggle={profileToggle} setProfileToggle={setProfileToggle} />
-                                </div>
-                            </> : <>
-                                <Link
-                                    to={'/sign-in'}
-                                    className='px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]'>Get Started</Link>
-                            </>
-                        }
-
+                                    </div>
+                                ) : (
+                                    <Link
+                                        to="/sign-in"
+                                        className="px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]"
+                                    >
+                                        Get Started
+                                    </Link>
+                                )}
 
 
-                        {/*  <div className="flex items-center space-x-4">
-                        <a href="#">
-                            <img
-                                src="https://readymadeui.com/team-3.webp"
-                                className="w-12 h-12 rounded-full border-2 border-blue-600"
-                                alt="Profile"
-                            />
-                        </a>
-                    </div> */}
+
 
                     </div>
 

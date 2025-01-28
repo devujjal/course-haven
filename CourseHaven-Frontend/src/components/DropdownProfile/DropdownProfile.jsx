@@ -12,15 +12,19 @@ const DropdownProfile = ({ profileToggle, setProfileToggle }) => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setProfileToggle(false); // Close the dropdown
+                setProfileToggle(false);
             }
         };
 
         document.addEventListener("mousedown", handleClickOutside);
+        
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
+
     }, [setProfileToggle]);
+
+
 
     return (
         <div ref={dropdownRef} className='relative'>

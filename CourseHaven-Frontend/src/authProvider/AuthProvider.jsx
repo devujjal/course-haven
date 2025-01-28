@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const createNewUser = (email, password) => {
         setIsLoading(true);
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
 
 
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setIsLoading(false)
         });
