@@ -13,7 +13,7 @@ const NavLinkMenu = ({ title, icon: Icon }) => {
 
 NavLinkMenu.propTypes = {
     title: PropTypes.string,
-    icon: PropTypes.element
+    icon: PropTypes.func
 }
 
 export default NavLinkMenu;

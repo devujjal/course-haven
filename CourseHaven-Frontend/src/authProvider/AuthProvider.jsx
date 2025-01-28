@@ -66,7 +66,7 @@ const AuthProvider = ({ children }) => {
                     withCredentials: true
                 });
 
-                console.log(currentUser);
+                // console.log(currentUser);
 
                 // Send the user data to be saved
                 await axios.post('http://localhost:5000/user', newUser);
@@ -75,7 +75,7 @@ const AuthProvider = ({ children }) => {
                 await axios.post('http://localhost:5000/api/logout', {}, {
                     withCredentials: true
                 });
-                console.log('User is logged out');
+                // console.log('User is logged out');
             }
 
             setIsLoading(false); // Ensure this is called after the API requests

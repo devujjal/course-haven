@@ -110,9 +110,9 @@ async function run() {
 
 
         // Get the user role
-        app.get('/user', async (req, res) => {
+        app.get('/user/:email', async (req, res) => {
             try {
-                const email = req.query?.email;
+                const email = req.params?.email;
                 const query = { email: email };
                 const result = await users.findOne(query);
                 res.send(result);
