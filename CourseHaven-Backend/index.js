@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+var jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
@@ -10,7 +11,8 @@ const options = {
     origin: ['http://localhost:5173']
 }
 
-app.use(cors())
+app.use(cors());
+app.use(express.json())
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -31,6 +33,15 @@ async function run() {
 
         const database = client.db('courseHaven');
         const courses = database.collection('courses');
+
+        //token generate
+        app.post('/jwt', async (req, res) => {
+            const email = req.body;
+            console.log(email);
+            const token = jwt.sign(email, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+            res.send({ token })
+        })
+
 
         //Popular Courses
         app.get('/courses/:category', async (req, res) => {
