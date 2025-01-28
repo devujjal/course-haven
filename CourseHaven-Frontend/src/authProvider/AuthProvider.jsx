@@ -46,13 +46,20 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            const email = currentUser?.email || user?.email;
             setUser(currentUser);
             setIsLoading(false)
-            const userEmail = { email: currentUser?.email }
+            const userEmail = { email: email }
 
             if (currentUser) {
-                const res = await  axios.post('http://localhost:5000/jwt', userEmail)
-                console.log(res.data)
+                await axios.post('http://localhost:5000/jwt', userEmail, {
+                    withCredentials: true
+                })
+
+            } else {
+                await axios.post('http://localhost:5000/api/logout', userEmail, {
+                    withCredentials: true
+                })
             }
 
 
@@ -62,7 +69,7 @@ const AuthProvider = ({ children }) => {
             unSubscribe();
         }
 
-    }, [])
+    }, [user?.email])
 
     console.log(user)
 

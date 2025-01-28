@@ -2,17 +2,21 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 var jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
 
 
 const options = {
-    origin: ['http://localhost:5173']
+    origin: ['http://localhost:5173'],
+    credentials: true,
+    optionalSuccessStatus: 200
 }
 
-app.use(cors());
-app.use(express.json())
+app.use(cors(options));
+app.use(express.json());
+app.use(cookieParser());
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -37,9 +41,28 @@ async function run() {
         //token generate
         app.post('/jwt', async (req, res) => {
             const email = req.body;
-            console.log(email);
             const token = jwt.sign(email, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-            res.send({ token })
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+                maxAge: 3600 * 1000 // 1 hour in milliseconds
+            })
+            res.send({ message: true })
+        })
+
+        //token remove while the user Logged Out;
+        app.post('/api/logout', async (req, res) => {
+            res.clearCookie('token', {
+                httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+                secure: process.env.NODE_ENV === 'production', // Ensures the cookie is sent over HTTPS only in production
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // Cross-site requests for production, strict for development
+                path: '/', // Ensure the cookie is cleared for the correct path
+                maxAge: 0 // Immediately expires the cookie
+            });
+
+            res.send({ success: true });
+
         })
 
 
@@ -168,6 +191,8 @@ async function run() {
         /* Need Verify Token */
         //Individual Course
         app.get('/course/:id', async (req, res) => {
+            console.log(req.cookies.token)
+
             try {
                 const id = req.params.id;
                 const query = { _id: new ObjectId(id) };
