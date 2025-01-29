@@ -1,6 +1,6 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 
@@ -9,6 +9,9 @@ const SignInPage = () => {
 
     const { userSignIn } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    console.log(location)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -21,7 +24,7 @@ const SignInPage = () => {
             const userCredential = await userSignIn(email, password)
             if (userCredential.user) {
                 toast.success('Successfully Logged In!');
-                navigate('/')
+                navigate(location.state ? location.state : '/', { replace: true });
             }
 
             // eslint-disable-next-line no-unused-vars

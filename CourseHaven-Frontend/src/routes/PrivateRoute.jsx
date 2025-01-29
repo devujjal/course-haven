@@ -1,10 +1,13 @@
 import useAuth from '../hooks/useAuth';
 import PrimarySpinner from '../components/LoadingSpinner/PrimarySpinner';
 import PropTypes from 'prop-types';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 
 const PrivateRoute = ({ children }) => {
     const { user, isLoading } = useAuth();
+    const location = useLocation();
+
+    console.log(location)
 
     if (isLoading) {
         return <PrimarySpinner />
@@ -15,7 +18,7 @@ const PrivateRoute = ({ children }) => {
     }
 
     /* I have to do redirect stuff */
-    return <Navigate to={'/sign-in'} />
+    return <Navigate to={'/sign-in'} state={location.pathname} replace={true} />;
 
 };
 
