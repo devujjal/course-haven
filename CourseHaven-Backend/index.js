@@ -60,6 +60,9 @@ async function run() {
         const database = client.db('courseHaven');
         const courses = database.collection('courses');
         const users = database.collection('users');
+        const carts = database.collection('carts');
+
+
 
         //token generate
         app.post('/jwt', async (req, res) => {
@@ -248,7 +251,6 @@ async function run() {
         /* Need Verify Token */
         //Individual Course
         app.get('/course/:id', verifyToken, async (req, res) => {
-            console.log(req.user)
             try {
                 const id = req.params.id;
                 const query = { _id: new ObjectId(id) };
@@ -259,6 +261,20 @@ async function run() {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
+
+
+        //course save in DB as a cart item
+        app.post('/cart', async (req, res) => {
+            try {
+                const course = req.body;
+                const result = await carts.insertOne(course);
+                res.send(result);
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
 
 
 
