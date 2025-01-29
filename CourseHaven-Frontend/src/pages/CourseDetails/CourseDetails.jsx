@@ -13,11 +13,13 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
+import useAuth from "../../hooks/useAuth";
 
 
 const CourseDetails = () => {
 
     const { id } = useParams();
+    const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
 
@@ -49,6 +51,32 @@ const CourseDetails = () => {
         } catch (error) {
             toast.error('Failed to copy URL:', error.message)
         }
+    }
+
+
+    const handleAddtoCart = async () => {
+        try {
+            const cartItem = {
+                itemId: course?._id,
+                image: course?.image,
+                title: course?.title,
+                price: course?.price,
+                email: user?.email
+            }
+
+            const res = await axiosSecure.post('/cart', cartItem);
+            if (res.data.insertedId === null) {
+                toast.error(res.data.message)
+            }
+
+            if (res.data.insertedId) {
+                toast.success('Item added to cart!')
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+
     }
 
 
@@ -87,7 +115,9 @@ const CourseDetails = () => {
                                         onClick={handleShare}
                                         className="px-4 py-3 bg-[#EFF1F2] rounded-md hover:bg-[#e1e5e7] transition duration-400 cursor-pointer"><FaShareNodes size={14} /></span>
                                 </div>
-                                <button className="border border-[#066ac9] text-[#066ac9] w-full py-2 text-base font-medium font-roboto rounded-md mb-2 hover:bg-[#066ac9] hover:text-white transition duration-300">Add to cart</button>
+                                <button
+                                    onClick={handleAddtoCart}
+                                    className="border border-[#066ac9] text-[#066ac9] w-full py-2 text-base font-medium font-roboto rounded-md mb-2 hover:bg-[#066ac9] hover:text-white transition duration-300">Add to cart</button>
                                 <button className="border bg-[#0cbc87] text-[#fff] font-roboto text-[15px] w-full py-2 rounded-md font-medium hover:bg-[#0aa073] transition duration-300">Buy now</button>
                                 <hr className="mt-7 mb-5" />
 

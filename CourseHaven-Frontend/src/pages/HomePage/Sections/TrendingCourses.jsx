@@ -34,6 +34,10 @@ const TrendingCourses = () => {
             };
 
             const res = await axiosSucure.post('/cart', newItem);
+            if (res.data.insertedId === null) {
+                toast.error(res.data.message)
+            }
+
             if (res.data.insertedId) {
                 toast.success('Item added to cart!')
             }

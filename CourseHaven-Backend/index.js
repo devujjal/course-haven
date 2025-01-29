@@ -267,12 +267,24 @@ async function run() {
         app.post('/cart', async (req, res) => {
             try {
                 const course = req.body;
+
+                /* Check is the item already isExist or not */
+                const query = { itemId: course?.itemId };
+                const isExist = await carts.findOne(query);
+                if (isExist) {
+                    return res.send({ message: 'Item already exsit', insertedId: null })
+                }
+
+                
+                /* Saved the item */
                 const result = await carts.insertOne(course);
                 res.send(result);
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
+
+
 
 
 

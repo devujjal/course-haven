@@ -105,7 +105,7 @@ const Header = () => {
                             </form>
                         </div> */}
 
-                        <FaCartPlus size={35} className='cursor-pointer text-gray-700' />
+                        <FaCartPlus size={32} className='cursor-pointer text-gray-700' />
 
                     </div>
 
