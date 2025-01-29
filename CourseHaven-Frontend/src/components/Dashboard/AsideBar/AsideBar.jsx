@@ -1,5 +1,9 @@
+import { MdDashboard } from "react-icons/md";
 import useRole from "../../../hooks/useRole";
+import AdminRoute from "../../../routes/AdminRoute";
+import StudentRoute from "../../../routes/StudentRoute";
 import AdminSideBar from "../AdminSideBar/AdminSideBar";
+import NavLinkMenu from "../NavLink/NavLink";
 import StudentSideBar from "../StudentSideBar/StudentSideBar";
 
 
@@ -12,11 +16,13 @@ const AsideBar = () => {
     return (
         <aside className="w-64 bg-[#24292d] text-white rounded-lg p-6">
 
+            <NavLinkMenu title={'Dashboard'} icon={MdDashboard} />
+
             {
-                userRole === 'student' && <StudentSideBar />
+                userRole === 'student' && <StudentRoute><StudentSideBar /></StudentRoute>
             }
             {
-                userRole === 'admin' && <AdminSideBar />
+                userRole === 'admin' && <AdminRoute><AdminSideBar /></AdminRoute>
             }
 
         </aside>

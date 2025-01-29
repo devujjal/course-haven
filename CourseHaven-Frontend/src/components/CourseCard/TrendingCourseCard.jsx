@@ -5,7 +5,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 
-const TrendingCourseCard = ({ trendingCourse }) => {
+const TrendingCourseCard = ({ trendingCourse, handleAddtoCart }) => {
 
     const {
         _id,
@@ -85,12 +85,14 @@ const TrendingCourseCard = ({ trendingCourse }) => {
                     </div>
                     {/* Hover effect */}
                     <div className="text-lg font-bold text-[#0cbc87] group-hover:hidden">{price}</div>
-                    <div className="hidden text-sm font-bold text-[#0cbc87] px-4 font-roboto py-2 hover:bg-[#0cbc87] hover:text-white rounded-md bg-[#0cbc871a] cursor-pointer transition group-hover:block">
+                    <button
+                        onClick={() => handleAddtoCart(trendingCourse)}
+                        className="hidden text-sm font-bold text-[#0cbc87] px-4 font-roboto py-2 hover:bg-[#0cbc87] hover:text-white rounded-md bg-[#0cbc871a] cursor-pointer transition group-hover:block">
                         <div className="flex items-center gap-2">
                             <span><FaCartShopping /></span>
                             <span>Add to cart</span>
                         </div>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
@@ -100,7 +102,8 @@ const TrendingCourseCard = ({ trendingCourse }) => {
 };
 
 TrendingCourseCard.propTypes = {
-    trendingCourse: PropTypes.object
+    trendingCourse: PropTypes.object,
+    handleAddtoCart: PropTypes.func
 }
 
 export default TrendingCourseCard;

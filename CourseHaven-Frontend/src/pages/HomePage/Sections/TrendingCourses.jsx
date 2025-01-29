@@ -2,9 +2,12 @@ import TrendingCourseCard from '../../../components/CourseCard/TrendingCourseCar
 import CourseIntro from '../../../components/CourseIntro/CourseIntro';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
+import toast from 'react-hot-toast';
+import useAuth from '../../../hooks/useAuth';
 
 const TrendingCourses = () => {
 
+    const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
 
     const { data: trendingCourses = [] } = useQuery({
@@ -15,7 +18,28 @@ const TrendingCourses = () => {
         }
     })
 
-    // console.log(trendingCourses)
+    console.log(trendingCourses)
+
+    const handleAddtoCart = async (course) => {
+        try {
+            const newItem = {
+                itemId: course?._id,
+                image: course?.image,
+                title: course?.title,
+                price: course?.price,
+                email: user?.email
+
+            };
+
+
+
+
+
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
+    }
 
 
     return (
@@ -27,7 +51,11 @@ const TrendingCourses = () => {
 
                     {
                         trendingCourses.map(trendingCourse => (
-                            <TrendingCourseCard key={trendingCourse?._id} trendingCourse={trendingCourse} />
+                            <TrendingCourseCard
+                                key={trendingCourse?._id}
+                                trendingCourse={trendingCourse}
+                                handleAddtoCart={handleAddtoCart}
+                            />
 
                         ))
                     }

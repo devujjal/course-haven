@@ -8,7 +8,6 @@ import ContactPage from "../pages/ContactPage/ContactPage";
 import Layout from "../layouts/DashBoard";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import PrivateRoute from "./PrivateRoute";
-import DashboardRoute from "./DashboardRoute";
 
 const router = createBrowserRouter([
     {

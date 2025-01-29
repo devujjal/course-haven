@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import AuthProvider from './authProvider/AuthProvider.jsx'
 
 
+
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(

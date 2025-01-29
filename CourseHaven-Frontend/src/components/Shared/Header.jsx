@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '../../assets/haven-logo.png'
-import { IoIosSearch } from "react-icons/io";
+// import { IoIosSearch } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { Link, NavLink } from 'react-router';
@@ -8,6 +8,8 @@ import useAuth from '../../hooks/useAuth';
 import DropdownProfile from '../DropdownProfile/DropdownProfile';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { FaCartPlus } from "react-icons/fa";
+
 
 const Header = () => {
 
@@ -89,7 +91,7 @@ const Header = () => {
                             </li>
                         </ul>
 
-                        {/* Search Form */}
+                        {/*  
                         <div className={`${toggle === true ? 'w-full' : ''} md:hidden lg:block`}>
                             <form className="flex items-center border rounded-md overflow-hidden">
                                 <input
@@ -101,11 +103,16 @@ const Header = () => {
                                     <IoIosSearch size={20} />
                                 </button>
                             </form>
-                        </div>
+                        </div> */}
+
+                        <FaCartPlus size={35} className='cursor-pointer text-gray-700' />
+
                     </div>
 
                     {/* Profile Section */}
                     <div className='flex items-center justify-between gap-2'>
+
+                        <FaCartPlus size={32} className='md:hidden' />
 
                         {/* Mobile Menu Button */}
                         <button
