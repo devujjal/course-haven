@@ -13,10 +13,10 @@ const AsideBar = () => {
         <aside className="w-64 bg-[#24292d] text-white rounded-lg p-6">
 
             {
-                userRole?.role === 'student' && <StudentSideBar />
+                userRole === 'student' && <StudentSideBar />
             }
             {
-                userRole?.role === 'admin' && <AdminSideBar />
+                userRole === 'admin' && <AdminSideBar />
             }
 
         </aside>
