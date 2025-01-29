@@ -1,0 +1,58 @@
+import { useState } from "react";
+
+const ConfirmCart = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className="flex justify-center items-center h-screen bg-gray-100">
+            {/* Button to Open Modal */}
+            <button
+                onClick={() => setIsOpen(true)}
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+                Open Modal
+            </button>
+
+            {/* Modal Wrapper */}
+            {isOpen && (
+                <div
+                    className={`fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50 transition-opacity duration-300 
+          ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+                >
+                    {/* Modal Box */}
+                    <div
+                        className={`w-full max-w-lg bg-white shadow-lg rounded-xl p-8 transform transition-all duration-300 
+            ${isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
+                    >
+                        <div>
+                            <h4 className="text-xl text-gray-800 font-semibold">
+                                Sure you want to accept?
+                            </h4>
+                            <p className="text-sm text-gray-600 mt-4">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                                auctor auctor arcu, at fermentum dui. Maecenas.
+                            </p>
+                        </div>
+
+                        <div className="flex gap-4 max-sm:flex-col mt-8">
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="px-5 py-2.5 rounded-lg text-gray-800 text-sm tracking-wide border-none outline-none bg-gray-200 hover:bg-gray-300"
+                            >
+                                No, cancel
+                            </button>
+                            <button
+                                className="px-5 py-2.5 rounded-lg text-white text-sm tracking-wide border-none outline-none bg-[#333] hover:bg-[#222]"
+                            >
+                                Yes, confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+
+export default ConfirmCart;

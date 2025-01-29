@@ -4,11 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const TrendingCourses = () => {
 
     const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
+    const axiosSucure = useAxiosSecure();
 
     const { data: trendingCourses = [] } = useQuery({
         queryKey: ['trending-courses'],
@@ -22,17 +24,19 @@ const TrendingCourses = () => {
 
     const handleAddtoCart = async (course) => {
         try {
+
             const newItem = {
                 itemId: course?._id,
                 image: course?.image,
                 title: course?.title,
                 price: course?.price,
                 email: user?.email
-
             };
 
-
-
+            const res = await axiosSucure.post('/cart', newItem);
+            if (res.data.insertedId) {
+                toast.success('Item added to cart!')
+            }
 
 
         } catch (error) {
