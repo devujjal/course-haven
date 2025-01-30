@@ -1,23 +1,17 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router";
 
-const ConfirmCart = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const ConfirmCart = ({ isOpen, setIsOpen }) => {
+    // const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gray-100">
-            {/* Button to Open Modal */}
-            <button
-                onClick={() => setIsOpen(true)}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-            >
-                Open Modal
-            </button>
-
-            {/* Modal Wrapper */}
+        <div
+        >
             {isOpen && (
                 <div
+
                     className={`fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-50 transition-opacity duration-300 
-          ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+          ${isOpen ? "opacity-100 visible z-40" : "opacity-0 invisible"}`}
                 >
                     {/* Modal Box */}
                     <div
@@ -25,12 +19,11 @@ const ConfirmCart = () => {
             ${isOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}
                     >
                         <div>
-                            <h4 className="text-xl text-gray-800 font-semibold">
-                                Sure you want to accept?
+                            <h4 className="text-xl font-heebo text-gray-800 font-semibold">
+                                Login required to add to cart.
                             </h4>
-                            <p className="text-sm text-gray-600 mt-4">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                                auctor auctor arcu, at fermentum dui. Maecenas.
+                            <p className="text-sm font-roboto text-gray-600 mt-4">
+                                This message is a short alert that notifies users they must log in before they can add a product to their cart. Thanks!
                             </p>
                         </div>
 
@@ -44,7 +37,7 @@ const ConfirmCart = () => {
                             <button
                                 className="px-5 py-2.5 rounded-lg text-white text-sm tracking-wide border-none outline-none bg-[#333] hover:bg-[#222]"
                             >
-                                Yes, confirm
+                                <Link to={'/sign-in'}>Yes, confirm</Link>
                             </button>
                         </div>
                     </div>
@@ -52,6 +45,11 @@ const ConfirmCart = () => {
             )}
         </div>
     );
+}
+
+ConfirmCart.propTypes = {
+    isOpen: PropTypes.bool,
+    setIsOpen: PropTypes.func
 }
 
 

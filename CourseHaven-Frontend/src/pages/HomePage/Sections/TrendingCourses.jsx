@@ -5,10 +5,15 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useCartItems from '../../../hooks/useCartItems';
+import { useState } from 'react';
+import ConfirmCart from '../../../components/Modal/ConfirmCart';
 
 const TrendingCourses = () => {
 
     const { user } = useAuth();
+    const { refetch } = useCartItems();
+    const [isOpen, setIsOpen] = useState(false);
     const axiosPublic = useAxiosPublic();
     const axiosSucure = useAxiosSecure();
 
@@ -23,30 +28,37 @@ const TrendingCourses = () => {
     console.log(trendingCourses)
 
     const handleAddtoCart = async (course) => {
-        try {
 
-            const newItem = {
-                itemId: course?._id,
-                image: course?.image,
-                title: course?.title,
-                price: course?.price,
-                email: user?.email
-            };
+        if (user && user?.email) {
+            try {
 
-            const res = await axiosSucure.post('/cart', newItem);
-            if (res.data.insertedId === null) {
-                toast.error(res.data.message)
+                const newItem = {
+                    itemId: course?._id,
+                    image: course?.image,
+                    title: course?.title,
+                    price: course?.price,
+                    email: user?.email
+                };
+
+                const res = await axiosSucure.post('/cart', newItem);
+                if (res.data.insertedId === null) {
+                    toast.error(res.data.message)
+                }
+
+                if (res.data.insertedId) {
+                    toast.success('Item added to cart!')
+                    refetch();
+                }
+
+
+            } catch (error) {
+                console.log(error)
+                toast.error(error.message)
             }
-
-            if (res.data.insertedId) {
-                toast.success('Item added to cart!')
-            }
-
-
-        } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+        } else {
+            setIsOpen(true)
         }
+
     }
 
 
@@ -69,6 +81,7 @@ const TrendingCourses = () => {
                     }
 
                 </div>
+                <ConfirmCart isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
         </section>
     );

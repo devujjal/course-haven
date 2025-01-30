@@ -8,12 +8,14 @@ import useAuth from '../../hooks/useAuth';
 import DropdownProfile from '../DropdownProfile/DropdownProfile';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { FaCartPlus } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
+import useCartItems from '../../hooks/useCartItems';
 
 
 const Header = () => {
 
     const { user, userSignOut, isLoading } = useAuth();
+    const { carts } = useCartItems();
     const [toggle, setToggle] = useState(false);
     const [profileToggle, setProfileToggle] = useState(false);
 
@@ -105,14 +107,16 @@ const Header = () => {
                             </form>
                         </div> */}
 
-                        <FaCartPlus size={32} className='cursor-pointer text-gray-700' />
-
+                        <div className='relative'>
+                            <FaShoppingCart size={32} className='cursor-pointer text-gray-700' />
+                            <span className='absolute top-1 right-2 z-20 text-white font-bold text-sm'>{user ? carts?.length : ''}</span>
+                        </div>
                     </div>
 
                     {/* Profile Section */}
                     <div className='flex items-center justify-between gap-2'>
 
-                        <FaCartPlus size={32} className='md:hidden' />
+                        <FaShoppingCart size={32} className='md:hidden' />
 
                         {/* Mobile Menu Button */}
                         <button

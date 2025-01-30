@@ -14,12 +14,14 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 import useAuth from "../../hooks/useAuth";
+import useCartItems from "../../hooks/useCartItems";
 
 
 const CourseDetails = () => {
 
     const { id } = useParams();
     const { user } = useAuth();
+    const {refetch} = useCartItems();
     const axiosSecure = useAxiosSecure();
 
 
@@ -71,6 +73,7 @@ const CourseDetails = () => {
 
             if (res.data.insertedId) {
                 toast.success('Item added to cart!')
+                refetch();
             }
 
         } catch (error) {

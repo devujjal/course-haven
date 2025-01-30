@@ -275,7 +275,7 @@ async function run() {
                     return res.send({ message: 'Item already exsit', insertedId: null })
                 }
 
-                
+
                 /* Saved the item */
                 const result = await carts.insertOne(course);
                 res.send(result);
@@ -284,6 +284,20 @@ async function run() {
             }
         })
 
+
+        //Get the individual items 
+        app.get('/carts', async (req, res) => {
+            try {
+                const email = req.query?.email;
+
+                const query = { email: email };
+                const result = await carts.find(query).toArray();
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
 
 
 
