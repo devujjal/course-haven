@@ -5,11 +5,42 @@ import {
 } from "@stripe/react-stripe-js";
 
 import './CheckoutFrom.css';
+import { useEffect, useState } from "react";
+import toast from 'react-hot-toast';
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAuth from "../../hooks/useAuth";
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price }) => {
     const stripe = useStripe();
     const elements = useElements();
+    const { user } = useAuth();
+    const axiosPublic = useAxiosPublic();
+    const [clientSecret, setisClientSecret] = useState(null);
+    const [loading, setIsLoading] = useState(false)
+    const [message, setMessage] = useState('');
+
+    const totalPrice = parseFloat(price);
+
+    useEffect(() => {
+        const getClientSecret = async () => {
+            if (!totalPrice || totalPrice < 1) {
+                return;
+            }
+
+            try {
+                const res = await axiosPublic.post('/create-payment-intent', { price: totalPrice });
+                setisClientSecret(res.data.clientSecret);
+
+            } catch (error) {
+                toast.error(error.message || 'Failed to create payment intent')
+            }
+        }
+
+        getClientSecret();
+    }, [axiosPublic, totalPrice])
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,12 +63,36 @@ const CheckoutForm = () => {
 
         if (error) {
             console.log('error: ', error)
-        }else{
-            console.log('paymentMethod: ', paymentMethod)
+            setMessage(error.message)
+            setIsLoading(false)
+            return;
+        } else {
+            console.log('paymentMethod: ', paymentMethod);
+            setMessage('');
         }
 
 
+        // //confirmCardPayment
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    name: user?.displayName,
+                    email: user?.email
+                }
 
+            }
+        })
+
+        if (confirmError) {
+            setMessage(confirmError.message);
+            setIsLoading(false)
+            return;
+        }
+
+        if (paymentIntent.status === 'succeeded') {
+            console.log("From payment intent: ", paymentIntent);
+        }
 
 
     }

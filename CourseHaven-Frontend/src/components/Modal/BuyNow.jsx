@@ -50,20 +50,22 @@ const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
                                 </DialogTitle>
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Course Title: {courseInfo.title}
+                                        Course Title: {courseInfo?.title}
                                     </p>
                                 </div>
 
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Price: {courseInfo.price}
+                                        Price: {courseInfo?.price}
                                     </p>
                                 </div>
                                 <hr className='mt-8 ' />
                                 {/* checkout form */}
 
                                 <Elements stripe={stripePromise}>
-                                    <CheckoutForm />
+                                    <CheckoutForm
+                                        price={courseInfo?.price}
+                                    />
                                 </Elements>
 
                             </DialogPanel>

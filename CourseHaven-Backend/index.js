@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 var jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const stripe = require('stripe')(`${process.env.STRIPE_TEST_KEY}`);
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
@@ -22,7 +23,7 @@ app.use(cookieParser());
 //verify token
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
-    console.log(token)
+    // console.log(token)
     if (!token) {
         return res.status(401).send({ message: 'Unauthorized Access' })
     };
@@ -298,6 +299,28 @@ async function run() {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
+
+
+
+        // Create a PaymentIntent with the order amount and currency
+        app.post("/create-payment-intent", async (req, res) => {
+            const price = req.body.price;
+            const totalAmount = parseFloat(price) * 100;
+            if (!totalAmount || totalAmount < 1) {
+                return;
+            }
+
+            const paymentIntent = await stripe.paymentIntents.create({
+                amount: totalAmount,
+                currency: "usd",
+                payment_method_types: ['card']
+            })
+
+            res.send({ clientSecret: paymentIntent.client_secret })
+        })
+
+
+
 
 
 
