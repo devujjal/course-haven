@@ -15,13 +15,16 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 import useAuth from "../../hooks/useAuth";
 import useCartItems from "../../hooks/useCartItems";
+import BuyNow from "../../components/Modal/BuyNow";
+import { useState } from "react";
 
 
 const CourseDetails = () => {
 
     const { id } = useParams();
     const { user } = useAuth();
-    const {refetch} = useCartItems();
+    const [isOpen, setisOpen] = useState(false);
+    const { refetch } = useCartItems();
     const axiosSecure = useAxiosSecure();
 
 
@@ -83,6 +86,11 @@ const CourseDetails = () => {
     }
 
 
+    const closeModal = () => {
+        setisOpen(false);
+    }
+
+
     return (
         <section>
             <div className="container mx-auto px-3 md:px-2">
@@ -121,7 +129,15 @@ const CourseDetails = () => {
                                 <button
                                     onClick={handleAddtoCart}
                                     className="border border-[#066ac9] text-[#066ac9] w-full py-2 text-base font-medium font-roboto rounded-md mb-2 hover:bg-[#066ac9] hover:text-white transition duration-300">Add to cart</button>
-                                <button className="border bg-[#0cbc87] text-[#fff] font-roboto text-[15px] w-full py-2 rounded-md font-medium hover:bg-[#0aa073] transition duration-300">Buy now</button>
+
+                                <button
+                                    onClick={() => setisOpen(true)}
+                                    className="border bg-[#0cbc87] text-[#fff] font-roboto text-[15px] w-full py-2 rounded-md font-medium hover:bg-[#0aa073] transition duration-300">Buy now</button>
+
+                                {/* This  is a payment Modal */}
+                                <BuyNow isOpen={isOpen} closeModal={closeModal} courseInfo={{ title: course?.title, price: course?.price }} />
+
+
                                 <hr className="mt-7 mb-5" />
 
                                 <div>

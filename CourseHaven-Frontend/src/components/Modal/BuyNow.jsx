@@ -7,8 +7,14 @@ import {
     DialogTitle,
 } from '@headlessui/react'
 import { Fragment } from 'react'
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from '../PaymentMethod/CheckoutForm'
+import { loadStripe } from '@stripe/stripe-js';
 
-const BuyNow = ({ closeModal, isOpen, course }) => {
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_KEY);
+console.log(stripePromise)
+
+const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -44,17 +50,22 @@ const BuyNow = ({ closeModal, isOpen, course }) => {
                                 </DialogTitle>
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Room: {course.title}
+                                        Course Title: {courseInfo.title}
                                     </p>
                                 </div>
 
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Price: $ {course.price}
+                                        Price: {courseInfo.price}
                                     </p>
                                 </div>
                                 <hr className='mt-8 ' />
                                 {/* checkout form */}
+
+                                <Elements stripe={stripePromise}>
+                                    <CheckoutForm />
+                                </Elements>
+
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -65,7 +76,7 @@ const BuyNow = ({ closeModal, isOpen, course }) => {
 }
 
 BuyNow.propTypes = {
-    course: PropTypes.object,
+    courseInfo: PropTypes.object,
     closeModal: PropTypes.func,
     isOpen: PropTypes.bool,
 }

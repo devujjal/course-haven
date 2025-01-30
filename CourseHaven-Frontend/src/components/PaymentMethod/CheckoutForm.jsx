@@ -4,6 +4,8 @@ import {
     useElements,
 } from "@stripe/react-stripe-js";
 
+import './CheckoutFrom.css';
+
 
 const CheckoutForm = () => {
     const stripe = useStripe();
@@ -23,7 +25,18 @@ const CheckoutForm = () => {
             return;
         }
 
-        
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card
+        })
+
+        if (error) {
+            console.log('error: ', error)
+        }else{
+            console.log('paymentMethod: ', paymentMethod)
+        }
+
+
 
 
 
