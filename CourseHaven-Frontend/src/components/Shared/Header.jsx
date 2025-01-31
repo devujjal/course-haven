@@ -80,7 +80,7 @@ const Header = () => {
                                 </NavLink>
                             </li>
                             <li className={`${toggle === true ? 'px-4 py-2 border-b-2 hover:text-[#066ac9] hover:bg-[#E7F0FA] cursor-pointer' : ''}`}>
-                                <NavLink href="#"
+                                <NavLink to={'/dashboard'}
                                     className={({ isActive }) => `${isActive ? 'text-blue-600' : 'text-gray-700'} font-medium hover:text-blue-600`}>
                                     Dashboard
                                 </NavLink>

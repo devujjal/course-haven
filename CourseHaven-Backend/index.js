@@ -301,6 +301,27 @@ async function run() {
         })
 
 
+        //get individual user carts items list
+        app.get('/carts/:email', verifyToken, async (req, res) => {
+            try {
+                const verifyEmail = req.user?.email;
+                const email = req.params?.email;
+                if (verifyEmail !== email) {
+                    return res.status(403).send({ message: 'Forbidden Access' })
+                }
+
+                const query = { email: email };
+                const cursor = carts.find(query);
+                const result = await cursor.toArray();
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
+
 
         // Create a PaymentIntent with the order amount and currency
         app.post("/create-payment-intent", verifyToken, async (req, res) => {

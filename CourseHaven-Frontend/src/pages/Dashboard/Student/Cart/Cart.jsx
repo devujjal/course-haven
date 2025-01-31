@@ -1,7 +1,25 @@
 import { IoCloseSharp } from "react-icons/io5";
-
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAuth from "../../../../hooks/useAuth";
 
 const Cart = () => {
+
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+
+    const { data: carts = [] } = useQuery({
+        queryKey: ['carts-item', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/carts/${user?.email}`);
+            return res.data;
+        }
+    })
+
+    console.log(carts)
+
+
+
     return (
         <section>
             <div className="container mx-auto px-3 md:px-2">
@@ -11,55 +29,24 @@ const Cart = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
                         <div className="md:col-span-2 shadow-one pb-5 px-2 xl:px-6 rounded-md">
-                            <div className="py-6 border-b">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex gap-3 items-center">
-                                        <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[35%] xl:w-[20%] rounded-xl" alt="" />
-                                        <h3 className="text-[#24292d] font-heebo text-base font-bold">Building Scalable APIs with GraphQL</h3>
+                            {
+                                carts.map(cart => (
+                                    <div
+                                        key={cart._id}
+                                        className="py-6 border-b">
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex gap-3 items-center">
+                                                <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[35%] xl:w-[20%] rounded-xl" alt="" />
+                                                <h3 className="text-[#24292d] font-heebo text-base font-bold">{cart?.title}</h3>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">${cart?.price}</span>
+                                                <button className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">$350</span>
-                                        <span className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="py-6 border-b">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex gap-3 items-center">
-                                        <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[20%] rounded-xl" alt="" />
-                                        <h3 className="text-[#24292d] font-heebo text-base font-bold">Building Scalable APIs with GraphQL</h3>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">$350</span>
-                                        <span className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="py-6 border-b">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex gap-3 items-center">
-                                        <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[20%] rounded-xl" alt="" />
-                                        <h3 className="text-[#24292d] font-heebo text-base font-bold">Building Scalable APIs with GraphQL</h3>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">$350</span>
-                                        <span className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="py-6 border-b">
-                                <div className="flex justify-between items-center">
-                                    <div className="flex gap-3 items-center">
-                                        <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[20%] rounded-xl" alt="" />
-                                        <h3 className="text-[#24292d] font-heebo text-base font-bold">Building Scalable APIs with GraphQL</h3>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">$350</span>
-                                        <span className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></span>
-                                    </div>
-                                </div>
-                            </div>
-
+                                ))
+                            }
 
 
                             <div className="flex items-center mt-8 rounded-md overflow-hidden max-w-96">
