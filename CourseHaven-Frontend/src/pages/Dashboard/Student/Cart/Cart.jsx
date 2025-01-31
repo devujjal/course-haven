@@ -4,10 +4,13 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import toast from 'react-hot-toast';
 import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
 
     const { user } = useAuth();
+    const [money, setMoney] = useState(0);
+    const [discountPrice, setDiscountPrice] = useState(0);
     const axiosSecure = useAxiosSecure();
 
     const { data: carts = [], isError, error: cartError, isLoading, refetch } = useQuery({
@@ -18,16 +21,15 @@ const Cart = () => {
         }
     })
 
-    if (isError) {
-        return toast.error(cartError.message)
-    }
+
+    useEffect(() => {
+        let totalAmount = carts.reduce((pre, current) => pre + parseFloat(current.price), 0);
+        setMoney(totalAmount)
+    }, [carts])
 
 
-    if (isLoading) {
-        return <PrimarySpinner smallHeight={true} />
-    }
+    // console.log(money)
 
-    console.log(carts)
 
 
     const handleCartDelete = async (id) => {
@@ -43,6 +45,36 @@ const Cart = () => {
             toast.error(error.message)
         }
     }
+
+    const handleCoupon = (e) => {
+        e.preventDefault();
+        if (!money) {
+            return;
+        }
+
+        const form = new FormData(e.target);
+        const value = form.get('coupon');
+
+        if (value === "courseHaven10") {
+            const discount = money * (10 / 100);
+            const totalDiscount = money - discount;
+            setDiscountPrice(discount.toFixed(2));
+            setMoney(totalDiscount);
+            e.target.reset();
+        }
+    }
+
+
+
+    if (isError) {
+        return toast.error(cartError.message)
+    }
+
+
+    if (isLoading) {
+        return <PrimarySpinner smallHeight={true} />
+    }
+
 
 
 
@@ -77,16 +109,21 @@ const Cart = () => {
                             }
 
 
-                            <div className="flex items-center mt-8 rounded-md overflow-hidden max-w-96">
+                            <form
+                                onSubmit={handleCoupon}
+                                className="flex items-center mt-8 rounded-md overflow-hidden max-w-96">
                                 <input
                                     type="text"
+                                    name="coupon"
                                     placeholder="COUPON CODE"
                                     className="flex-grow px-4 py-[10px] font-heebo border border-gray-100 focus:border-blue-600 outline-none placeholder-gray-500"
                                 />
-                                <button className="bg-blue-500 text-white px-4 py-[10px] font-medium hover:bg-blue-600">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white px-4 py-[10px] font-medium hover:bg-blue-600">
                                     Apply coupon
                                 </button>
-                            </div>
+                            </form>
                         </div>
                         <div>
                             <div className="shadow-one rounded-md">
@@ -95,15 +132,15 @@ const Cart = () => {
                                     <ul className="mt-5">
                                         <li className="flex items-center justify-between">
                                             <span className="text-[#24292d] text-base font-normal	 font-heebo">Original Price</span>
-                                            <span className="text-[#24292d] font-bold text-base font-roboto font-bold">$500</span>
+                                            <span className="text-[#24292d] font-bold text-base font-roboto font-bold">${money}</span>
                                         </li>
                                         <li className="flex mt-1 items-center justify-between">
                                             <span className="text-[#24292d] text-base font-normal font-heebo">Coupon Discount</span>
-                                            <span className="text-[#d6293e] font-bold text-base font-roboto font-normal">$-10</span>
+                                            <span className="text-[#d6293e] font-bold text-base font-roboto font-normal">${discountPrice}</span>
                                         </li>
                                         <li className="mt-5 flex items-center justify-between">
                                             <span className="text-[#24292d] font-heebo font-bold text-[21px]">Total</span>
-                                            <span className="text-[#24292d] font-heebo font-bold text-[21px]">$480</span>
+                                            <span className="text-[#24292d] font-heebo font-bold text-[21px]">${money}</span>
                                         </li>
 
                                     </ul>
