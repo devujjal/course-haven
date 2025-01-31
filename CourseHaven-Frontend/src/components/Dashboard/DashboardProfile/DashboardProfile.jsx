@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
 import { IoOptionsOutline } from "react-icons/io5";
 
-const DashboardProfile = () => {
+const DashboardProfile = ({ setIsOpen, isOpen }) => {
     return (
         <section>
             <div className="px-0">
@@ -50,17 +51,25 @@ const DashboardProfile = () => {
                 </div>
 
                 {/* Mobile Menu */}
-                <hr className="block xl:hidden mt-8 mb-8"/>
-                <div className='block xl:hidden flex justify-between'>
-
-                    <a>Menu</a>
-                    <button className='p-2 bg-[#066ac9] rounded-md'>
-                        <IoOptionsOutline color="#FFFFFF" size={25} />
-                    </button>
+                <div className={`block xl:hidden`}>
+                    <hr className="mt-8 mb-8" />
+                    <div className='flex items-center justify-between'>
+                        <a className="text-[#24292d] font-bold text-base font-heebo">Menu</a>
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className='p-2 bg-[#066ac9] rounded-md'>
+                            <IoOptionsOutline color="#FFFFFF" size={25} />
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
     );
 };
+
+DashboardProfile.propTypes = {
+    setIsOpen: PropTypes.func,
+    isOpen: PropTypes.bool
+}
 
 export default DashboardProfile;
