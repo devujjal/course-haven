@@ -11,6 +11,7 @@ const Cart = () => {
     const { user } = useAuth();
     const [money, setMoney] = useState(0);
     const [discountPrice, setDiscountPrice] = useState(0);
+    const [totlaPrice, setTotalPrice] = useState(0);
     const axiosSecure = useAxiosSecure();
 
     const { data: carts = [], isError, error: cartError, isLoading, refetch } = useQuery({
@@ -24,7 +25,8 @@ const Cart = () => {
 
     useEffect(() => {
         let totalAmount = carts.reduce((pre, current) => pre + parseFloat(current.price), 0);
-        setMoney(totalAmount)
+        setMoney(totalAmount);
+        setTotalPrice(totalAmount)
     }, [carts])
 
 
@@ -59,7 +61,7 @@ const Cart = () => {
             const discount = money * (10 / 100);
             const totalDiscount = money - discount;
             setDiscountPrice(discount.toFixed(2));
-            setMoney(totalDiscount);
+            setTotalPrice(totalDiscount.toFixed(2));
             e.target.reset();
         }
     }
@@ -140,7 +142,7 @@ const Cart = () => {
                                         </li>
                                         <li className="mt-5 flex items-center justify-between">
                                             <span className="text-[#24292d] font-heebo font-bold text-[21px]">Total</span>
-                                            <span className="text-[#24292d] font-heebo font-bold text-[21px]">${money}</span>
+                                            <span className="text-[#24292d] font-heebo font-bold text-[21px]">${totlaPrice}</span>
                                         </li>
 
                                     </ul>
