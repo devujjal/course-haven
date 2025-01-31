@@ -56,7 +56,7 @@ const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
 
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Price: {courseInfo?.price}
+                                        Price: ${courseInfo?.price}
                                     </p>
                                 </div>
                                 <hr className='mt-8 ' />
@@ -65,6 +65,7 @@ const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
                                 <Elements stripe={stripePromise}>
                                     <CheckoutForm
                                         price={courseInfo?.price}
+                                        closeModal={closeModal}
                                     />
                                 </Elements>
 

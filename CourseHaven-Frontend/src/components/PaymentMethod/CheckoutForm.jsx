@@ -9,9 +9,11 @@ import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
+import PropTypes from "prop-types";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ price, closeModal }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useAuth();
@@ -21,6 +23,7 @@ const CheckoutForm = ({ price }) => {
     const [message, setMessage] = useState('');
 
     const totalPrice = parseFloat(price);
+
 
     useEffect(() => {
         const getClientSecret = async () => {
@@ -38,12 +41,14 @@ const CheckoutForm = ({ price }) => {
         }
 
         getClientSecret();
+
     }, [axiosPublic, totalPrice])
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
 
         if (!stripe || !elements) {
             return;
@@ -52,7 +57,7 @@ const CheckoutForm = ({ price }) => {
 
         const card = elements.getElement(CardElement);
 
-        if (card === null) {
+        if (!card) {
             return;
         }
 
@@ -95,6 +100,7 @@ const CheckoutForm = ({ price }) => {
         }
 
 
+        setIsLoading(false);
     }
 
 
@@ -116,11 +122,39 @@ const CheckoutForm = ({ price }) => {
                     },
                 }}
             />
-            <button type="submit" disabled={!stripe}>
-                Pay
-            </button>
+
+            <div className='flex mt-2 justify-around'>
+                <button
+                    type='submit'
+                    disabled={!stripe || !clientSecret || loading}
+                    className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
+                >
+                    {
+                        loading ? <LoadingSpinner /> : 'Pay'
+                    }
+                </button>
+                <button
+                    onClick={closeModal}
+                    type='button'
+                    className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
+                >
+                    No
+                </button>
+
+
+            </div>
+
+            {
+                message && <p className="text-red-500">{message}</p>
+            }
+
         </form>
     );
 };
+
+CheckoutForm.propTypes = {
+    price: PropTypes.string,
+    closeModal: PropTypes.func
+}
 
 export default CheckoutForm;

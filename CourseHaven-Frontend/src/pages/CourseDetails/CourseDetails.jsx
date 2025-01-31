@@ -121,7 +121,7 @@ const CourseDetails = () => {
                         <div className="border rounded-lg">
                             <div className="px-5 py-6">
                                 <div className="flex items-center justify-between text-3xl text-[#24292d] font-bold font-heebo mb-5">
-                                    <span>{course?.price}</span>
+                                    <span>${course?.price}</span>
                                     <span
                                         onClick={handleShare}
                                         className="px-4 py-3 bg-[#EFF1F2] rounded-md hover:bg-[#e1e5e7] transition duration-400 cursor-pointer"><FaShareNodes size={14} /></span>

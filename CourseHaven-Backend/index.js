@@ -3,8 +3,8 @@ const app = express();
 const cors = require('cors');
 var jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const stripe = require('stripe')(`${process.env.STRIPE_TEST_KEY}`);
 require('dotenv').config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
 
@@ -305,6 +305,7 @@ async function run() {
         // Create a PaymentIntent with the order amount and currency
         app.post("/create-payment-intent", async (req, res) => {
             const price = req.body.price;
+            console.log(req.body)
             const totalAmount = parseFloat(price) * 100;
             if (!totalAmount || totalAmount < 1) {
                 return;
