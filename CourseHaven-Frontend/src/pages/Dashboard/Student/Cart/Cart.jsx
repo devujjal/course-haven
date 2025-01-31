@@ -10,7 +10,7 @@ const Cart = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-    const { data: carts = [], isError, error: cartError, isLoading } = useQuery({
+    const { data: carts = [], isError, error: cartError, isLoading, refetch } = useQuery({
         queryKey: ['carts-item', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/carts/${user?.email}`);
@@ -30,7 +30,20 @@ const Cart = () => {
     console.log(carts)
 
 
-  
+    const handleCartDelete = async (id) => {
+        // console.log(id)
+        try {
+            const res = await axiosSecure.delete(`/cart/${id}`)
+            if (res.data.deletedCount > 0) {
+                toast.success('Item deleted successfully!')
+                refetch();
+            }
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
 
 
     return (
