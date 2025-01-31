@@ -61,18 +61,19 @@ const CheckoutForm = ({ price, closeModal }) => {
             return;
         }
 
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
+        // here we can distructer the "paymentMethod", but we remove because, it doesn't have any action;
+        const { error } = await stripe.createPaymentMethod({
             type: 'card',
             card
         })
 
         if (error) {
-            console.log('error: ', error)
+            // console.log('error: ', error)
             setMessage(error.message)
             setIsLoading(false)
             return;
         } else {
-            console.log('paymentMethod: ', paymentMethod);
+            // console.log('paymentMethod: ', paymentMethod);
             setMessage('');
         }
 
