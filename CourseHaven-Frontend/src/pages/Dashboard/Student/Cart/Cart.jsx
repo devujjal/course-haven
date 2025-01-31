@@ -2,13 +2,15 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
+import toast from 'react-hot-toast';
+import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 
 const Cart = () => {
 
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-    const { data: carts = [] } = useQuery({
+    const { data: carts = [], isError, error: cartError, isLoading } = useQuery({
         queryKey: ['carts-item', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/carts/${user?.email}`);
@@ -16,8 +18,19 @@ const Cart = () => {
         }
     })
 
+    if (isError) {
+        return toast.error(cartError.message)
+    }
+
+
+    if (isLoading) {
+        return <PrimarySpinner smallHeight={true} />
+    }
+
     console.log(carts)
 
+
+  
 
 
     return (
@@ -41,7 +54,9 @@ const Cart = () => {
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">${cart?.price}</span>
-                                                <button className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></button>
+                                                <button
+                                                    onClick={() => handleCartDelete(cart?._id)}
+                                                    className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></button>
                                             </div>
                                         </div>
                                     </div>

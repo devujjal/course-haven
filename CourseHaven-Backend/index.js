@@ -321,6 +321,20 @@ async function run() {
         })
 
 
+        //delete a cart item
+        app.delete('/cart/:id', async (req, res) => {
+            try {
+                const id = req.params?.id;
+                const query = { _id: new ObjectId(id) };
+                const result = await carts.deleteOne(query);
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency
