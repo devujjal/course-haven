@@ -303,9 +303,9 @@ async function run() {
 
 
         // Create a PaymentIntent with the order amount and currency
-        app.post("/create-payment-intent", async (req, res) => {
+        app.post("/create-payment-intent", verifyToken, async (req, res) => {
             const price = req.body.price;
-            console.log(req.body)
+            // console.log(req.body)
             const totalAmount = parseFloat(price) * 100;
             if (!totalAmount || totalAmount < 1) {
                 return;
@@ -319,8 +319,6 @@ async function run() {
 
             res.send({ clientSecret: paymentIntent.client_secret })
         })
-
-
 
 
 

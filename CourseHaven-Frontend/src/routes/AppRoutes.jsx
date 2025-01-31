@@ -8,6 +8,7 @@ import ContactPage from "../pages/ContactPage/ContactPage";
 import Layout from "../layouts/DashBoard";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import PrivateRoute from "./PrivateRoute";
+import Cart from "../pages/Dashboard/Cart/Cart";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
                 path: 'contact',
                 element: <ContactPage />
             },
+            {
+                path: 'cart',
+                element: <Cart />
+            }
 
 
 

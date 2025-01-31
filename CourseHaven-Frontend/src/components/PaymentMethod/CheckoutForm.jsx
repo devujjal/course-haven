@@ -7,17 +7,17 @@ import {
 import './CheckoutFrom.css';
 import { useEffect, useState } from "react";
 import toast from 'react-hot-toast';
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
 import PropTypes from "prop-types";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 const CheckoutForm = ({ price, closeModal }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useAuth();
-    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure()
     const [clientSecret, setisClientSecret] = useState(null);
     const [loading, setIsLoading] = useState(false)
     const [message, setMessage] = useState('');
@@ -32,7 +32,7 @@ const CheckoutForm = ({ price, closeModal }) => {
             }
 
             try {
-                const res = await axiosPublic.post('/create-payment-intent', { price: totalPrice });
+                const res = await axiosSecure.post('/create-payment-intent', { price: totalPrice });
                 setisClientSecret(res.data.clientSecret);
 
             } catch (error) {
@@ -42,7 +42,7 @@ const CheckoutForm = ({ price, closeModal }) => {
 
         getClientSecret();
 
-    }, [axiosPublic, totalPrice])
+    }, [axiosSecure, totalPrice])
 
 
 
@@ -97,6 +97,7 @@ const CheckoutForm = ({ price, closeModal }) => {
         }
 
         if (paymentIntent.status === 'succeeded') {
+            toast.success('Course Purchase Successfully')
             console.log("From payment intent: ", paymentIntent);
         }
 
