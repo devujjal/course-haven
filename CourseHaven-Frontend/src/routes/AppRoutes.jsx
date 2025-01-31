@@ -8,7 +8,8 @@ import ContactPage from "../pages/ContactPage/ContactPage";
 import Layout from "../layouts/DashBoard";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import PrivateRoute from "./PrivateRoute";
-import Cart from "../pages/Dashboard/Cart/Cart";
+import Cart from "../pages/Dashboard/Student/Cart/Cart";
+import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
 
 const router = createBrowserRouter([
     {
@@ -31,27 +32,31 @@ const router = createBrowserRouter([
             {
                 path: 'contact',
                 element: <ContactPage />
-            },
-            {
-                path: 'cart',
-                element: <Cart />
             }
-
-
 
         ]
     },
     {
-        path: 'sign-in',
+        path: '/sign-in',
         element: <SignInPage />
     },
     {
-        path: 'sign-up',
+        path: '/sign-up',
         element: <SignUpPage />
     },
     {
         path: '/dashboard',
-        element: <PrivateRoute><Layout /></PrivateRoute>
+        element: <PrivateRoute><Layout /></PrivateRoute>,
+        children: [
+            {
+                index: true,
+                element: <Statistic />
+            },
+            {
+                path: 'my-cart',
+                element: <Cart />
+            }
+        ]
     }
 ])
 

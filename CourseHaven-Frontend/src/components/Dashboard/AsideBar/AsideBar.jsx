@@ -14,7 +14,7 @@ const AsideBar = () => {
 
     console.log(userRole)
     return (
-        <aside className="w-64 bg-[#24292d] text-white rounded-lg p-6">
+        <aside className="hidden xl:block w-64 bg-[#24292d] text-white rounded-lg p-6 flex flex-col justify-start h-full">
 
             <NavLinkMenu title={'Dashboard'} icon={MdDashboard} />
 

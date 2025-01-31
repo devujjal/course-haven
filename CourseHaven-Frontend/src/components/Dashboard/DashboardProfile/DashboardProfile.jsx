@@ -1,3 +1,4 @@
+import { IoOptionsOutline } from "react-icons/io5";
 
 const DashboardProfile = () => {
     return (
@@ -46,6 +47,16 @@ const DashboardProfile = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Mobile Menu */}
+                <hr className="block xl:hidden mt-8 mb-8"/>
+                <div className='block xl:hidden flex justify-between'>
+
+                    <a>Menu</a>
+                    <button className='p-2 bg-[#066ac9] rounded-md'>
+                        <IoOptionsOutline color="#FFFFFF" size={25} />
+                    </button>
                 </div>
             </div>
         </section>
