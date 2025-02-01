@@ -12,9 +12,9 @@ import CheckoutForm from '../PaymentMethod/CheckoutForm'
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_KEY);
-console.log(stripePromise)
+// console.log(stripePromise)
 
-const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
+const BuyNow = ({ closeModal, isOpen, courseInfo, showTitle }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -50,7 +50,7 @@ const BuyNow = ({ closeModal, isOpen, courseInfo }) => {
                                 </DialogTitle>
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Course Title: {courseInfo?.title}
+                                        {`${showTitle ? 'Course Title' : 'Cart Items'}`} : {courseInfo?.title}
                                     </p>
                                 </div>
 
@@ -82,6 +82,7 @@ BuyNow.propTypes = {
     courseInfo: PropTypes.object,
     closeModal: PropTypes.func,
     isOpen: PropTypes.bool,
+    showTitle: PropTypes.bool
 }
 
 export default BuyNow;

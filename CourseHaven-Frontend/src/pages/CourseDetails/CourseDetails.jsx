@@ -135,7 +135,7 @@ const CourseDetails = () => {
                                     className="border bg-[#0cbc87] text-[#fff] font-roboto text-[15px] w-full py-2 rounded-md font-medium hover:bg-[#0aa073] transition duration-300">Buy now</button>
 
                                 {/* This  is a payment Modal */}
-                                <BuyNow isOpen={isOpen} closeModal={closeModal} courseInfo={{ title: course?.title, price: course?.price }} />
+                                <BuyNow isOpen={isOpen} closeModal={closeModal} courseInfo={{ title: course?.title, price: course?.price }} showTitle={true} />
 
 
                                 <hr className="mt-7 mb-5" />

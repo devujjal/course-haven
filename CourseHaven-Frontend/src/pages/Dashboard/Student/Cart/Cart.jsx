@@ -5,6 +5,7 @@ import useAuth from "../../../../hooks/useAuth";
 import toast from 'react-hot-toast';
 import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 import { useEffect, useState } from "react";
+import BuyNow from "../../../../components/Modal/BuyNow";
 
 const Cart = () => {
 
@@ -12,6 +13,7 @@ const Cart = () => {
     const [money, setMoney] = useState(0);
     const [discountPrice, setDiscountPrice] = useState(0);
     const [totlaPrice, setTotalPrice] = useState(0);
+    const [modalOpen, setModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
 
     const { data: carts = [], isError, error: cartError, isLoading, refetch } = useQuery({
@@ -41,6 +43,7 @@ const Cart = () => {
             if (res.data.deletedCount > 0) {
                 toast.success('Item deleted successfully!')
                 refetch();
+                setDiscountPrice(0)
             }
 
         } catch (error) {
@@ -66,6 +69,9 @@ const Cart = () => {
         }
     }
 
+    const closeModal = () => {
+        setModalOpen(false)
+    }
 
 
     if (isError) {
@@ -96,7 +102,7 @@ const Cart = () => {
                                         className="py-6 border-b">
                                         <div className="flex justify-between items-center">
                                             <div className="flex gap-3 items-center">
-                                                <img src="https://themes.stackbros.in/eduport_r/assets/08-DgNLqCM_.jpg" className="w-[35%] xl:w-[20%] rounded-xl" alt="" />
+                                                <img src={cart?.image} className="w-[35%] xl:w-[25%] rounded-xl" alt="" />
                                                 <h3 className="text-[#24292d] font-heebo text-base font-bold">{cart?.title}</h3>
                                             </div>
                                             <div className="flex items-center gap-3">
@@ -147,8 +153,15 @@ const Cart = () => {
 
                                     </ul>
                                     <div className="mt-3 w-full">
-                                        <button className="w-full px-5 py-3 bg-[#0cbc87] hover:bg-[#0aa073] transition-all text-base text-white font-roboto font-medium rounded-md">Proceed to Payment</button>
+                                        <button
+                                            onClick={() => setModalOpen(true)}
+                                            className="w-full px-5 py-3 bg-[#0cbc87] hover:bg-[#0aa073] transition-all text-base text-white font-roboto font-medium rounded-md">Proceed to Payment</button>
                                     </div>
+
+                                    {/* Payment Modal */}
+                                    <BuyNow isOpen={modalOpen} closeModal={closeModal} courseInfo={{ title: 'All of the cart items', price: "" + totlaPrice }} />
+
+
                                     <p className="text-[#747579] mt-3 text-center font-roboto text-sm">By completing your purchase, you agree to these <a className="text-[#066ac9] text-sm font-bold" href="#">Terms of Service</a></p>
                                 </div>
                             </div>
