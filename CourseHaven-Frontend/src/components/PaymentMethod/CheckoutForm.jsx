@@ -24,7 +24,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
     const [clientSecret, setisClientSecret] = useState(null);
     const [loading, setIsLoading] = useState(false)
     const [message, setMessage] = useState('');
-    const [transaction, setTransaction] = useState('');
+    // const [transaction, setTransaction] = useState('');
     const nagivate = useNavigate();
 
     const totalPrice = parseFloat(courseInfo?.price);
@@ -107,14 +107,14 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
         if (paymentIntent.status === 'succeeded') {
             toast.success('Course Purchase Successfully')
             console.log("From payment intent: ", paymentIntent);
-            setTransaction(paymentIntent.id);
+            // setTransaction(paymentIntent.id);  // we can used state
 
             if (paymentSource === 'cart') {
                 const courseDetails = {
                     email: user?.email,
                     price: totalPrice,
                     date: new Date(),
-                    transactionId: transaction,
+                    transactionId: paymentIntent.id,
                     cartIds: carts?.map(cartId => cartId._id),
                     courseIds: carts?.map(courseId => courseId.itemId),
                     status: 'Paid'
@@ -126,7 +126,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                 console.log(res.data);
                 if (res.data.insertedId) {
                     setIsLoading(false)
-                    nagivate('/dashboard')
+                    nagivate('/dashboard/payment-info')
                 }
 
             } else {
@@ -135,7 +135,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     price: totalPrice,
                     date: new Date(),
                     courseTitle: courseInfo?.title,
-                    transactionId: transaction,
+                    transactionId: paymentIntent.id,
                     courseId: courseInfo?._id,
                     status: 'Paid'
                 }
@@ -144,7 +144,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                 console.log(res.data);
                 if (res.data.insertedId) {
                     setIsLoading(false)
-                    nagivate('/dashboard')
+                    nagivate('/dashboard/payment-info')
                 }
             }
 

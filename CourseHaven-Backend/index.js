@@ -337,6 +337,26 @@ async function run() {
         })
 
 
+        //Get the payment history
+        app.get('/payment-history', verifyToken, async (req, res) => {
+            try {
+                const tokenEmail = req.user?.email;
+                const email = req.query?.email;
+                if (tokenEmail !== email) {
+                    return res.status(403).send({ message: 'Forbidden Access' })
+                }
+
+
+                const query = { email: email };
+                const result = await paymentHistories.find(query).toArray();
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
         //Payment history
         app.post('/payment', verifyToken, async (req, res) => {
             try {
