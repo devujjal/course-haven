@@ -10,6 +10,7 @@ import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import PrivateRoute from "./PrivateRoute";
 import Cart from "../pages/Dashboard/Student/Cart/Cart";
 import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
             {
                 path: 'contact',
                 element: <ContactPage />
+            },
+            {
+                path: 'payment-info',
+                element: <PaymentHistory />
             }
 
         ]
@@ -55,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: 'my-cart',
                 element: <Cart />
+            },
+            {
+                path: 'payment-info',
+                element: <PaymentHistory />
             }
         ]
     }

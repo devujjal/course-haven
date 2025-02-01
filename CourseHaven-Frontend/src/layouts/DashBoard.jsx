@@ -30,7 +30,7 @@ const Layout = () => {
 
                         </div>
 
-                        <div className="flex-1 xl:px-5">
+                        <div className="flex-1 xl:px-5 overflow-x-auto">
                             <Outlet />
                         </div>
                     </div>

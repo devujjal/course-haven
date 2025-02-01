@@ -338,7 +338,7 @@ async function run() {
 
 
         //Payment history
-        app.post('/payment-history', verifyToken, async (req, res) => {
+        app.post('/payment', verifyToken, async (req, res) => {
             try {
                 const courseInfo = req.body
 

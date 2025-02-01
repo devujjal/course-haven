@@ -94,8 +94,8 @@ const Cart = () => {
 
 
     return (
-        <section>
-            <div className="container mx-auto px-3 md:px-2">
+        <div>
+            <div className="md:px-2">
                 <div>
                     <div className="bg-[#F5F7F9] text-center p-7 mb-10 rounded-md">
                         <h2 className="text-[#24292d] font-heebo text-4xl font-bold">My cart</h2>
@@ -176,7 +176,7 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     );
 };
 

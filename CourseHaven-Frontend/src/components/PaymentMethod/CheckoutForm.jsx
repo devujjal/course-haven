@@ -113,15 +113,16 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                 const courseDetails = {
                     email: user?.email,
                     price: totalPrice,
+                    date: new Date(),
                     transactionId: transaction,
                     cartIds: carts?.map(cartId => cartId._id),
                     courseIds: carts?.map(courseId => courseId.itemId),
-                    status: 'successfull'
+                    status: 'Paid'
                 }
 
                 console.log(courseDetails)
 
-                const res = await axiosSecure.post('/payment-history', courseDetails)
+                const res = await axiosSecure.post('/payment', courseDetails)
                 console.log(res.data);
                 if (res.data.insertedId) {
                     setIsLoading(false)
@@ -132,12 +133,14 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                 const courseDetails = {
                     email: user?.email,
                     price: totalPrice,
+                    date: new Date(),
+                    courseTitle: courseInfo?.title,
                     transactionId: transaction,
                     courseId: courseInfo?._id,
-                    status: 'successfull'
+                    status: 'Paid'
                 }
 
-                const res = await axiosSecure.post('/payment-history', courseDetails)
+                const res = await axiosSecure.post('/payment', courseDetails)
                 console.log(res.data);
                 if (res.data.insertedId) {
                     setIsLoading(false)
