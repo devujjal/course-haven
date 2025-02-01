@@ -14,7 +14,7 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_KEY);
 // console.log(stripePromise)
 
-const BuyNow = ({ closeModal, isOpen, courseInfo, showTitle }) => {
+const BuyNow = ({ closeModal, isOpen, courseInfo, showTitle, paymentSource }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -64,8 +64,9 @@ const BuyNow = ({ closeModal, isOpen, courseInfo, showTitle }) => {
 
                                 <Elements stripe={stripePromise}>
                                     <CheckoutForm
-                                        price={courseInfo?.price}
+                                        courseInfo={courseInfo}
                                         closeModal={closeModal}
+                                        paymentSource={paymentSource}
                                     />
                                 </Elements>
 
@@ -82,7 +83,8 @@ BuyNow.propTypes = {
     courseInfo: PropTypes.object,
     closeModal: PropTypes.func,
     isOpen: PropTypes.bool,
-    showTitle: PropTypes.bool
+    showTitle: PropTypes.bool,
+    paymentSource: PropTypes.string
 }
 
 export default BuyNow;

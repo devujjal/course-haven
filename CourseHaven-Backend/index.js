@@ -62,6 +62,7 @@ async function run() {
         const courses = database.collection('courses');
         const users = database.collection('users');
         const carts = database.collection('carts');
+        const paymentHistories = database.collection('paymentHistories');
 
 
 
@@ -321,6 +322,7 @@ async function run() {
         })
 
 
+
         //delete a cart item
         app.delete('/cart/:id', async (req, res) => {
             try {
@@ -328,6 +330,31 @@ async function run() {
                 const query = { _id: new ObjectId(id) };
                 const result = await carts.deleteOne(query);
                 res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        })
+
+
+        //Payment history
+        app.post('/payment-history', verifyToken, async (req, res) => {
+            try {
+                const courseInfo = req.body
+
+                if (courseInfo?.cartIds && Array.isArray(courseInfo.cartIds) && courseInfo.cartIds.length > 0) {
+                    // Build the query only if cartIds are available
+                    const query = {
+                        _id: { $in: courseInfo.cartIds.map(cartId => new ObjectId(cartId)) }
+                    };
+
+                    // Delete the items in the cart based on the query
+                    await carts.deleteMany(query);
+                }
+
+
+                const result = await paymentHistories.insertOne(courseInfo);
+                res.send(result)
 
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });

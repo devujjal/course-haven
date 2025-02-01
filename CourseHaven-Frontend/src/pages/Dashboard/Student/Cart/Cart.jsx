@@ -14,6 +14,7 @@ const Cart = () => {
     const [discountPrice, setDiscountPrice] = useState(0);
     const [totlaPrice, setTotalPrice] = useState(0);
     const [modalOpen, setModalOpen] = useState(false);
+    const [paymentSource, setPaymentSource] = useState('');
     const axiosSecure = useAxiosSecure();
 
     const { data: carts = [], isError, error: cartError, isLoading, refetch } = useQuery({
@@ -33,7 +34,7 @@ const Cart = () => {
 
 
     // console.log(money)
-
+    console.log(paymentSource)
 
 
     const handleCartDelete = async (id) => {
@@ -50,6 +51,7 @@ const Cart = () => {
             toast.error(error.message)
         }
     }
+
 
     const handleCoupon = (e) => {
         e.preventDefault();
@@ -73,6 +75,11 @@ const Cart = () => {
         setModalOpen(false)
     }
 
+
+    const handleBuyNow = () => {
+        setPaymentSource('cart');
+        setModalOpen(true);
+    }
 
     if (isError) {
         return toast.error(cartError.message)
@@ -154,12 +161,12 @@ const Cart = () => {
                                     </ul>
                                     <div className="mt-3 w-full">
                                         <button
-                                            onClick={() => setModalOpen(true)}
+                                            onClick={handleBuyNow}
                                             className="w-full px-5 py-3 bg-[#0cbc87] hover:bg-[#0aa073] transition-all text-base text-white font-roboto font-medium rounded-md">Proceed to Payment</button>
                                     </div>
 
                                     {/* Payment Modal */}
-                                    <BuyNow isOpen={modalOpen} closeModal={closeModal} courseInfo={{ title: 'All of the cart items', price: "" + totlaPrice }} />
+                                    <BuyNow isOpen={modalOpen} closeModal={closeModal} courseInfo={{ title: 'All of the cart items', price: "" + totlaPrice }} paymentSource={paymentSource} />
 
 
                                     <p className="text-[#747579] mt-3 text-center font-roboto text-sm">By completing your purchase, you agree to these <a className="text-[#066ac9] text-sm font-bold" href="#">Terms of Service</a></p>

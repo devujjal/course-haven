@@ -11,19 +11,26 @@ import useAuth from "../../hooks/useAuth";
 import PropTypes from "prop-types";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useCartItems from "../../hooks/useCartItems";
+import { useNavigate } from "react-router";
 
 
-const CheckoutForm = ({ price, closeModal }) => {
+const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useAuth();
+    const { carts } = useCartItems();
     const axiosSecure = useAxiosSecure()
     const [clientSecret, setisClientSecret] = useState(null);
     const [loading, setIsLoading] = useState(false)
     const [message, setMessage] = useState('');
+    const [transaction, setTransaction] = useState('');
+    const nagivate = useNavigate();
 
-    const totalPrice = parseFloat(price);
+    const totalPrice = parseFloat(courseInfo?.price);
 
+
+    // console.log(courseInfo)
 
     useEffect(() => {
         const getClientSecret = async () => {
@@ -43,6 +50,7 @@ const CheckoutForm = ({ price, closeModal }) => {
         getClientSecret();
 
     }, [axiosSecure, totalPrice])
+
 
 
 
@@ -99,6 +107,11 @@ const CheckoutForm = ({ price, closeModal }) => {
         if (paymentIntent.status === 'succeeded') {
             toast.success('Course Purchase Successfully')
             console.log("From payment intent: ", paymentIntent);
+            setTransaction(paymentIntent.id);
+
+          
+
+
         }
 
 
@@ -155,8 +168,9 @@ const CheckoutForm = ({ price, closeModal }) => {
 };
 
 CheckoutForm.propTypes = {
-    price: PropTypes.string,
-    closeModal: PropTypes.func
+    courseInfo: PropTypes.object,
+    closeModal: PropTypes.func,
+    paymentSource: PropTypes.string
 }
 
 export default CheckoutForm;
