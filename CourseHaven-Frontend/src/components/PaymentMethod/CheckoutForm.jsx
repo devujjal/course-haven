@@ -109,7 +109,42 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
             console.log("From payment intent: ", paymentIntent);
             setTransaction(paymentIntent.id);
 
-          
+            if (paymentSource === 'cart') {
+                const courseDetails = {
+                    email: user?.email,
+                    price: totalPrice,
+                    transactionId: transaction,
+                    cartIds: carts?.map(cartId => cartId._id),
+                    courseIds: carts?.map(courseId => courseId.itemId),
+                    status: 'successfull'
+                }
+
+                console.log(courseDetails)
+
+                const res = await axiosSecure.post('/payment-history', courseDetails)
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    setIsLoading(false)
+                    nagivate('/dashboard')
+                }
+
+            } else {
+                const courseDetails = {
+                    email: user?.email,
+                    price: totalPrice,
+                    transactionId: transaction,
+                    courseId: courseInfo?._id,
+                    status: 'successfull'
+                }
+
+                const res = await axiosSecure.post('/payment-history', courseDetails)
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    setIsLoading(false)
+                    nagivate('/dashboard')
+                }
+            }
+
 
 
         }
