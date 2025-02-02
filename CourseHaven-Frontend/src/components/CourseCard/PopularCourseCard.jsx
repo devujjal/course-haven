@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router";
 
 
-const PopularCourseCard = ({ course, isDes }) => {
+const PopularCourseCard = ({ course, isDes, handleWishList }) => {
 
     const {
         _id,
@@ -29,7 +29,9 @@ const PopularCourseCard = ({ course, isDes }) => {
             <div className="p-4">
                 <div className="flex items-center justify-between mb-1">
                     <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full font-semibold font-roboto cursor-pointer">{level}</span>
-                    <button>
+                    <button
+                        onClick={() => handleWishList(course)}
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656l-6.364 6.364a.75.75 0 01-1.06 0L3.172 10.83a4 4 0 010-5.657z" clipRule="evenodd" />
                         </svg>
@@ -76,7 +78,8 @@ const PopularCourseCard = ({ course, isDes }) => {
 
 PopularCourseCard.propTypes = {
     course: PropTypes.object,
-    isDes: PropTypes.bool
+    isDes: PropTypes.bool,
+    handleWishList: PropTypes.func
 }
 
 export default PopularCourseCard;

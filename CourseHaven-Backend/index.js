@@ -307,7 +307,7 @@ async function run() {
 
 
         //course save in DB as a cart item
-        app.post('/cart', async (req, res) => {
+        app.post('/cart', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const course = req.body;
 
@@ -327,6 +327,12 @@ async function run() {
             }
         })
 
+        //All carts legth
+        app.get('/carts-length', async(req, res) => {
+            const result = await carts.estimatedDocumentCount();
+            res.send({result})
+        })
+
 
         //Get the individual items 
         app.get('/carts', async (req, res) => {
@@ -344,7 +350,7 @@ async function run() {
 
 
         //get individual user carts items list
-        app.get('/carts/:email', verifyToken, async (req, res) => {
+        app.get('/carts/:email', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const verifyEmail = req.user?.email;
                 const email = req.params?.email;
@@ -365,7 +371,7 @@ async function run() {
 
 
         //delete a cart item
-        app.delete('/cart/:id', async (req, res) => {
+        app.delete('/cart/:id', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const id = req.params?.id;
                 const query = { _id: new ObjectId(id) };
@@ -379,7 +385,7 @@ async function run() {
 
 
         //Get the payment history
-        app.get('/payment-history', verifyToken, async (req, res) => {
+        app.get('/payment-history', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const tokenEmail = req.user?.email;
                 const email = req.query?.email;
@@ -398,7 +404,7 @@ async function run() {
 
 
         //Payment history
-        app.post('/payment', verifyToken, async (req, res) => {
+        app.post('/payment', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const courseInfo = req.body
 

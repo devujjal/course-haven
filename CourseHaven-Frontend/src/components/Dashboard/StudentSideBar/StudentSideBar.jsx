@@ -11,7 +11,7 @@ const StudentSideBar = () => {
         <>
             <NavLinkMenu title={'My Courses'} icon={CiShoppingBasket} />
             <NavLinkMenu title={'My Cart'} link={'/dashboard/my-cart'} icon={FaCartPlus} />
-            <NavLinkMenu title={'WishList'} icon={GiSelfLove} />
+            <NavLinkMenu title={'WishList'} link={'/dashboard/my-wishlist'} icon={GiSelfLove} />
             <NavLinkMenu title={'Payment Info'} link={'/dashboard/payment-info'} icon={MdPayment} />
             <NavLinkMenu title={'Edit Profile'} icon={FaEdit} />
             <NavLinkMenu title={'Sign Out'} icon={LiaSignOutAltSolid} />
