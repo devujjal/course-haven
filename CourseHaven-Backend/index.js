@@ -114,6 +114,26 @@ async function run() {
         }
 
 
+        //Student Middleware
+        const verifyStudent = async (req, res, next) => {
+            try {
+                const email = req.user?.email;
+                const query = { email: email };
+                const user = await users.findOne(query);
+                const isStudent = user?.role === 'student';
+
+                if (!isStudent) {
+                    return res.status(401).send({ message: 'Unauthorize Access' })
+                }
+
+                next();
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        }
+
+
 
         //Saved user in DB
         app.post('/user', async (req, res) => {
