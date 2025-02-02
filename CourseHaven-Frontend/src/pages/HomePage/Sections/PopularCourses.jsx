@@ -6,14 +6,11 @@ import { useState } from "react";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from 'react-hot-toast'
 import SkeletonLoader from "../../../components/SkeletonLoader/SkeletonLoader";
-import ConfirmCart from "../../../components/Modal/ConfirmCart";
-import useWishListHandler from "../../../hooks/useWishListHandler";
 
 const PopularCourses = () => {
 
     const [category, setCategory] = useState('web-design');
     const axiosPublic = useAxiosPublic();
-    const { handleWishList, isOpen, setIsOpen, isWishList } = useWishListHandler();   
     const loadingDatas = Array(8).fill(null);
     const categoryText = category.replace(' ', '-').toLowerCase();
 
@@ -29,15 +26,6 @@ const PopularCourses = () => {
         return toast.error(error.message);
     }
 
-
-    // const handleWishList = async (courseData) => {
-    //     if (user && user?.email) {
-    //         console.log('You are allowed', courseData)
-
-    //     } else {
-    //         setIsOpen(true)
-    //     }
-    // }
 
 
     return (
@@ -63,13 +51,12 @@ const PopularCourses = () => {
                                         key={course._id}
                                         course={course}
                                         isDes={true}
-                                        handleWishList={handleWishList}
+
                                     />
                                 })
                         }
 
                     </div>
-                    <ConfirmCart isOpen={isOpen} setIsOpen={setIsOpen} isWishList={isWishList} />
                 </div>
             </div>
         </section>

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router";
 
-const ConfirmCart = ({ isOpen, setIsOpen, isWishList }) => {
+const ConfirmCart = ({ isOpen, setIsOpen }) => {
     // const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -20,13 +20,11 @@ const ConfirmCart = ({ isOpen, setIsOpen, isWishList }) => {
                     >
                         <div>
                             <h4 className="text-xl font-heebo text-gray-800 font-semibold">
-                                {
-                                    isWishList ? 'Login required to add to wishlist.' : 'Login required to add to cart.'
-                                }
+                            Login required to add to cart.
                             </h4>
                             <p className="text-sm font-roboto text-gray-600 mt-4">
                                 {
-                                    `This message is a short alert that notifies users they must log in before they can ${isWishList ? 'add a product to their wishlist' : 'add a product to their cart'}. Thanks!`
+                                    `This message is a short alert that notifies users they must log in before they can add a product to their cart. Thanks!`
                                 }
                             </p>
                         </div>
@@ -54,7 +52,6 @@ const ConfirmCart = ({ isOpen, setIsOpen, isWishList }) => {
 ConfirmCart.propTypes = {
     isOpen: PropTypes.bool,
     setIsOpen: PropTypes.func,
-    isWishList: PropTypes.bool
 }
 
 

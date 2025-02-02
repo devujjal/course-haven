@@ -7,8 +7,6 @@ import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast'
 import SkeletonLoader from "../../components/SkeletonLoader/SkeletonLoader";
 import { useEffect, useState } from "react";
-import ConfirmCart from "../../components/Modal/ConfirmCart";
-import useWishListHandler from "../../hooks/useWishListHandler";
 
 
 const CoursePage = () => {
@@ -20,7 +18,6 @@ const CoursePage = () => {
     // eslint-disable-next-line no-unused-vars
     const [perPageItems, setPerPageItems] = useState(10)
     const axiosPublic = useAxiosPublic();
-    const { handleWishList, isOpen, setIsOpen, isWishList } = useWishListHandler();
     const loadingArrays = Array(12).fill(null);
 
     const totalPages = numberOfCourses ? Math.ceil(numberOfCourses / perPageItems) : 0;
@@ -122,15 +119,12 @@ const CoursePage = () => {
                                         <PopularCourseCard
                                             key={course._id}
                                             course={course}
-                                            handleWishList={handleWishList}
                                         />
                                     ))
                             }
                         </div>
 
-                        {/* wishlist modal */}
-                        <ConfirmCart isOpen={isOpen} setIsOpen={setIsOpen} isWishList={isWishList} />
-
+                     
                         {/* bg-gray-100 */}
                         <div className="mt-14">
                             <ul className="flex space-x-5 justify-center font-roboto">

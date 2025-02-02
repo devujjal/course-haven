@@ -63,6 +63,7 @@ async function run() {
         const users = database.collection('users');
         const carts = database.collection('carts');
         const paymentHistories = database.collection('paymentHistories');
+        const wishlists = database.collection('wishlists');
 
 
 
@@ -328,9 +329,9 @@ async function run() {
         })
 
         //All carts legth
-        app.get('/carts-length', async(req, res) => {
+        app.get('/carts-length', async (req, res) => {
             const result = await carts.estimatedDocumentCount();
-            res.send({result})
+            res.send({ result })
         })
 
 
@@ -382,6 +383,8 @@ async function run() {
                 res.status(500).send({ message: 'Internal Server Error' });
             }
         })
+
+
 
 
         //Get the payment history

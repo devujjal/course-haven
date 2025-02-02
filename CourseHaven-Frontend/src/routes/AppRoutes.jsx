@@ -11,7 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import Cart from "../pages/Dashboard/Student/Cart/Cart";
 import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
-import WishList from "../pages/Dashboard/Student/WishList/WishList";
+import EditProfile from "../pages/Dashboard/EditProfile/EditProfile";
 
 const router = createBrowserRouter([
     {
@@ -67,8 +67,8 @@ const router = createBrowserRouter([
                 element: <PaymentHistory />
             },
             {
-                path: 'my-wishlist',
-                element: <WishList />
+                path: 'edit-profile',
+                element: <EditProfile />
             }
         ]
     }
