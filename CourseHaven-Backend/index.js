@@ -66,6 +66,7 @@ async function run() {
 
 
 
+
         //token generate
         app.post('/jwt', async (req, res) => {
             const email = req.body;
@@ -92,6 +93,26 @@ async function run() {
             res.send({ success: true });
 
         })
+
+
+        //Admin Middleware
+        const verifyAdmin = async (req, res, next) => {
+            try {
+                const email = req.user?.email;
+                const query = { email: email };
+                const user = await users.findOne(query);
+                const isAdmin = user?.role === 'admin';
+                if (!isAdmin) {
+                    return res.status(401).send({ message: 'Unauthorize Access' })
+                }
+
+                next();
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        }
+
 
 
         //Saved user in DB
@@ -345,7 +366,6 @@ async function run() {
                 if (tokenEmail !== email) {
                     return res.status(403).send({ message: 'Forbidden Access' })
                 }
-
 
                 const query = { email: email };
                 const result = await paymentHistories.find(query).toArray();
