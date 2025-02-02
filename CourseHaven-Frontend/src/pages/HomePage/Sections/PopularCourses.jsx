@@ -7,16 +7,14 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import toast from 'react-hot-toast'
 import SkeletonLoader from "../../../components/SkeletonLoader/SkeletonLoader";
 import ConfirmCart from "../../../components/Modal/ConfirmCart";
-import useAuth from "../../../hooks/useAuth";
+import useWishListHandler from "../../../hooks/useWishListHandler";
 
 const PopularCourses = () => {
 
     const [category, setCategory] = useState('web-design');
-    const { user } = useAuth();
     const axiosPublic = useAxiosPublic();
-    const [isOpen, setIsOpen] = useState(false);
-    const loadingDatas = Array(8).fill(null)
-
+    const { handleWishList, isOpen, setIsOpen, isWishList } = useWishListHandler();   
+    const loadingDatas = Array(8).fill(null);
     const categoryText = category.replace(' ', '-').toLowerCase();
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
@@ -32,14 +30,14 @@ const PopularCourses = () => {
     }
 
 
-    const handleWishList = async (courseData) => {
-        if (user && user?.email) {
-            console.log('You are allowed', courseData)
+    // const handleWishList = async (courseData) => {
+    //     if (user && user?.email) {
+    //         console.log('You are allowed', courseData)
 
-        } else {
-            setIsOpen(true)
-        }
-    }
+    //     } else {
+    //         setIsOpen(true)
+    //     }
+    // }
 
 
     return (
@@ -71,7 +69,7 @@ const PopularCourses = () => {
                         }
 
                     </div>
-                    <ConfirmCart isOpen={isOpen} setIsOpen={setIsOpen} isWishList={true} />
+                    <ConfirmCart isOpen={isOpen} setIsOpen={setIsOpen} isWishList={isWishList} />
                 </div>
             </div>
         </section>
