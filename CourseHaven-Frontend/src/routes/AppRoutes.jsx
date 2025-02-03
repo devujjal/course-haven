@@ -13,6 +13,7 @@ import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import EditProfile from "../pages/Dashboard/EditProfile/EditProfile";
 import CourseVideoPage from "../pages/Dashboard/Student/CourseVideoPage/CourseVideoPage";
+import MyCourse from "../pages/Dashboard/MyCourse/MyCourse";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
                 path:'course-one',
                 element: <CourseVideoPage />
 
+            },
+            {
+                path: 'my-course',
+                element: <MyCourse />
             },
             {
                 path: 'my-cart',
