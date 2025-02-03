@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import { IoOptionsOutline } from "react-icons/io5";
+import useAuth from "../../../hooks/useAuth";
 
 const DashboardProfile = ({ setIsOpen, isOpen }) => {
+    const {user} = useAuth();
+
     return (
         <section>
             <div className="px-0">
@@ -16,16 +19,16 @@ const DashboardProfile = ({ setIsOpen, isOpen }) => {
                             <div className='flex gap-2'>
                                 <div className='coll-auto px-2 mdpx-4'>
                                     <div className='w-28 h-28 md:w-40 md:h-40 inline-block relative -mt-4 md:-mt-7'>
-                                        <img referrerPolicy="no-referrer" className="w-28 h-28 md:w-40 md:h-40 shrink-0 z-20 rounded-full border-2 border-blue-600 ring-2 ring-white inline-block" src="https://readymadeui.com/team-1.webp" alt="avatar" />
+                                        <img referrerPolicy="no-referrer" className="w-28 h-28 md:w-40 md:h-40 shrink-0 z-20 rounded-full border-2 border-blue-600 ring-2 ring-white inline-block" src={user?.photoURL} alt="avatar" />
 
                                         {/* conditional if the student pro */}
-                                        <span className='absolute -ml-12 bottom-1 px-5 py-1 bg-[#4CBC87] rounded-3xl text-sm font-roboto text-[#fff] font-medium'>Pro</span>
+                                        {/* <span className='absolute -ml-12 bottom-1 px-5 py-1 bg-[#4CBC87] rounded-3xl text-sm font-roboto text-[#fff] font-medium'>Learner</span> */}
                                     </div>
                                 </div>
                                 <div className='profile-des-container flex items-center justify-between flex-col gap-6 md:flex-row gap-3 md:pl-6 md:pr-2'>
                                     {/* profile name and it will another div for btn */}
                                     <div className=''>
-                                        <h2 className='text-[#24292d] font-bold text-2xl lg:text-[26px] font-heebo mb-1.5'>Lori Stevens</h2>
+                                        <h2 className='text-[#24292d] font-bold text-2xl lg:text-[26px] font-heebo mb-1.5'>{user?.displayName}</h2>
                                         <ul className='flex items-start md:items-center flex-col md:flex-row'>
                                             <li className='inline-block mr-4'>
                                                 <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>255</span>

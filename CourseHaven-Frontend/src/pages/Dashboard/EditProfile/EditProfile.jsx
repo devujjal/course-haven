@@ -1,5 +1,37 @@
+import { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import toast from 'react-hot-toast'
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
+const imgbb_API = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`
 const EditProfile = () => {
+
+    const { user, updateUserProfile } = useAuth();
+    const [name, setName] = useState(user?.displayName);
+    const [image, setImage] = useState(null)
+    const axiosPublic = useAxiosPublic();
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('image', image)
+        try {
+
+            const res = await axiosPublic.post(imgbb_API, formData)
+
+            const imageURL = res.data.data.display_url;
+            console.log(res.data)
+            await updateUserProfile(name, imageURL)
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+    }
+
+    console.log(image)
+
+
     return (
         <div className="px-4">
             <div className="border mt-6 rounded-lg">
@@ -13,25 +45,33 @@ const EditProfile = () => {
                         <div className="flex mt-4 gap-8 items-center mb-6">
                             <div className="w-24 h-24">
                                 <img
+                                    referrerPolicy="no-referrer" 
                                     className="w-24 h-24 object-cover rounded-full border-2 border-gray-300"
-                                    src="https://via.placeholder.com/150"
+                                    src={user?.photoURL}
                                 />
                             </div>
                             <div className="max-w-md">
-                                <label className="text-base text-gray-500 font-semibold mb-2 block">Upload image</label>
-                                <input type="file"
+                                <label className="text-base text-gray-500 font-semibold mb-2 block">Upload image*</label>
+                                <input
+                                    onChange={(e) => setImage(e.target.files[0])}
+                                    type="file"
+                                    required
                                     className="w-full text-gray-400 font-semibold text-sm bg-white border file:cursor-pointer cursor-pointer file:border-0 file:py-3 file:px-4 file:mr-4 file:bg-gray-100 file:hover:bg-gray-200 file:text-gray-500 rounded" />
                                 <p className="text-xs text-gray-400 mt-2">PNG and JPG are Allowed.</p>
                             </div>
                         </div>
                     </div>
-                    <form>
+                    <form
+                        onSubmit={handleUpdate}
+                    >
                         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="name" className="block text-[#747579] font-roboto font-[15px] font-normal mb-2">Full Name</label>
+                                <label htmlFor="name" className="block text-[#747579] font-roboto font-[15px] font-normal mb-2">Full Name*</label>
                                 <input
                                     type="text"
                                     id="fullName"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                     placeholder="Enter your name"
                                     required
@@ -45,7 +85,7 @@ const EditProfile = () => {
                                     id="number"
                                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                     placeholder="Enter your number"
-                                    required
+
                                 />
 
                             </div>
@@ -55,6 +95,8 @@ const EditProfile = () => {
                                 <input
                                     type="text"
                                     id="email"
+                                    value={user?.email}
+                                    disabled
                                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                     placeholder="Enter your email"
                                     required
@@ -68,7 +110,7 @@ const EditProfile = () => {
                                     id="location"
                                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                     placeholder="Enter your location"
-                                    required
+
                                 />
 
                             </div>
@@ -82,7 +124,7 @@ const EditProfile = () => {
                                 id="about-me"
                                 className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                 placeholder="Write about yourself"
-                                required
+
                             />
 
                         </div>

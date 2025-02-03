@@ -12,6 +12,7 @@ import Cart from "../pages/Dashboard/Student/Cart/Cart";
 import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import EditProfile from "../pages/Dashboard/EditProfile/EditProfile";
+import CourseVideoPage from "../pages/Dashboard/Student/CourseVideoPage/CourseVideoPage";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Statistic />
+            },
+            {
+                path:'course-one',
+                element: <CourseVideoPage />
+
             },
             {
                 path: 'my-cart',
