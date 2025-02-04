@@ -124,10 +124,10 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
 
                 const res = await axiosSecure.post('/payment', courseDetails)
                 console.log(res.data);
-                if (res.data.insertedId) {
-                    setIsLoading(false)
-                    nagivate('/dashboard/payment-info')
-                }
+                // if (res.data.insertedId) {
+                //     setIsLoading(false)
+                //     nagivate('/dashboard/payment-info')
+                // }
 
             } else {
                 const courseDetails = {

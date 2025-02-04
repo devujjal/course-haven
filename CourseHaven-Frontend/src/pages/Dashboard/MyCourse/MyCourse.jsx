@@ -1,4 +1,3 @@
-import { FaEye } from "react-icons/fa";
 
 
 const payments = [
@@ -42,13 +41,17 @@ const payments = [
 
 const MyCourse = () => {
     return (
-        <div className="w-full">
-            <div className="mx-auto px-3 md:px-2">
-                <div className="mt-6 overflow-x-auto"> {/* Ensure this div has overflow-x-auto */}
+        <div className="w-full border rounded-md">
+            <div className="mx-auto px-3 md:px-0">
+                <div className="p-5 border-b">
+                    <h2 className="text-[#24292d] text-3xl font-heebo font-bold">My Courses
+                    </h2>
+                </div>
+                <div className="mt-8 overflow-x-auto px-2 md:px-4"> {/* Ensure this div has overflow-x-auto */}
                     <div className="min-w-[800px]"> {/* Set a minimum width to force overflow */}
                         <table className="w-full text-left border-collapse border">
                             <thead className="bg-gray-800 text-white text-base font-bold font-roboto">
-                                <tr>
+                                <tr className="">
                                     <th className="p-4">Course Title</th>
                                     <th className="p-4">Total Lectures</th>
                                     <th className="p-4">Completed Lecture</th>
@@ -65,7 +68,7 @@ const MyCourse = () => {
                                         <td className="p-4 flex gap-4">
                                             <img src="https://i.ibb.co.com/3Fp34ns/qi862zr116f8j871ttok6.jpg" className="w-30 h-20 rounded-md" alt="" />
                                             <div className="flex flex-col justify-between">
-                                                <h2 className="font-heebo font-bold text-[16px]">Full-Stack Web Design: From Frontend to Backend</h2>
+                                                <h2 className="font-heebo font-bold text-[16px] hover:text-[#066ac9] transition-all">Full-Stack Web Design: From Frontend to Backend</h2>
                                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                                     <div
                                                         className="bg-blue-600 h-2 rounded-full"

@@ -64,6 +64,7 @@ async function run() {
         const carts = database.collection('carts');
         const paymentHistories = database.collection('paymentHistories');
         const wishlists = database.collection('wishlists');
+        const enrollments = database.collection('enrollments');
 
 
 
@@ -423,7 +424,18 @@ async function run() {
 
 
                 const result = await paymentHistories.insertOne(courseInfo);
-                res.send(result)
+                const course = await enrollments.insertMany(
+                    courseInfo.courseIds.map(courseId => ({ // <-- Return object directly
+                        userEmail: courseInfo?.email,         // Use colon `:`, not `=`
+                        courseId: courseId,                   // Assign to object property
+                        transactionId: courseInfo?.transactionId,
+                        purchaseDate: courseInfo?.date || new Date(), // Fallback for missing date
+                        status: 'active'
+                    }))
+                );
+
+
+                res.send({ result, course })
 
             } catch (error) {
                 res.status(500).send({ message: 'Internal Server Error' });
