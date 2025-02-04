@@ -443,6 +443,40 @@ async function run() {
         })
 
 
+        //Get the enrollments individual courses
+        app.get('/enrollment/:email', verifyToken, async (req, res) => {
+            try {
+                const verifyEmail = req.user?.email
+                const email = req.params?.email;
+                if (verifyEmail !== email) {
+                    return res.status(403).send({ message: 'Forbidden Access' })
+                }
+
+                const query = { userEmail: email };
+                const result = await enrollments.find(query).toArray();
+                if (!result.length) {
+                    return res.status(404).send({ message: 'Data not found' });
+                }
+
+                const courseIds = result.map(enrollment => enrollment.courseId)
+                const coursesQuery = {
+                    _id: { $in: courseIds.map(id => new ObjectId(id)) }
+                };
+
+                const getCourse = await courses.find(coursesQuery, {
+                    projection: {
+                        _id: 1, title: 1, image: 1, lectures: 1
+                    }
+                }).toArray()
+
+                res.send(getCourse)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Failed to fetch student enrollment courses' });
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency

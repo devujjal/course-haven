@@ -124,10 +124,10 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
 
                 const res = await axiosSecure.post('/payment', courseDetails)
                 console.log(res.data);
-                // if (res.data.insertedId) {
-                //     setIsLoading(false)
-                //     nagivate('/dashboard/payment-info')
-                // }
+                if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
+                    setIsLoading(false)
+                    nagivate('/dashboard/payment-info')
+                }
 
             } else {
                 const courseDetails = {
@@ -136,13 +136,13 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     date: new Date(),
                     courseTitle: courseInfo?.title,
                     transactionId: paymentIntent.id,
-                    courseId: courseInfo?._id,
+                    courseIds: courseInfo?._id ? [courseInfo?._id] : [],
                     status: 'Paid'
                 }
 
                 const res = await axiosSecure.post('/payment', courseDetails)
                 console.log(res.data);
-                if (res.data.insertedId) {
+                if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
                     setIsLoading(false)
                     nagivate('/dashboard/payment-info')
                 }
