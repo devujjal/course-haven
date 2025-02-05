@@ -25,7 +25,7 @@ const TrendingCourses = () => {
         }
     })
 
-    console.log(trendingCourses)
+    // console.log(trendingCourses)
 
     const handleAddtoCart = async (course) => {
 

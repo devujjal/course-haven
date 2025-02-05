@@ -14,9 +14,10 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 import useAuth from "../../hooks/useAuth";
-import useCartItems from "../../hooks/useCartItems";
+// import useCartItems from "../../hooks/useCartItems";
 import BuyNow from "../../components/Modal/BuyNow";
 import { useState } from "react";
+import useCartLength from "../../hooks/useCartLength";
 
 
 const CourseDetails = () => {
@@ -24,7 +25,8 @@ const CourseDetails = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const [isOpen, setisOpen] = useState(false);
-    const { refetch } = useCartItems();
+    // const { refetch } = useCartItems();
+    const { refetch } = useCartLength()
     const axiosSecure = useAxiosSecure();
 
 
@@ -45,7 +47,7 @@ const CourseDetails = () => {
         return <PrimarySpinner />
     }
 
-    console.log(course)
+    // console.log(course)
 
     // URL Copy Function
     const handleShare = async () => {
@@ -75,8 +77,9 @@ const CourseDetails = () => {
             }
 
             if (res.data.insertedId) {
-                toast.success('Item added to cart!')
                 refetch();
+                toast.success('Item added to cart!')
+
             }
 
         } catch (error) {

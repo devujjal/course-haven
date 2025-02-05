@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import logo from '../../assets/haven-logo.png'
 // import { IoIosSearch } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
@@ -9,24 +9,23 @@ import DropdownProfile from '../DropdownProfile/DropdownProfile';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { FaShoppingCart } from "react-icons/fa";
-import useAxiosPublic from '../../hooks/useAxiosPublic';
+import useCartLength from '../../hooks/useCartLength';
 
 
 const Header = () => {
 
     const { user, userSignOut, isLoading } = useAuth();
-    const [carts, setCarts] = useState(0)
     const [toggle, setToggle] = useState(false);
     const [profileToggle, setProfileToggle] = useState(false);
-    const axiosPublic = useAxiosPublic();
+    const { carts } = useCartLength();
 
 
-    useEffect(() => {
-        axiosPublic.get('/carts-length')
-            .then(res => {
-                setCarts(res.data.result)
-            })
-    }, [axiosPublic])
+    // useEffect(() => {
+    //     axiosPublic.get('/carts-length')
+    //         .then(res => {
+    //             setCarts(res.data.result)
+    //         })
+    // }, [axiosPublic])
 
     const handleUserSignOut = async () => {
         try {

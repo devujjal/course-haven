@@ -330,8 +330,9 @@ async function run() {
         })
 
         //All carts legth
-        app.get('/carts-length', async (req, res) => {
-            const result = await carts.estimatedDocumentCount();
+        app.get('/carts-length/:email', async (req, res) => {
+            const query = { email: req.params?.email }
+            const result = await carts.countDocuments(query);
             res.send({ result })
         })
 
