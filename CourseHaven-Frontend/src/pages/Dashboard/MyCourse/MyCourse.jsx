@@ -1,45 +1,25 @@
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useAuth from '../../../hooks/useAuth';
 
-
-const payments = [
-    {
-
-        courseName: "Sketch from A to Z: for app designer",
-        paymentMethod: "MasterCard",
-        cardNumber: "****4568",
-        status: "Paid",
-        total: "$350",
-        statusColor: "bg-green-100 text-green-600",
-    },
-    {
-
-        courseName: "Create a Design System in Figma",
-        paymentMethod: "MasterCard",
-        cardNumber: "****2588",
-        status: "Paid",
-        total: "$242",
-        statusColor: "bg-green-100 text-green-600",
-    },
-    {
-
-        courseName: "The Complete Web Development in Python",
-        paymentMethod: "PayPal",
-        status: "Pending",
-        total: "$576",
-        statusColor: "bg-yellow-100 text-yellow-600",
-    },
-    {
-
-        courseName: "Deep Learning with React-Native",
-        paymentMethod: "MasterCard",
-        cardNumber: "****2588",
-        status: "Cancel",
-        total: "$425",
-        statusColor: "bg-red-100 text-red-600",
-    },
-];
 
 
 const MyCourse = () => {
+
+    const { user } = useAuth()
+    const axiosSecure = useAxiosSecure();
+
+    const { data: enrollCourses = [] } = useQuery({
+        queryKey: ['enroll-courses', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/enrollment/${user?.email}`);
+            return res.data;
+        }
+    })
+
+    console.log(enrollCourses)
+
+
     return (
         <div className="w-full border rounded-md">
             <div className="mx-auto px-3 md:px-0">
@@ -59,16 +39,16 @@ const MyCourse = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-sm bg-white">
-                                {payments.map((payment, index) => (
+                                {enrollCourses.map((enrollCourse, index) => (
                                     <tr
                                         key={index}
                                         className="border-t border-gray-300 hover:bg-gray-50 cursor-pointer"
                                     >
 
                                         <td className="p-4 flex gap-4">
-                                            <img src="https://i.ibb.co.com/3Fp34ns/qi862zr116f8j871ttok6.jpg" className="w-30 h-20 rounded-md" alt="" />
+                                            <img src={enrollCourse?.image} className="w-28 h-23 rounded-md" alt="" />
                                             <div className="flex flex-col justify-between">
-                                                <h2 className="font-heebo font-bold text-[16px] hover:text-[#066ac9] transition-all">Full-Stack Web Design: From Frontend to Backend</h2>
+                                                <h2 className="font-heebo font-bold text-[16px] hover:text-[#066ac9] transition-all">{enrollCourse?.title}</h2>
                                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                                     <div
                                                         className="bg-blue-600 h-2 rounded-full"
@@ -81,9 +61,9 @@ const MyCourse = () => {
 
 
                                         <td className="p-4 font-roboto text-[15px] font-normal">
-                                            65
+                                            {enrollCourse?.lectures}
                                         </td>
-                                        <td className="p-4 font-roboto text-base font-normal">20</td>
+                                        <td className="p-4 font-roboto text-base font-normal">0</td>
                                         <td className="p-4 cursor-pointer">
                                             <button className="ml-4 bg-blue-100 text-blue-500 px-4 py-2 rounded transition-all font-medium hover:bg-blue-200">
                                                 Continue

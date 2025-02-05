@@ -444,7 +444,7 @@ async function run() {
 
 
         //Get the enrollments individual courses
-        app.get('/enrollment/:email', verifyToken, async (req, res) => {
+        app.get('/enrollment/:email', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const verifyEmail = req.user?.email
                 const email = req.params?.email;
