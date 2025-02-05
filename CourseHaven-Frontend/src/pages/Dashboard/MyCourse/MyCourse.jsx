@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
+import { Link } from 'react-router';
+import toast from 'react-hot-toast';
+import PrimarySpinner from '../../../components/LoadingSpinner/PrimarySpinner';
 
 
 
@@ -9,7 +12,7 @@ const MyCourse = () => {
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure();
 
-    const { data: enrollCourses = [] } = useQuery({
+    const { data: enrollCourses = [], isError, error, isLoading } = useQuery({
         queryKey: ['enroll-courses', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/enrollment/${user?.email}`);
@@ -18,6 +21,14 @@ const MyCourse = () => {
     })
 
     console.log(enrollCourses)
+    if (isError) {
+        return toast.error(error.message)
+    }
+
+
+    if (isLoading) {
+        return <PrimarySpinner smallHeight={true} />
+    }
 
 
     return (
@@ -65,9 +76,11 @@ const MyCourse = () => {
                                         </td>
                                         <td className="p-4 font-roboto text-base font-normal">0</td>
                                         <td className="p-4 cursor-pointer">
-                                            <button className="ml-4 bg-blue-100 text-blue-500 px-4 py-2 rounded transition-all font-medium hover:bg-blue-200">
+                                            <Link
+                                                to={`/dashboard/video/${enrollCourse?._id}`}
+                                                className="ml-4 bg-blue-100 text-blue-500 px-4 py-2 rounded transition-all font-medium hover:bg-blue-200">
                                                 Continue
-                                            </button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}

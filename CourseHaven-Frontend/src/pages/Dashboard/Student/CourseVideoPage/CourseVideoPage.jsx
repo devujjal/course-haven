@@ -1,7 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useParams } from "react-router";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const CourseVideoPage = () => {
     const [openModule, setOpenModule] = useState(null);
+    const axiosSecure = useAxiosSecure();
+    const { id } = useParams();
 
     const toggleModule = (index) => {
         setOpenModule(openModule === index ? null : index);
@@ -38,91 +44,111 @@ const CourseVideoPage = () => {
         },
     ];
 
+    console.log(id)
+
+    const { data } = useQuery({
+        queryKey: ['course-modules-info', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/enrollments-course/${id}`);
+            return res.data;
+        }
+
+    })
+
+    console.log(data)
+
+
     return (
-        <div className="bg-gray-100 min-h-screen p-6">
-            <div className="container mx-auto">
-                {/* Header */}
-                <header className="bg-white shadow-md p-4 mb-6 rounded-lg">
-                    <h1 className="text-2xl font-bold text-gray-800">Course Title</h1>
-                    <p className="text-gray-600">Learn the fundamentals of [Course Topic]</p>
-                </header>
+        <>
+            <Helmet>
+                <title>{data?.title} - Course Haven</title>
+            </Helmet>
 
-                {/* Main Content */}
-                <div className="flex flex-col lg:flex-row gap-6">
-                    {/* Video Player Section */}
-                    <div className="lg:w-2/3">
-                        <div className="bg-black aspect-video rounded-lg overflow-hidden">
-                            {/* Replace the iframe with your video player */}
-                            <iframe
-                                className="w-full h-full"
-                                src="https://www.youtube.com/embed/VIDEO_ID"
-                                title="Course Video"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>
+            <div className="bg-gray-100 min-h-screen p-6">
+                <div className="container mx-auto">
+                    {/* Header */}
+                    <header className="bg-white shadow-md p-4 mb-6 rounded-lg">
+                        <h1 className="text-2xl font-bold text-gray-800">{data?.title}</h1>
+                        <p className="text-gray-600">Learn the fundamentals of [Course Topic]</p>
+                    </header>
+
+                    {/* Main Content */}
+                    <div className="flex flex-col lg:flex-row gap-6">
+                        {/* Video Player Section */}
+                        <div className="lg:w-2/3">
+                            <div className="bg-black aspect-video rounded-lg overflow-hidden">
+                                {/* Replace the iframe with your video player */}
+                                <iframe
+                                    className="w-full h-full"
+                                    src="https://www.youtube.com/embed/VIDEO_ID"
+                                    title="Course Video"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+
+                            {/* Video Details */}
+                            <div className="mt-4 bg-white p-4 rounded-lg shadow-md">
+                                <h2 className="text-xl font-semibold text-gray-800">What will you learn?</h2>
+                                <p className="text-gray-600 mt-2">
+                                    This video covers the basics of [Topic]. You will learn about [Key Points].
+                                </p>
+                            </div>
                         </div>
 
-                        {/* Video Details */}
-                        <div className="mt-4 bg-white p-4 rounded-lg shadow-md">
-                            <h2 className="text-xl font-semibold text-gray-800">Video Title</h2>
-                            <p className="text-gray-600 mt-2">
-                                This video covers the basics of [Topic]. You will learn about [Key Points].
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Course Modules Section */}
-                    <div className="lg:w-1/3">
-                        <div className="bg-white p-4 rounded-lg shadow-md">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Course Modules</h3>
-                            <div className="space-y-2">
-                                {courseModules.map((module, index) => (
-                                    <div key={index} className="border rounded-lg">
-                                        {/* Module Header */}
-                                        <div
-                                            className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
-                                            onClick={() => toggleModule(index)}
-                                        >
-                                            <span className="text-gray-800">{module.title}</span>
-                                            <span className="text-gray-600">
-                                                {openModule === index ? "▼" : "▶"}
-                                            </span>
-                                        </div>
-
-                                        {/* Module Videos (Collapsible) */}
-                                        {openModule === index && (
-                                            <div className="p-2 bg-gray-50">
-                                                {module.videos.map((video, videoIndex) => (
-                                                    <div
-                                                        key={videoIndex}
-                                                        className="flex justify-between items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                                                    >
-                                                        <span className="text-gray-700">{video.title}</span>
-                                                        <span className="text-gray-500 text-sm">{video.duration}</span>
-                                                    </div>
-                                                ))}
+                        {/* Course Modules Section */}
+                        <div className="lg:w-1/3">
+                            <div className="bg-white p-4 rounded-lg shadow-md">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Course Modules</h3>
+                                <div className="space-y-2">
+                                    {courseModules.map((module, index) => (
+                                        <div key={index} className="border rounded-lg">
+                                            {/* Module Header */}
+                                            <div
+                                                className="flex justify-between items-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
+                                                onClick={() => toggleModule(index)}
+                                            >
+                                                <span className="text-gray-800">{module.title}</span>
+                                                <span className="text-gray-600">
+                                                    {openModule === index ? "▼" : "▶"}
+                                                </span>
                                             </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
 
-                        {/* Course Progress */}
-                        <div className="mt-6 bg-white p-4 rounded-lg shadow-md">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Your Progress</h3>
-                            <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                <div
-                                    className="bg-blue-600 h-2.5 rounded-full"
-                                    style={{ width: "45%" }}
-                                ></div>
+                                            {/* Module Videos (Collapsible) */}
+                                            {openModule === index && (
+                                                <div className="p-2 bg-gray-50">
+                                                    {module.videos.map((video, videoIndex) => (
+                                                        <div
+                                                            key={videoIndex}
+                                                            className="flex justify-between items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                                                        >
+                                                            <span className="text-gray-700">{video.title}</span>
+                                                            <span className="text-gray-500 text-sm">{video.duration}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <p className="text-gray-600 mt-2">45% Completed</p>
+
+                            {/* Course Progress */}
+                            <div className="mt-6 bg-white p-4 rounded-lg shadow-md">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Your Progress</h3>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div
+                                        className="bg-blue-600 h-2.5 rounded-full"
+                                        style={{ width: "45%" }}
+                                    ></div>
+                                </div>
+                                <p className="text-gray-600 mt-2">45% Completed</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

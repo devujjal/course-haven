@@ -61,13 +61,12 @@ const router = createBrowserRouter([
                 element: <Statistic />
             },
             {
-                path:'course-one',
-                element: <CourseVideoPage />
-
-            },
-            {
                 path: 'my-course',
                 element: <MyCourse />
+            },
+            {
+                path: 'video/:id',
+                element: <CourseVideoPage />
             },
             {
                 path: 'my-cart',

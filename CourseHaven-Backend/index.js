@@ -477,6 +477,22 @@ async function run() {
         })
 
 
+        //course Inside info
+        app.get('/enrollments-course/:id', verifyToken, verifyStudent, async (req, res) => {
+            try {
+                const id = req.params.id;
+                const query = { _id: new ObjectId(id) };
+                const result = await courses.findOne(query, {
+                    projection: { _id: 0, title: 1 }
+                });
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: "Faild to fetch enrollments course" })
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency
