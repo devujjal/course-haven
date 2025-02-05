@@ -14,6 +14,9 @@ import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import EditProfile from "../pages/Dashboard/EditProfile/EditProfile";
 import CourseVideoPage from "../pages/Dashboard/Student/CourseVideoPage/CourseVideoPage";
 import MyCourse from "../pages/Dashboard/MyCourse/MyCourse";
+import Orders from "../pages/Dashboard/Admin/Orders/Orders";
+import StudentRoute from "./StudentRoute";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
     {
@@ -62,23 +65,27 @@ const router = createBrowserRouter([
             },
             {
                 path: 'my-course',
-                element: <MyCourse />
+                element: <StudentRoute><MyCourse /></StudentRoute>
             },
             {
                 path: 'video/:id',
-                element: <CourseVideoPage />
+                element: <StudentRoute><CourseVideoPage /></StudentRoute>
             },
             {
                 path: 'my-cart',
-                element: <Cart />
+                element: <StudentRoute><Cart /></StudentRoute>
             },
             {
                 path: 'payment-info',
-                element: <PaymentHistory />
+                element: <StudentRoute><PaymentHistory /></StudentRoute>
             },
             {
                 path: 'edit-profile',
                 element: <EditProfile />
+            },
+            {
+                path: 'orders',
+                element: <AdminRoute><Orders /></AdminRoute>
             }
         ]
     }

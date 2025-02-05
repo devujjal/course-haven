@@ -4,8 +4,15 @@ import { NavLink } from "react-router";
 const NavLinkMenu = ({ title, link, icon: Icon }) => {
     return (
         <NavLink
-            to={link}
-            className="flex items-center block px-4 py-2 mb-2 font-roboto text-base text-[#fff] font-normal rounded-md hover:bg-[#fff] hover:text-[#24292d] rounded transition delay-75">
+            to={link || '/dashboard'}
+            end
+            className={({ isActive }) =>
+                `flex items-center block px-4 py-2 mb-2 font-roboto text-base font-normal rounded-md transition delay-75 ${isActive
+                    ? 'text-[#24292d] bg-white' // Active state styles
+                    : 'text-[#fff] hover:bg-[#fff] hover:text-[#24292d]' // Default and hover state styles
+                }`
+            }
+        >
             <Icon className="mr-2" />
             {title}
         </NavLink>

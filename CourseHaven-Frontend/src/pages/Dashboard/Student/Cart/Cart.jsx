@@ -103,42 +103,47 @@ const Cart = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
                         <div className="md:col-span-2 shadow-one pb-5 px-2 xl:px-6 rounded-md">
                             {
-                                carts.map(cart => (
-                                    <div
-                                        key={cart._id}
-                                        className="py-6 border-b">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex gap-3 items-center">
-                                                <img src={cart?.image} className="w-[35%] xl:w-[25%] rounded-xl" alt="" />
-                                                <h3 className="text-[#24292d] font-heebo text-base font-bold">{cart?.title}</h3>
-                                            </div>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">${cart?.price}</span>
-                                                <button
-                                                    onClick={() => handleCartDelete(cart?._id)}
-                                                    className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></button>
+                                carts.length < 1 ? <span className="text-center block py-4 font-heebo text-md">No courses in the cart. 😊</span> :
+                                    carts.map(cart => (
+                                        <div
+                                            key={cart._id}
+                                            className="py-6 border-b">
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex gap-3 items-center">
+                                                    <img src={cart?.image} className="w-[35%] xl:w-[25%] rounded-xl" alt="" />
+                                                    <h3 className="text-[#24292d] font-heebo text-base font-bold">{cart?.title}</h3>
+                                                </div>
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-[#0cbc87] font-heebo text-[21px] font-bold gap-10 ">${cart?.price}</span>
+                                                    <button
+                                                        onClick={() => handleCartDelete(cart?._id)}
+                                                        className="p-2.5 cursor-pointer hover:bg-[#D6293E] hover:text-white transition-all bg-[#d6293e1a] text-[#D6293E] rounded-md"><IoCloseSharp /></button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))
+                                    ))
                             }
 
 
-                            <form
-                                onSubmit={handleCoupon}
-                                className="flex items-center mt-8 rounded-md overflow-hidden max-w-96">
-                                <input
-                                    type="text"
-                                    name="coupon"
-                                    placeholder="COUPON CODE"
-                                    className="flex-grow px-4 py-[10px] font-heebo border border-gray-100 focus:border-blue-600 outline-none placeholder-gray-500"
-                                />
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 text-white px-4 py-[10px] font-medium hover:bg-blue-600">
-                                    Apply coupon
-                                </button>
-                            </form>
+                            <div className="mt-8 ">
+                                <span className="font-roboto text-[#24292d]">Coupon Code: <span className="text-[#0cbc87]">courseHaven10</span></span>
+                                <form
+                                    onSubmit={handleCoupon}
+                                    className="flex items-center mt-2 rounded-md overflow-hidden max-w-96">
+                                    <input
+                                        type="text"
+                                        name="coupon"
+                                        placeholder="COUPON CODE"
+                                        className="flex-grow px-4 py-[10px] font-heebo border border-gray-100 focus:border-blue-600 outline-none placeholder-gray-500"
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="bg-blue-500 text-white px-4 py-[10px] font-medium hover:bg-blue-600">
+                                        Apply coupon
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                         <div>
                             <div className="shadow-one rounded-md">
