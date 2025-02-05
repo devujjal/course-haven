@@ -134,7 +134,6 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     email: user?.email,
                     price: totalPrice,
                     date: new Date(),
-                    courseTitle: courseInfo?.title,
                     transactionId: paymentIntent.id,
                     courseIds: courseInfo?._id ? [courseInfo?._id] : [],
                     status: 'Paid'

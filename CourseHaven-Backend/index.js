@@ -390,6 +390,25 @@ async function run() {
 
 
         //Get the payment history
+        // app.get('/payment-history', verifyToken, verifyStudent, async (req, res) => {
+        //     try {
+        //         const tokenEmail = req.user?.email;
+        //         const email = req.query?.email;
+        //         if (tokenEmail !== email) {
+        //             return res.status(403).send({ message: 'Forbidden Access' })
+        //         }
+
+        //         const query = { email: email };
+        //         const result = await paymentHistories.find(query).toArray();
+        //         res.send(result)
+
+        //     } catch (error) {
+        //         res.status(500).send({ message: 'Internal Server Error' });
+        //     }
+        // })
+
+
+        //Get the payment history
         app.get('/payment-history', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const tokenEmail = req.user?.email;
@@ -399,11 +418,44 @@ async function run() {
                 }
 
                 const query = { email: email };
-                const result = await paymentHistories.find(query).toArray();
-                res.send(result)
+                // const result = await paymentHistories.find(query).toArray();
+                const getCourses = await paymentHistories.aggregate([
+
+                    { $match: query },  //Find the documents. it like a query
+                    { $unwind: '$courseIds' }, 
+                    {
+                        $addFields: {
+                            courseId: { $toObjectId: '$courseIds' }
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'courses', // The collection to join with
+                            localField: 'courseId',  // Field from the paymentHistories collection
+                            foreignField: '_id',  // Field from the courses collection
+                            as: 'courseDetails'  // Output array field containing joined documents
+                        }
+                    },
+                    {
+                        $unwind: '$courseDetails'
+                    },
+                    {
+                        $project: {
+                            title: '$courseDetails.title',
+                            date: 1,
+                            transactionId: 1,
+                            status: 1,
+                            price: '$courseDetails.price'
+                        }
+                    }
+
+
+                ]).toArray();
+
+                res.send(getCourses)
 
             } catch (error) {
-                res.status(500).send({ message: 'Internal Server Error' });
+                res.status(500).send({ message: 'Faild to fetch history data' });
             }
         })
 
@@ -425,6 +477,7 @@ async function run() {
 
 
                 const result = await paymentHistories.insertOne(courseInfo);
+
                 const course = await enrollments.insertMany(
                     courseInfo.courseIds.map(courseId => ({ // <-- Return object directly
                         userEmail: courseInfo?.email,         // Use colon `:`, not `=`

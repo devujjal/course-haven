@@ -41,18 +41,22 @@ const Orders = () => {
 
 
     return (
-        <div className="w-full">
-            <div className="mx-auto px-3 md:px-2">
-                <div className="mt-6 overflow-x-auto"> {/* Ensure this div has overflow-x-auto */}
+        <div className="w-full border">
+            <div className="mx-auto px-3 md:px-0">
+                <div className="p-5 border-b">
+                    <h2 className="text-[#24292d] text-3xl font-heebo font-bold">My Courses
+                    </h2>
+                </div>
+                <div className="mt-6 overflow-x-auto px-2 md:px-4"> {/* Ensure this div has overflow-x-auto */}
                     <div className="min-w-[800px]"> {/* Set a minimum width to force overflow */}
-                        <table className="w-full text-left border-collapse border">
-                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto">
+                        <table className="w-full text-left border-collapse">
+                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto rounded-t-lg">
                                 <tr>
-                                    <th className="p-4">Date</th>
+                                    <th className="p-4 rounded-tl-lg">Date</th>
                                     <th className="p-4">Course name</th>
                                     <th className="p-4">Payment ID</th>
                                     <th className="p-4">Status</th>
-                                    <th className="p-4">Total</th>
+                                    <th className="p-4 rounded-tr-lg">Total</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm bg-white">
@@ -74,7 +78,6 @@ const Orders = () => {
                                             </span>
                                         </td>
                                         <td className="p-4 font-roboto text-base font-normal">${payment?.price}</td>
-                                       
                                     </tr>
                                 ))}
                             </tbody>

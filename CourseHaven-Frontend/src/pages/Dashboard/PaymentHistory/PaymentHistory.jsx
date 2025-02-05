@@ -57,6 +57,7 @@ const PaymentHistory = () => {
         }
     })
 
+    console.log(payments)
 
     if (isError) {
         return toast.error(error.message)
