@@ -135,6 +135,24 @@ async function run() {
             }
         }
 
+        //verifyStudentOrAdmin 
+        const verifyStudentOrAdmin = async (req, res, next) => {
+            try {
+                const email = req.user?.email;
+                const query = { email: email };
+                const user = await users.findOne(query);
+                const isExist = user?.role === 'admin' || user?.role === 'student';
+                if (!isExist) {
+                    return res.status(401).send({ message: 'Unauthorize Access' })
+                };
+
+                next();
+
+            } catch (error) {
+                res.status(500).send({ message: 'Internal Server Error' });
+            }
+        }
+
 
 
         //Saved user in DB
@@ -409,10 +427,10 @@ async function run() {
 
 
         //Get the payment history
-        app.get('/payment-history', verifyToken, verifyStudent, async (req, res) => {
+        app.get('/payment-history/:email', verifyToken,  async (req, res) => {
             try {
                 const tokenEmail = req.user?.email;
-                const email = req.query?.email;
+                const email = req.params?.email;
                 if (tokenEmail !== email) {
                     return res.status(403).send({ message: 'Forbidden Access' })
                 }
@@ -422,7 +440,7 @@ async function run() {
                 const getCourses = await paymentHistories.aggregate([
 
                     { $match: query },  //Find the documents. it like a query
-                    { $unwind: '$courseIds' }, 
+                    { $unwind: '$courseIds' },
                     {
                         $addFields: {
                             courseId: { $toObjectId: '$courseIds' }

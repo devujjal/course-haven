@@ -1,15 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth";
-import { FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
 import PrimarySpinner from "../../../components/LoadingSpinner/PrimarySpinner";
+import usePaymentHistory from "../../../hooks/usePaymentHistory";
 
 
 const PaymentHistory = () => {
 
-    const { user } = useAuth();
-    const axiosSecure = useAxiosSecure();
+    const { payments, isError, error, isLoading } = usePaymentHistory();
 
     // const payments = [
     //     {
@@ -49,15 +45,15 @@ const PaymentHistory = () => {
     //     },
     // ];
 
-    const { data: payments = [], isError, error, isLoading } = useQuery({
-        queryKey: ['paymaent-history'],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/payment-history?email=${user?.email}`);
-            return res.data;
-        }
-    })
+    // const { data: payments = [], isError, error, isLoading } = useQuery({
+    //     queryKey: ['paymaent-history'],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.get(`/payment-history?email=${user?.email}`);
+    //         return res.data;
+    //     }
+    // })
 
-    console.log(payments)
+    // console.log(payments)
 
     if (isError) {
         return toast.error(error.message)
@@ -76,24 +72,23 @@ const PaymentHistory = () => {
                 <div className="mt-6 overflow-x-auto"> {/* Ensure this div has overflow-x-auto */}
                     <div className="min-w-[800px]"> {/* Set a minimum width to force overflow */}
                         <table className="w-full text-left border-collapse border">
-                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto">
+                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto rounded-t-lg">
                                 <tr>
-                                    <th className="p-4">Date</th>
+                                    <th className="p-4 rounded-tl-lg">Date</th>
                                     <th className="p-4">Course name</th>
                                     <th className="p-4">Payment ID</th>
                                     <th className="p-4">Status</th>
-                                    <th className="p-4">Total</th>
-                                    <th className="p-4">View</th>
+                                    <th className="p-4 rounded-tr-lg">Total</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm bg-white">
                                 {payments.map((payment, index) => (
                                     <tr
                                         key={index}
-                                        className="border-t border-gray-300 hover:bg-gray-50 cursor-pointer"
+                                        className="border-t border-gray-300 hover:bg-[#EFEFEF] cursor-pointer"
                                     >
                                         <td className="p-4 font-roboto font-normal text-base">{new Date(payment?.date).toLocaleDateString()}</td>
-                                        <td className="p-4 font-heebo font-base font-bold">{payment?.courseTitle ? payment?.courseTitle : 'Buy Multiple Courses Together'}</td>
+                                        <td className="p-4 font-heebo font-base font-bold">{payment?.title}</td>
                                         <td className="p-4 font-roboto text-[15px] font-normal">
                                             {payment?.transactionId}
                                         </td>
@@ -105,13 +100,7 @@ const PaymentHistory = () => {
                                             </span>
                                         </td>
                                         <td className="p-4 font-roboto text-base font-normal">${payment?.price}</td>
-                                        <td className="p-4 cursor-pointer">
-                                            <button>
-                                                {
-                                                    payment?.courseTitle ? '' : <FaEye size={25} />
-                                                }
-                                            </button>
-                                        </td>
+
                                     </tr>
                                 ))}
                             </tbody>
