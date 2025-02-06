@@ -11,6 +11,7 @@ const EditProfile = () => {
     const [image, setImage] = useState(null)
     const axiosPublic = useAxiosPublic();
 
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -20,7 +21,7 @@ const EditProfile = () => {
             const res = await axiosPublic.post(imgbb_API, formData)
 
             const imageURL = res.data.data.display_url;
-            console.log(res.data)
+            // console.log(res.data)
             await updateUserProfile(name, imageURL)
 
         } catch (error) {
@@ -29,7 +30,7 @@ const EditProfile = () => {
 
     }
 
-    console.log(image)
+    // console.log(image)
 
 
     return (

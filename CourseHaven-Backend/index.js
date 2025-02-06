@@ -426,8 +426,8 @@ async function run() {
         // })
 
 
-        //Get the payment history
-        app.get('/payment-history/:email', verifyToken,  async (req, res) => {
+        //Get the payment history for student
+        app.get('/payment-history/:email', verifyToken, verifyStudent, async (req, res) => {
             try {
                 const tokenEmail = req.user?.email;
                 const email = req.params?.email;
@@ -474,6 +474,50 @@ async function run() {
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to fetch history data' });
+            }
+        })
+
+
+        //Get the payment history for admin
+        app.get('/orders', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const result = await paymentHistories.aggregate([
+                    {
+                        $unwind: '$courseIds'
+                    },
+                    {
+                        $addFields: {
+                            courseId: { $toObjectId: '$courseIds' }
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: 'courses',
+                            localField: 'courseId',
+                            foreignField: '_id',
+                            as: 'courseDetails'
+                        }
+                    },
+                    {
+                        $unwind: '$courseDetails'
+                    },
+                    {
+                        $project: {
+                            title: '$courseDetails.title',
+                            transactionId: 1,
+                            date: 1,
+                            status: 1,
+                            price: '$courseDetails.price',
+                             id: '$courseDetails._id'
+                        }
+                    }
+                ]).toArray();
+
+                res.send(result)
+
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch orders data' });
             }
         })
 

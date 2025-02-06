@@ -24,7 +24,7 @@ const AsideBar = ({ isOpen }) => {
         navigate('/');
     }
 
-    console.log(userRole)
+    // console.log(userRole)
 
     // ${isOpen ? 'block absolute top-0 right-0 ' : 'hidden'} xl:block
 

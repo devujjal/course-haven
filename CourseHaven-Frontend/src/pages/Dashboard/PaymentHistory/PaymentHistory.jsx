@@ -7,53 +7,8 @@ const PaymentHistory = () => {
 
     const { payments, isError, error, isLoading } = usePaymentHistory();
 
-    // const payments = [
-    //     {
-    //         date: "4/2/2023",
-    //         courseName: "Sketch from A to Z: for app designer",
-    //         paymentMethod: "MasterCard",
-    //         cardNumber: "****4568",
-    //         status: "Paid",
-    //         total: "$350",
-    //         statusColor: "bg-green-100 text-green-600",
-    //     },
-    //     {
-    //         date: "10/1/2023",
-    //         courseName: "Create a Design System in Figma",
-    //         paymentMethod: "MasterCard",
-    //         cardNumber: "****2588",
-    //         status: "Paid",
-    //         total: "$242",
-    //         statusColor: "bg-green-100 text-green-600",
-    //     },
-    //     {
-    //         date: "21/1/2023",
-    //         courseName: "The Complete Web Development in Python",
-    //         paymentMethod: "PayPal",
-    //         status: "Pending",
-    //         total: "$576",
-    //         statusColor: "bg-yellow-100 text-yellow-600",
-    //     },
-    //     {
-    //         date: "18/1/2023",
-    //         courseName: "Deep Learning with React-Native",
-    //         paymentMethod: "MasterCard",
-    //         cardNumber: "****2588",
-    //         status: "Cancel",
-    //         total: "$425",
-    //         statusColor: "bg-red-100 text-red-600",
-    //     },
-    // ];
 
-    // const { data: payments = [], isError, error, isLoading } = useQuery({
-    //     queryKey: ['paymaent-history'],
-    //     queryFn: async () => {
-    //         const res = await axiosSecure.get(`/payment-history?email=${user?.email}`);
-    //         return res.data;
-    //     }
-    // })
-
-    // console.log(payments)
+    console.log(payments)
 
     if (isError) {
         return toast.error(error.message)

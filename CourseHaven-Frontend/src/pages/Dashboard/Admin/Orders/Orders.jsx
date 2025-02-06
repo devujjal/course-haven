@@ -1,10 +1,32 @@
-import usePaymentHistory from "../../../../hooks/usePaymentHistory";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import toast from 'react-hot-toast';
+import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
+import { Link } from "react-router";
 
 const Orders = () => {
+    const axiosSecure = useAxiosSecure();
 
-    const { payments } = usePaymentHistory();
+    const { data: payments = [], isError, error, isLoading } = useQuery({
+        queryKey: ['orders'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/orders');
+            return res.data;
+        }
+    })
 
-    console.log(payments)
+    // console.log(payments)
+
+    if (isError) {
+        return toast.error(error.message)
+    }
+
+
+    if (isLoading) {
+        return <PrimarySpinner smallHeight={true} />
+    }
+
+
 
     return (
         <div className="w-full border">
@@ -31,7 +53,9 @@ const Orders = () => {
                                         key={index}
                                         className="border-t border-gray-300 hover:bg-[#EFEFEF] cursor-pointer"
                                     >
-                                        <td className="p-4 font-heebo font-base font-bold">{payment?.title}</td>
+                                        <td className="p-4 font-heebo font-base font-bold hover:text-[#066ac9] transition-all">
+                                            <Link to={`/courses/${payment?.id}`}>{payment?.title}</Link>
+                                        </td>
                                         <td className="p-4 font-roboto text-[15px] font-normal">{payment?.transactionId}</td>
                                         <td className="p-4 font-roboto font-normal text-[15px]">
                                             {new Date(payment?.date).toLocaleDateString()}

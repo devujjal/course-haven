@@ -7,7 +7,7 @@ const usePaymentHistory = () => {
     const axiosSecure = useAxiosSecure();
 
     const { data: payments = [], isError, error, isLoading } = useQuery({
-        queryKey: ['paymaent-history', user?.email],
+        queryKey: ['payment-history', user?.email],
         enabled: !!user?.email, // Only run the query if the user email is available
         queryFn: async () => {
             const res = await axiosSecure.get(`/payment-history/${user?.email}`);
@@ -15,7 +15,7 @@ const usePaymentHistory = () => {
         }
     })
 
-    return { payments, isError, error, isLoading }
+    return { payments, isError, error, isLoading };
 };
 
 export default usePaymentHistory;
