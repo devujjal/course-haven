@@ -9,7 +9,7 @@ const AdminSideBar = () => {
         <>
             <NavLinkMenu title={'My Courses'} icon={CiShoppingBasket} />
             <NavLinkMenu title={'Earnings'} icon={FaArrowTrendUp} />
-            <NavLinkMenu title={'Students'} icon={FaUserFriends} />
+            <NavLinkMenu title={'Students'} link={'/dashboard/students'} icon={FaUserFriends} />
             <NavLinkMenu title={'Orders'} link={'/dashboard/orders'} icon={PiNotebookFill} />
 
         </>
