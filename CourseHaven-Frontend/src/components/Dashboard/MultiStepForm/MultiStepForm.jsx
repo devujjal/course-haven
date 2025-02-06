@@ -1,54 +1,15 @@
 
-// const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const form = new FormData(e.currentTarget);
-//     const title = form.get('title');
-//     const rating = form.get('rating');
-//     const totalReviewNumber = form.get('totalReviewNumber');
-//     const enrolled = form.get('enrolled');
-//     const level = form.get('level');
-//     const lastUpdated = form.get('lastUpdated');
-//     const language = form.get('language');
-//     const price = form.get('price');
-//     const category = form.get('category');
-//     const courseDescription = form.get('courseDescription');
-//     const curriculum = form.get('curriculum');
-//     const lectures = form.get('lectures');
-//     const duration = form.get('duration');
-//     const skills = form.get('skills');
-//     const deadline = form.get('deadline');
-//     const certificate = form.get('certificate') === 'on';
-//     const finalEndingDescription = form.get('finalEndingDescription');
-//     const image = form.get('image');
-//     const introDes = form.get('introDes')
-
-//     console.log({
-//         title,
-//         rating,
-//         totalReviewNumber,
-//         enrolled,
-//         level,
-//         lastUpdated,
-//         language,
-//         price,
-//         category,
-//         courseDescription,
-//         curriculum,
-//         lectures,
-//         duration,
-//         skills,
-//         deadline,
-//         certificate,
-//         finalEndingDescription,
-//         image,
-//         introDes
-//     })
-// };
-
 import { useState } from "react";
+import toast from 'react-hot-toast';
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { Tooltip } from "react-tooltip";
+
+const imgbb_API = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`;
 
 const MultiStepForm = () => {
     const [step, setStep] = useState(1);
+    const axiosPublic = useAxiosPublic();
+    const [isUploading, setIsUploading] = useState(false);
     const [formData, setFormData] = useState({
         // Step 1
         title: "",
@@ -83,6 +44,63 @@ const MultiStepForm = () => {
         });
     };
 
+
+
+    const handleImage = async (img) => {
+        // if (isUploading) {
+        //     toast.error("Please wait, image is already being uploaded.");
+        //     return;
+        // }
+
+        setIsUploading(true);
+
+        // Validate file type and size
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        if (!allowedTypes.includes(img.type)) {
+            toast.error("Only JPEG, PNG, and GIF images are allowed.");
+            setIsUploading(false);
+            return;
+        }
+
+        if (img.size > maxSize) {
+            toast.error("Image size must be less than 5MB.");
+            setIsUploading(false);
+            return;
+        }
+
+        try {
+            // Create FormData object
+            const data = new FormData();
+            data.append("image", img);
+
+            // Upload image to ImgBB
+            const res = await axiosPublic.post(imgbb_API, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            // Check if the upload was successful
+            if (res.data.success) {
+                // Save the image URL to formData
+                setFormData({ ...formData, image: res.data.data.display_url });
+                toast.success("Image uploaded successfully!");
+                setIsUploading(false);
+            } else {
+                toast.error("Failed to upload image. Please try again.");
+            }
+        } catch (error) {
+            console.error("Image upload error:", error);
+            toast.error(error.message || "An error occurred while uploading the image.");
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+
+
     const handleNext = () => {
         setStep(step + 1);
     };
@@ -94,8 +112,8 @@ const MultiStepForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Course Data Submitted:", formData);
-        alert("Course added successfully!");
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
@@ -166,10 +184,19 @@ const MultiStepForm = () => {
                             <input
                                 type="file"
                                 name="image"
-                                onChange={handleChange}
+                                onChange={(e) => handleImage(e.target.files[0])}
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                             />
+                            {formData.image && (
+                                <div className="mt-4">
+                                    <img
+                                        src={formData.image}
+                                        alt="Course Thumbnail"
+                                        className="w-30 h-24 object-cover rounded"
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
 
@@ -208,14 +235,21 @@ const MultiStepForm = () => {
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                             />
-                            <input
-                                type="date"
-                                name="deadline"
-                                placeholder="Deadline"
-                                value={formData.deadline}
-                                onChange={handleChange}
-                                className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
+
+                            <div>
+                                <input
+                                    type="date"
+                                    name="deadline"
+                                    placeholder="Deadline"
+                                    value={formData.deadline}
+                                    onChange={handleChange}
+                                    className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    data-tooltip-id="deadline-tooltip" // Required: Unique ID for the tooltip
+                                    data-tooltip-content="Select the deadline" // Tooltip text
+                                />
+                                <Tooltip id="deadline-tooltip" />
+                            </div>
+
                             <label className="flex items-center space-x-2">
                                 <input
                                     type="checkbox"
@@ -258,15 +292,20 @@ const MultiStepForm = () => {
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                             />
-                            <input
-                                type="date"
-                                name="lastUpdated"
-                                placeholder="Last Updated *"
-                                value={formData.lastUpdated}
-                                onChange={handleChange}
-                                className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
+                            <div>
+                                <input
+                                    type="date"
+                                    name="lastUpdated"
+                                    placeholder="Last Updated *"
+                                    value={formData.lastUpdated}
+                                    onChange={handleChange}
+                                    className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                    data-tooltip-id="deadline-tooltip"
+                                    data-tooltip-content="Select the Last Updated Date"
+                                />
+                                <Tooltip id="deadline-tooltip" />
+                            </div>
                         </div>
                     )}
 
@@ -313,11 +352,12 @@ const MultiStepForm = () => {
                         )}
                         {step < 4 ? (
                             <button
+                                disabled={isUploading}
                                 type="button"
                                 onClick={handleNext}
                                 className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
                             >
-                                Next
+                                {isUploading ? 'Wait a sec' : 'Next'}
                             </button>
                         ) : (
                             <button
