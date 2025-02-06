@@ -18,6 +18,7 @@ import Orders from "../pages/Dashboard/Admin/Orders/Orders";
 import StudentRoute from "./StudentRoute";
 import AdminRoute from "./AdminRoute";
 import Students from "../pages/Dashboard/Admin/Students/Students";
+import MultiStepForm from "../components/Dashboard/MultiStepForm/MultiStepForm";
 
 const router = createBrowserRouter([
     {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
             {
                 path: 'edit-profile',
                 element: <EditProfile />
+            },
+            {
+                path: 'add-course',
+                element: <MultiStepForm />
             },
             {
                 path: 'orders',

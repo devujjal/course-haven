@@ -175,6 +175,18 @@ async function run() {
         })
 
 
+        //get the all user
+        app.get('/users', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const result = await users.find().sort({ role: 1 }).toArray();
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch users' })
+            }
+        })
+
+
         // Get the user role
         app.get('/user/:email', async (req, res) => {
             try {
@@ -508,7 +520,7 @@ async function run() {
                             date: 1,
                             status: 1,
                             price: '$courseDetails.price',
-                             id: '$courseDetails._id'
+                            id: '$courseDetails._id'
                         }
                     }
                 ]).toArray();
