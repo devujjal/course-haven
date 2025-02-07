@@ -45,7 +45,6 @@ const MultiStepForm = () => {
     };
 
 
-
     const handleImage = async (img) => {
         // if (isUploading) {
         //     toast.error("Please wait, image is already being uploaded.");
@@ -99,9 +98,24 @@ const MultiStepForm = () => {
         }
     };
 
+   
 
+    const handelCurriculum = (e) => {
+        const textOne = e.target.value;
+
+        const textArray = textOne.split(',').map(item => item.trim());
+        setFormData({ ...formData, curriculum: textArray })
+        // console.log(textArray)
+
+    }
 
     const handleNext = () => {
+        // (validateStep(step) === false)
+        if (!validateStep(step)) {
+            toast.error('Please fill out all required fields.');
+            return;
+        }
+
         setStep(step + 1);
     };
 
@@ -115,21 +129,33 @@ const MultiStepForm = () => {
     };
 
 
+
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+        <div className="min-h-screen flex items-center py-10 justify-center bg-gray-900 text-white">
             <div className="w-full max-w-2xl p-8 bg-gray-800 rounded-lg shadow-lg">
                 {/* Progress Indicator */}
                 <div className="flex justify-between mb-8">
                     {[1, 2, 3, 4].map((s) => (
                         <div
                             key={s}
-                            className={`w-8 h-8 rounded-full flex items-center justify-center ${step === s ? "bg-blue-500" : "bg-gray-700"
+                            className={`w-8 h-8 rounded-full flex items-center justify-center ${step === s ? "bg-[#066ac9]" : "bg-gray-700"
                                 }`}
                         >
                             {s}
                         </div>
                     ))}
                 </div>
+                <form
+                >
+                    <textarea
+                        name="curriculum"
+                        placeholder="Curriculum *"
+                        className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <button type="submit">Add</button>
+                </form>
 
                 {/* Form Steps */}
                 <form onSubmit={handleSubmit}>
@@ -270,7 +296,7 @@ const MultiStepForm = () => {
                                 name="curriculum"
                                 placeholder="Curriculum *"
                                 value={formData.curriculum}
-                                onChange={handleChange}
+                                onChange={handelCurriculum}
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                             />
@@ -362,7 +388,7 @@ const MultiStepForm = () => {
                         ) : (
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-green-500 rounded hover:bg-green-600"
+                                className="px-4 py-2 bg-[#066ac9] rounded hover:bg-green-600"
                             >
                                 Submit
                             </button>
