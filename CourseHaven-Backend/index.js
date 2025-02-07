@@ -621,6 +621,19 @@ async function run() {
         })
 
 
+        //Add Course
+        app.post('/add-course', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const course = req.body;
+                const result = await courses.insertOne(course);
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to store the course' })
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency

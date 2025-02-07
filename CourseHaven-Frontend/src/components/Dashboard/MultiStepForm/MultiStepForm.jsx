@@ -3,20 +3,27 @@ import { useState } from "react";
 import toast from 'react-hot-toast';
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import { Tooltip } from "react-tooltip";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
+import useAuth from "../../../hooks/useAuth";
 
 const imgbb_API = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API}`;
 
 const MultiStepForm = () => {
+
+    const { user } = useAuth();
     const [step, setStep] = useState(1);
     const axiosPublic = useAxiosPublic();
     const [isUploading, setIsUploading] = useState(false);
+    const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         // Step 1
         title: "",
         category: "",
         level: "",
         language: "",
-        price: "",
+        price: 0,
         image: "",
         // Step 2
         courseDescription: "",
@@ -27,23 +34,44 @@ const MultiStepForm = () => {
         certificate: false,
         // Step 3
         curriculum: [],
-        lectures: "",
+        lectures: 0,
         duration: "",
         lastUpdated: "",
         // Step 4
         rating: "",
-        totalReviewNumber: "",
-        enrolled: "",
+        totalReviewNumber: 0,
+        enrolled: 0,
+        email: ""
     });
-
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+
+        let finalValue;
+        if (type === 'checkbox') {
+            finalValue = checked;
+        } else if (type === 'number') {
+
+            finalValue = value === "" ? 0 : parseFloat(value);
+        } else {
+            finalValue = value;
+        }
+
         setFormData({
             ...formData,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: finalValue
         });
     };
+
+
+
+    // const handleChange = (e) => {
+    //     const { name, value, type, checked } = e.target;
+    //     setFormData({
+    //         ...formData,
+    //         [name]: type === "checkbox" ? checked : value,
+    //     });
+    // };
 
 
     const handleImage = async (img) => {
@@ -108,7 +136,7 @@ const MultiStepForm = () => {
                     formData.category.trim() !== '' &&
                     formData.level.trim() !== '' &&
                     formData.language.trim() !== '' &&
-                    formData.price.trim() !== '' &&
+                    formData.price !== 0 &&
                     formData.image.trim() !== ''
                 );
 
@@ -120,25 +148,25 @@ const MultiStepForm = () => {
                     formData.skills.trim() !== '' &&
                     formData.deadline.trim() !== ''
 
-                )
+                );
 
             case 3:
                 return (
                     formData.curriculum.length !== 0 &&
-                    formData.lectures.trim() !== '' &&
+                    formData.lectures !== 0 &&
                     formData.duration.trim() !== '' &&
                     formData.lastUpdated.trim() !== ''
-                )
+                );
 
             case 4:
                 return (
                     formData.rating.trim() !== '' &&
-                    formData.totalReviewNumber.trim() !== '' &&
-                    formData.enrolled.trim() !== ''
-                )
+                    formData.totalReviewNumber !== 0 &&
+                    formData.enrolled !== 0
+                );
 
-            default:
-                return true;
+            // default:
+            //     return true;
         }
     }
 
@@ -177,22 +205,35 @@ const MultiStepForm = () => {
         setStep(step - 1);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateStep(step)) {
             toast.error('Please fill out all required fields.');
             return;
         }
 
+        try {
+            const res = await axiosSecure.post('/add-course', { ...formData, email: user?.email })
+            if (res.data.insertedId) {
+                toast.success('Successfully Added')
+                e.target.reset();
+            }
 
-        console.log("Course Data Submitted:", formData);
+
+        } catch (error) {
+            toast.error(error.message || 'Failed to complete the action.')
+        }
+
+
+        // console.log("Course Data Submitted:", formData);
+
     };
 
     // console.log(step)
 
 
     return (
-        <div className="min-h-screen flex items-center py-10 justify-center bg-gray-900 text-white">
+        <div className="min-h-screen flex items-center font-roboto py-10 justify-center bg-gray-900 text-white">
             <div className="w-full max-w-2xl p-8 bg-gray-800 rounded-lg shadow-lg">
                 {/* Progress Indicator */}
                 <div className="flex justify-between mb-8">
@@ -212,7 +253,7 @@ const MultiStepForm = () => {
                 <form onSubmit={handleSubmit}>
                     {step === 1 && (
                         <div className="space-y-6">
-                            <h2 className="text-2xl font-bold mb-4">Basic Course Information</h2>
+                            <h2 className="text-2xl font-roboto font-bold mb-4">Basic Course Information</h2>
                             <input
                                 type="text"
                                 name="title"
@@ -390,7 +431,7 @@ const MultiStepForm = () => {
                         <div className="space-y-6">
                             <h2 className="text-2xl font-bold mb-4">Additional Information</h2>
                             <input
-                                type="number"
+                                type="text"
                                 name="rating"
                                 placeholder="Rating"
                                 value={formData.rating}
@@ -432,14 +473,14 @@ const MultiStepForm = () => {
                             <button
                                 disabled={isUploading}
                                 onClick={handleNext}
-                                className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
+                                className="px-4 py-2 bg-[#066ac9] rounded hover:bg-[#075eb1]"
                             >
                                 {isUploading ? 'Wait a sec' : 'Next'}
                             </button>
                         )}
 
                         <button
-                            className={`px-4 py-2 bg-[#066ac9] rounded hover:bg-green-600 ${step === 4 ? 'block' : 'hidden'}`}
+                            className={`px-4 py-2 bg-[#066ac9] rounded hover:bg-[#075eb1] ${step === 4 ? 'block' : 'hidden'}`}
                         >
                             Submit
                         </button>
