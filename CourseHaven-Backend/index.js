@@ -635,10 +635,15 @@ async function run() {
 
 
         //Get the Course
-        app.get('/my-courses/:email', verifyToken, verifyAdmin, async (req, res) => {
+        app.get('/all-courses', verifyToken, verifyAdmin, async (req, res) => {
             try {
-                const email = req.params?.email;
-                const query = { email: email };
+                const search = req.query?.search || '';
+
+                let query = {};
+                if (search) {
+                    query = { title: { $regex: search, $options: 'i' } }
+                }
+
                 const result = await courses.find(query, {
                     projection: {
                         _id: 1, image: 1, title: 1, lectures: 1, enrolled: 1, price: 1

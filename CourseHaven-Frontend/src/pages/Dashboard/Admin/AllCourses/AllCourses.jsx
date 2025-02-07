@@ -3,17 +3,53 @@ import { PiListDashesFill } from "react-icons/pi";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import SortMenu from "./SortMenu";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { Link } from "react-router";
+import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 
 const AllCourses = () => {
 
-    const payments = [
-        { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-        { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-        { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-        { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
+    const axiosSecure = useAxiosSecure();
+    const [getSearch, setGetSearch] = useState('');
 
-    ]
+
+    // const payments = [
+    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
+    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
+    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
+    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
+
+    // ]
+
+    const { data: courses = [], isError, error, isLoading } = useQuery({
+        queryKey: ['all-courses', getSearch],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/all-courses?search=${getSearch}`);
+            return res.data;
+        }
+    })
+
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const searchText = e.target.search.value;
+        setGetSearch(searchText)
+    }
+
+    console.log(getSearch)
+
+    if (isError) {
+        return toast.error(error.message)
+    }
+
+
+    if (isLoading) {
+        return <PrimarySpinner smallHeight={true} />
+    }
 
 
     return (
@@ -32,9 +68,12 @@ const AllCourses = () => {
 
                     <div>
                         <div className="flex flex-col xl:flex-row justify-between items-center mt-6 px-2 md:px-4 gap-5">
-                            <form className="relative w-full xl:w-[60%]">
+                            <form
+                                onSubmit={handleSearch}
+                                className="relative w-full xl:w-[60%]">
                                 <input
                                     type="text"
+                                    name="search"
                                     placeholder="Search"
                                     className="w-full pr-10 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#066ac9] transition-all duration-300"
                                 />
@@ -76,7 +115,7 @@ const AllCourses = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm bg-white">
-                                    {payments.map((payment, index) => (
+                                    {courses.map((course, index) => (
                                         <tr
                                             key={index}
                                             className="border-t border-gray-300 hover:bg-[#EFEFEF] cursor-pointer"
@@ -92,24 +131,26 @@ const AllCourses = () => {
                                                 </div>
                                             </td> */}
                                             <td className="p-4 flex gap-4">
-                                                <img src={payment?.image} className="w-28 h-23 rounded-md" alt="" />
-                                                <div className="flex flex-col justify-between py-1">
-                                                    <h2 className="font-heebo font-bold text-[16px] hover:text-[#066ac9] transition-all">{payment?.title}</h2>
+                                                <img src={course?.image} className="w-28 h-23 rounded-md" alt="" />
+                                                <div className="flex flex-col justify-center gap-2 py-1">
+                                                    <Link
+                                                        to={`/courses/${course?._id}`}
+                                                        className="font-heebo font-bold text-[16px] hover:text-[#066ac9] transition-all">{course?.title}</Link>
                                                     <div className="flex items-center">
                                                         <PiListDashesFill color="#F07D15" size={17} className="mr-2" />
-                                                        <span className="text-[#24292d] font-heebo font-normal">{payment?.lectures} lectures</span>
+                                                        <span className="text-[#24292d] font-heebo font-normal">{course?.lectures} lectures</span>
                                                     </div>
                                                 </div>
 
                                             </td>
                                             <td className="p-4 font-roboto text-[15px] font-normal">
-                                                {payment?.enrolled}
+                                                {course?.enrolled}
                                             </td>
                                             <td className="p-4 font-roboto">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-600`}>{'Paid'}</span>
                                             </td>
                                             <td className="p-4 font-roboto text-[15px] font-normal">
-                                                {payment?.price}
+                                                {course?.price}
                                             </td>
                                             <td className="p-4 font-roboto font-normal text-[15px]">
                                                 <div className="flex items-center gap-3">

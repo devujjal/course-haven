@@ -41,7 +41,7 @@ IntroDiv.propTypes = {
     title: PropTypes.string,
     introDes: PropTypes.string,
     rating: PropTypes.string,
-    enrolled: PropTypes.string,
+    enrolled: PropTypes.number,
     level: PropTypes.string,
     lastUpdated: PropTypes.string,
     language: PropTypes.string

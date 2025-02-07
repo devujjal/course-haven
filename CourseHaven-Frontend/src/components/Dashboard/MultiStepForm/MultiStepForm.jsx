@@ -23,11 +23,11 @@ const MultiStepForm = () => {
         category: "",
         level: "",
         language: "",
-        price: 0,
+        price: '',
         image: "",
         // Step 2
         courseDescription: "",
-        introDescription: "",
+        introDes: "",
         finalEndingDescription: "",
         skills: "",
         deadline: "",
@@ -41,7 +41,7 @@ const MultiStepForm = () => {
         rating: "",
         totalReviewNumber: 0,
         enrolled: 0,
-        email: ""
+
     });
 
     const handleChange = (e) => {
@@ -136,14 +136,14 @@ const MultiStepForm = () => {
                     formData.category.trim() !== '' &&
                     formData.level.trim() !== '' &&
                     formData.language.trim() !== '' &&
-                    formData.price !== 0 &&
+                    formData.price.trim() !== '' &&
                     formData.image.trim() !== ''
                 );
 
             case 2:
                 return (
                     formData.courseDescription.trim() !== '' &&
-                    formData.introDescription.trim() !== '' &&
+                    formData.introDes.trim() !== '' &&
                     formData.finalEndingDescription.trim() !== '' &&
                     formData.skills.trim() !== '' &&
                     formData.deadline.trim() !== ''
@@ -213,10 +213,11 @@ const MultiStepForm = () => {
         }
 
         try {
-            const res = await axiosSecure.post('/add-course', { ...formData, email: user?.email })
+            const res = await axiosSecure.post('/add-course', { ...formData, email: user?.email, todayData: new Date() })
             if (res.data.insertedId) {
                 toast.success('Successfully Added')
                 e.target.reset();
+                navigate('/dashboard/all-courses')
             }
 
 
@@ -291,7 +292,7 @@ const MultiStepForm = () => {
                                 required
                             />
                             <input
-                                type="number"
+                                type="text"
                                 name="price"
                                 placeholder="Price *"
                                 value={formData.price}
@@ -330,9 +331,9 @@ const MultiStepForm = () => {
                                 required
                             />
                             <textarea
-                                name="introDescription"
+                                name="introDes"
                                 placeholder="Introduction Description *"
-                                value={formData.introDescription}
+                                value={formData.introDes}
                                 onChange={handleChange}
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
