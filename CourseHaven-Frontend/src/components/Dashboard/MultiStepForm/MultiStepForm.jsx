@@ -26,7 +26,7 @@ const MultiStepForm = () => {
         deadline: "",
         certificate: false,
         // Step 3
-        curriculum: "",
+        curriculum: [],
         lectures: "",
         duration: "",
         lastUpdated: "",
@@ -35,6 +35,7 @@ const MultiStepForm = () => {
         totalReviewNumber: "",
         enrolled: "",
     });
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -98,13 +99,57 @@ const MultiStepForm = () => {
         }
     };
 
-   
+    const validateStep = (currentStep) => {
+        switch (currentStep) {
+            case 1:
+                //We can also used break instead of return
+                return (
+                    formData.title.trim() !== '' &&
+                    formData.category.trim() !== '' &&
+                    formData.level.trim() !== '' &&
+                    formData.language.trim() !== '' &&
+                    formData.price.trim() !== '' &&
+                    formData.image.trim() !== ''
+                );
+
+            case 2:
+                return (
+                    formData.courseDescription.trim() !== '' &&
+                    formData.introDescription.trim() !== '' &&
+                    formData.finalEndingDescription.trim() !== '' &&
+                    formData.skills.trim() !== '' &&
+                    formData.deadline.trim() !== ''
+
+                )
+
+            case 3:
+                return (
+                    formData.curriculum.length !== 0 &&
+                    formData.lectures.trim() !== '' &&
+                    formData.duration.trim() !== '' &&
+                    formData.lastUpdated.trim() !== ''
+                )
+
+            case 4:
+                return (
+                    formData.rating.trim() !== '' &&
+                    formData.totalReviewNumber.trim() !== '' &&
+                    formData.enrolled.trim() !== ''
+                )
+
+            default:
+                return true;
+        }
+    }
+
 
     const handelCurriculum = (e) => {
-        const textOne = e.target.value;
+        // const textOne = e.target.value;
+        // const textArray = textOne.split(',').map(item => item.trim());
+        // setFormData({ ...formData, curriculum: textArray })
 
-        const textArray = textOne.split(',').map(item => item.trim());
-        setFormData({ ...formData, curriculum: textArray })
+        const textArray = e.target.value.split(',').map(item => item.trim());
+        setFormData({ ...formData, curriculum: textArray });
         // console.log(textArray)
 
     }
@@ -112,12 +157,21 @@ const MultiStepForm = () => {
     const handleNext = () => {
         // (validateStep(step) === false)
         if (!validateStep(step)) {
+            // console.log(step)
             toast.error('Please fill out all required fields.');
             return;
         }
 
-        setStep(step + 1);
+        if (step < 4) {
+            setStep(step + 1);
+            // console.log(step)
+        }
+
+
+
     };
+
+
 
     const handlePrevious = () => {
         setStep(step - 1);
@@ -125,10 +179,16 @@ const MultiStepForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!validateStep(step)) {
+            toast.error('Please fill out all required fields.');
+            return;
+        }
+
+
         console.log("Course Data Submitted:", formData);
     };
 
-
+    // console.log(step)
 
 
     return (
@@ -146,16 +206,7 @@ const MultiStepForm = () => {
                         </div>
                     ))}
                 </div>
-                <form
-                >
-                    <textarea
-                        name="curriculum"
-                        placeholder="Curriculum *"
-                        className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-                    <button type="submit">Add</button>
-                </form>
+
 
                 {/* Form Steps */}
                 <form onSubmit={handleSubmit}>
@@ -295,7 +346,7 @@ const MultiStepForm = () => {
                             <textarea
                                 name="curriculum"
                                 placeholder="Curriculum *"
-                                value={formData.curriculum}
+                                value={formData.curriculum && formData.curriculum.join(", ")}
                                 onChange={handelCurriculum}
                                 className="w-full p-2 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
@@ -369,30 +420,29 @@ const MultiStepForm = () => {
                     <div className="flex justify-between mt-8">
                         {step > 1 && (
                             <button
-                                type="button"
                                 onClick={handlePrevious}
                                 className="px-4 py-2 bg-gray-700 rounded hover:bg-gray-600"
                             >
                                 Previous
                             </button>
                         )}
-                        {step < 4 ? (
+
+
+                        {step <= 3 && (
                             <button
                                 disabled={isUploading}
-                                type="button"
                                 onClick={handleNext}
                                 className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600"
                             >
                                 {isUploading ? 'Wait a sec' : 'Next'}
                             </button>
-                        ) : (
-                            <button
-                                type="submit"
-                                className="px-4 py-2 bg-[#066ac9] rounded hover:bg-green-600"
-                            >
-                                Submit
-                            </button>
                         )}
+
+                        <button
+                            className={`px-4 py-2 bg-[#066ac9] rounded hover:bg-green-600 ${step === 4 ? 'block' : 'hidden'}`}
+                        >
+                            Submit
+                        </button>
                     </div>
                 </form>
             </div>
