@@ -19,6 +19,7 @@ import StudentRoute from "./StudentRoute";
 import AdminRoute from "./AdminRoute";
 import Students from "../pages/Dashboard/Admin/Students/Students";
 import AddCourse from "../pages/Dashboard/Admin/AddCourse/AddCourse";
+import AllCourses from "../pages/Dashboard/Admin/AllCourses/AllCourses";
 
 const router = createBrowserRouter([
     {
@@ -86,8 +87,12 @@ const router = createBrowserRouter([
                 element: <EditProfile />
             },
             {
+                path: 'all-courses',
+                element: <AllCourses />
+            },
+            {
                 path: 'add-course',
-                element: <AddCourse />
+                element: <AdminRoute><AddCourse /></AdminRoute>
             },
             {
                 path: 'orders',

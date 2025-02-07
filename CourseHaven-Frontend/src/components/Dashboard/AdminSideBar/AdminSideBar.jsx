@@ -7,7 +7,7 @@ import { PiNotebookFill } from "react-icons/pi";
 const AdminSideBar = () => {
     return (
         <>
-            <NavLinkMenu title={'My Courses'} icon={CiShoppingBasket} />
+            <NavLinkMenu title={'My Courses'} link={'/dashboard/all-courses'} icon={CiShoppingBasket} />
             <NavLinkMenu title={'Add Course'} link={'/dashboard/add-course'} icon={IoIosAddCircleOutline} />
             <NavLinkMenu title={'Students'} link={'/dashboard/students'} icon={FaUserFriends} />
             <NavLinkMenu title={'Orders'} link={'/dashboard/orders'} icon={PiNotebookFill} />

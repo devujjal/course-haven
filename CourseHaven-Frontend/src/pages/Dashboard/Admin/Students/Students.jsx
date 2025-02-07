@@ -24,7 +24,7 @@ const Students = () => {
                 <title>Students - Course Haven</title>
             </Helmet>
 
-            <div className="w-full border">
+            <div className="w-full border rounded-md">
                 <div className="mx-auto px-3 md:px-0">
                     <div className="p-5 border-b">
                         <h2 className="text-[#24292d] text-3xl font-heebo font-bold">Students List
@@ -37,7 +37,7 @@ const Students = () => {
                                     <tr>
                                         <th className="p-4 rounded-tl-lg">User Email</th>
                                         <th className="p-4">User Role</th>
-                                        <th className="p-4">Action</th>
+                                        <th className="p-4 rounded-tr-lg">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm bg-white">
