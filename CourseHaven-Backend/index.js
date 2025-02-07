@@ -638,19 +638,32 @@ async function run() {
         app.get('/all-courses', verifyToken, verifyAdmin, async (req, res) => {
             try {
                 const search = req.query?.search || '';
+                const sortValue = req.query?.sort;
 
                 let query = {};
                 if (search) {
                     query = { title: { $regex: search, $options: 'i' } }
                 }
 
-                const result = await courses.find(query, {
+                let options = {};
+                if (sortValue) {
+                    options.sort = { lastUpdated: sortValue === 'newest' ? -1 : 1 };
+                }
+
+                const resultQuery = courses.find(query, {
                     projection: {
                         _id: 1, image: 1, title: 1, lectures: 1, enrolled: 1, price: 1
                     }
-                }).toArray();
+                });
 
+                // Only apply sort if options.sort is defined
+                if (options.sort) {
+                    resultQuery.sort(options.sort);
+                }
+
+                const result = await resultQuery.toArray();
                 res.send(result);
+
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to fetch the courses' })

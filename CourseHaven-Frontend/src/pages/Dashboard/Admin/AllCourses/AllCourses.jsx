@@ -15,20 +15,13 @@ const AllCourses = () => {
 
     const axiosSecure = useAxiosSecure();
     const [getSearch, setGetSearch] = useState('');
+    const [getSort, setGetSort] = useState('');
 
-
-    // const payments = [
-    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-    //     { title: 'Full-Stack Web Development Bootcamp', image: 'https://i.ibb.co.com/6Hp1ZrR/Top-Web-Development-Tools.jpg', lectures: 66, enrolled: 5000, price: 199.99 },
-
-    // ]
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
-        queryKey: ['all-courses', getSearch],
+        queryKey: ['all-courses', getSearch, getSort],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/all-courses?search=${getSearch}`);
+            const res = await axiosSecure.get(`/all-courses?search=${getSearch}&sort=${getSort}`);
             return res.data;
         }
     })
@@ -40,7 +33,7 @@ const AllCourses = () => {
         setGetSearch(searchText)
     }
 
-    console.log(getSearch)
+    console.log(getSort)
 
     if (isError) {
         return toast.error(error.message)
@@ -97,7 +90,7 @@ const AllCourses = () => {
                                     </svg></button>
                             </form>
 
-                            <SortMenu />
+                            <SortMenu setGetSort={setGetSort} />
                         </div>
                     </div>
 
