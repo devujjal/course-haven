@@ -634,6 +634,25 @@ async function run() {
         })
 
 
+        //Get the Course
+        app.get('/my-courses/:email', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const email = req.params?.email;
+                const query = { email: email };
+                const result = await courses.find(query, {
+                    projection: {
+                        _id: 1, image: 1, title: 1, lectures: 1, enrolled: 1, price: 1
+                    }
+                }).toArray();
+
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the courses' })
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency
