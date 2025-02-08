@@ -8,7 +8,7 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { Link } from "react-router";
 import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const AllCourses = () => {
@@ -16,24 +16,54 @@ const AllCourses = () => {
     const axiosSecure = useAxiosSecure();
     const [getSearch, setGetSearch] = useState('');
     const [getSort, setGetSort] = useState('');
+    const [totalCourse, setTotalCourse] = useState(0);
+    // eslint-disable-next-line no-unused-vars
+    const [perPageItems, setPerPageItems] = useState(10);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const totalPages = totalCourse ? Math.ceil(totalCourse / perPageItems) : 0;
+    const pages = [...Array(totalPages).keys()];
+
+    console.log(pages)
+    console.log(currentPage)
 
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
-        queryKey: ['all-courses', getSearch, getSort],
+        queryKey: ['all-courses', currentPage, perPageItems, getSearch, getSort],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/all-courses?search=${getSearch}&sort=${getSort}`);
+            const res = await axiosSecure.get(`/all-courses?page=${currentPage}&size=${perPageItems}&search=${getSearch}&sort=${getSort}`);
             return res.data;
         }
     })
+
+    // &search=${getSearch}&sort=${getSort}
+
+    useEffect(() => {
+        axiosSecure.get(`/products-count?search=${getSearch}`)
+            .then(res => {
+                setTotalCourse(res.data.result)
+            })
+    }, [axiosSecure, getSearch])
+
+
+    // console.log(totalCourse)
 
 
     const handleSearch = (e) => {
         e.preventDefault();
         const searchText = e.target.search.value;
-        setGetSearch(searchText)
+        setGetSearch(searchText);
+        setCurrentPage(0)
     }
 
-    console.log(getSort)
+
+    const handleReset = () => {
+        setGetSearch('');
+        setGetSort('')
+    }
+
+
+
 
     if (isError) {
         return toast.error(error.message)
@@ -43,6 +73,7 @@ const AllCourses = () => {
     if (isLoading) {
         return <PrimarySpinner smallHeight={true} />
     }
+
 
 
     return (
@@ -58,9 +89,9 @@ const AllCourses = () => {
                         </h2>
                     </div>
 
-
                     <div>
                         <div className="flex flex-col xl:flex-row justify-between items-center mt-6 px-2 md:px-4 gap-5">
+
                             <form
                                 onSubmit={handleSearch}
                                 className="relative w-full xl:w-[60%]">
@@ -89,6 +120,15 @@ const AllCourses = () => {
                                         ></path>
                                     </svg></button>
                             </form>
+
+                            <button
+                                onClick={handleReset}
+                                className={`px-4 py-2 bg-[#0cbc87] text-[#24292d] font-roboto rounded hover:bg-[#09996d] hover:text-white transition-all`}
+                            >
+                                Reset
+                            </button>
+
+
 
                             <SortMenu setGetSort={setGetSort} />
                         </div>
@@ -156,6 +196,38 @@ const AllCourses = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div className="mt-10 mb-3 py-5 text-end">
+
+                            <nav>
+                                <ul className="inline-flex -space-x-px">
+                                    <li>
+                                        <button
+                                            className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 cursor-pointer dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</button>
+                                    </li>
+                                    {
+                                        pages.map(page => (
+                                            <li key={page}>
+                                                <button
+                                                    onClick={() => setCurrentPage(page)}
+                                                    className={`py-2 px-3 border leading-tight cursor-pointer ${currentPage === page ? "bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-white" : "bg-white border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}`
+                                                    }>
+                                                    {page}
+                                                </button>
+                                            </li>
+                                        ))
+                                    }
+
+
+
+                                    <li>
+                                        <button
+                                            className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer">Next</button>
+                                    </li>
+                                </ul>
+                            </nav>
+
                         </div>
                     </div>
                 </div>

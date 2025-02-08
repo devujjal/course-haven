@@ -639,6 +639,11 @@ async function run() {
             try {
                 const search = req.query?.search || '';
                 const sortValue = req.query?.sort;
+                const page = parseInt(req.query?.page);
+                const size = parseInt(req.query?.size);
+
+                // console.log(page)
+                // console.log(size)
 
                 let query = {};
                 if (search) {
@@ -654,7 +659,8 @@ async function run() {
                     projection: {
                         _id: 1, image: 1, title: 1, lectures: 1, enrolled: 1, price: 1
                     }
-                });
+                }).skip(page * size).limit(size);
+
 
                 // Only apply sort if options.sort is defined
                 if (options.sort) {
@@ -667,6 +673,27 @@ async function run() {
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to fetch the courses' })
+            }
+        })
+
+        //Get the total Products
+        app.get('/products-count', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+
+                const search = req.query?.search;
+
+                let query = {};
+                if (search) {
+                    query = { title: { $regex: search, $options: 'i' } }
+                }
+
+
+
+                const result = await courses.countDocuments(query);
+                res.send({ result })
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the total couses length' })
             }
         })
 
