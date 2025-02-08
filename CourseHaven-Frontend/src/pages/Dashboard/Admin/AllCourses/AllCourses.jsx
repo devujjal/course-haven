@@ -24,8 +24,8 @@ const AllCourses = () => {
     const totalPages = totalCourse ? Math.ceil(totalCourse / perPageItems) : 0;
     const pages = [...Array(totalPages).keys()];
 
-    console.log(pages)
-    console.log(currentPage)
+    // console.log(pages)
+    // console.log(currentPage)
 
 
     const { data: courses = [], isError, error, isLoading } = useQuery({
@@ -62,8 +62,19 @@ const AllCourses = () => {
         setGetSort('')
     }
 
+    const handlePreview = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
+    const handleNext = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
+    console.log(currentPage)
 
     if (isError) {
         return toast.error(error.message)
@@ -204,6 +215,7 @@ const AllCourses = () => {
                                 <ul className="inline-flex -space-x-px">
                                     <li>
                                         <button
+                                            onClick={handlePreview}
                                             className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 cursor-pointer dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</button>
                                     </li>
                                     {
@@ -223,6 +235,7 @@ const AllCourses = () => {
 
                                     <li>
                                         <button
+                                            onClick={handleNext}
                                             className="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 rounded-r-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer">Next</button>
                                     </li>
                                 </ul>
