@@ -1,54 +1,56 @@
+import AdminSta from "./AdminStatistic";
 
 const Statistic = () => {
-    return (
-        <>
-            <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-white p-4 rounded shadow">
-                    <div className="text-orange-500 text-3xl text-center"><i className="fas fa-book"></i></div>
-                    <div className="text-center">9 Total Courses</div>
-                </div>
-                <div className="bg-white p-4 rounded shadow">
-                    <div className="text-purple-500 text-3xl text-center"><i className="fas fa-check-double"></i></div>
-                    <div className="text-center">52 Complete lessons</div>
-                </div>
-                <div className="bg-white p-4 rounded shadow">
-                    <div className="text-green-500 text-3xl text-center"><i className="fas fa-certificate"></i></div>
-                    <div className="text-center">8 Achieved Certificates</div>
-                </div>
-            </div>
-            <h1 className="text-2xl font-bold mb-4">My Courses List</h1>
+  return (
 
-            <div className="bg-white rounded shadow p-4">
-                <div className="flex justify-between items-center mb-4">
-                    <input type="text" placeholder="Search" className="border rounded px-3 py-2 w-1/2" />
-                    <select className="border rounded px-3 py-2">
-                        <option>Sort by</option>
-                    </select>
-                </div>
-                <table className="w-full">
-                    <thead>
-                        <tr className="text-left">
-                            <th className="py-2">Course Title</th>
-                            <th className="py-2">Total Lectures</th>
-                            <th className="py-2">Completed Lecture</th>
-                            <th className="py-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-t">
-                            <td className="py-2 flex items-center">
-                                <img src="https://via.placeholder.com/40" alt="Course Icon" className="mr-2" />
-                                Building Scalable APIs with GraphQL
-                            </td>
-                            <td className="py-2">56</td>
-                            <td className="py-2">40</td>
-                            <td className="py-2"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Continue</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </>
-    );
+    <AdminSta />
+    // <div className="bg-gray-100 p-8">
+    //   <div className="max-w-6xl mx-auto">
+    //     <h1 className="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+    //     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    //       {/* Total Courses Card */}
+    //       <div className="bg-white p-6 rounded-lg shadow-md">
+    //         <h2 className="text-xl font-semibold text-gray-700">Total Courses</h2>
+    //         <p className="text-4xl font-bold text-blue-600 mt-2">25</p>
+    //       </div>
+
+    //       {/* Total Students Card */}
+    //       <div className="bg-white p-6 rounded-lg shadow-md">
+    //         <h2 className="text-xl font-semibold text-gray-700">Total Students</h2>
+    //         <p className="text-4xl font-bold text-green-600 mt-2">25K+</p>
+    //       </div>
+
+    //       {/* Enrolled Students Card */}
+    //       <div className="bg-white p-6 rounded-lg shadow-md">
+    //         <h2 className="text-xl font-semibold text-gray-700">Enrolled Students</h2>
+    //         <p className="text-4xl font-bold text-purple-600 mt-2">12K</p>
+    //       </div>
+    //     </div>
+
+    //     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    //       {/* Current Month Card */}
+    //       <div className="bg-white p-6 rounded-lg shadow-md">
+    //         <h2 className="text-xl font-semibold text-gray-700">Current Month</h2>
+    //         <p className="text-4xl font-bold text-blue-600 mt-2">$35000</p>
+    //         <p className="text-green-600 mt-2">0.20% ↑ vs last month</p>
+    //       </div>
+
+    //       {/* Last Month Card */}
+    //       <div className="bg-white p-6 rounded-lg shadow-md">
+    //         <h2 className="text-xl font-semibold text-gray-700">Last Month</h2>
+    //         <p className="text-4xl font-bold text-blue-600 mt-2">$28000</p>
+    //         <p className="text-red-600 mt-2">0.10% ↓ vs last month</p>
+    //       </div>
+    //     </div>
+
+    //     {/* Additional Statistics Card */}
+    //     <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+    //       <h2 className="text-xl font-semibold text-gray-700">Additional Statistics</h2>
+    //       <p className="text-4xl font-bold text-blue-600 mt-2">4800</p>
+    //     </div>
+    //   </div>
+    // </div>
+  );
 };
 
 export default Statistic;

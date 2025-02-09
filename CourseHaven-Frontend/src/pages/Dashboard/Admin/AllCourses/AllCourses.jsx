@@ -74,7 +74,6 @@ const AllCourses = () => {
         }
     };
 
-    console.log(currentPage)
 
     if (isError) {
         return toast.error(error.message)
