@@ -2,9 +2,13 @@ import { MdComputer } from "react-icons/md";
 import { FaUserGraduate } from "react-icons/fa";
 import { MdDiamond } from "react-icons/md";
 import StatisticsBox from '../../../../components/Dashboard/StatisticsBox/StatisticsBox';
-
+import { Calendar } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 const AdminStatistic = () => {
+
+
     return (
         <div>
             <div className="mx-auto">
@@ -27,8 +31,7 @@ const AdminStatistic = () => {
                     </div>
                     {/* Calender */}
                     <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden'>
-
-
+                        <Calendar />
                     </div>
                 </div>
             </div>
