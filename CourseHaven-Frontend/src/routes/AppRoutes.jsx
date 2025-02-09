@@ -9,7 +9,6 @@ import Layout from "../layouts/DashBoard";
 import CourseDetails from "../pages/CourseDetails/CourseDetails";
 import PrivateRoute from "./PrivateRoute";
 import Cart from "../pages/Dashboard/Student/Cart/Cart";
-import Statistic from "../pages/Dashboard/Student/Dashboard/Statistic";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import EditProfile from "../pages/Dashboard/EditProfile/EditProfile";
 import CourseVideoPage from "../pages/Dashboard/Student/CourseVideoPage/CourseVideoPage";
@@ -20,6 +19,7 @@ import AdminRoute from "./AdminRoute";
 import Students from "../pages/Dashboard/Admin/Students/Students";
 import AddCourse from "../pages/Dashboard/Admin/AddCourse/AddCourse";
 import AllCourses from "../pages/Dashboard/Admin/AllCourses/AllCourses";
+import Statistic from "../pages/Dashboard/Statistic/Statistic";
 
 const router = createBrowserRouter([
     {
