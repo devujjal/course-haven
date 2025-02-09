@@ -41,12 +41,12 @@ const MyCourse = () => {
                 <div className="mt-8 overflow-x-auto px-2 md:px-4"> {/* Ensure this div has overflow-x-auto */}
                     <div className="min-w-[800px]"> {/* Set a minimum width to force overflow */}
                         <table className="w-full text-left border-collapse border">
-                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto">
+                            <thead className="bg-gray-800 text-white text-base font-bold font-roboto rounded-t-lg">
                                 <tr className="">
-                                    <th className="p-4">Course Title</th>
+                                    <th className="p-4 rounded-tl-lg">Course Title</th>
                                     <th className="p-4">Total Lectures</th>
                                     <th className="p-4">Completed Lecture</th>
-                                    <th className="p-4">Action</th>
+                                    <th className="p-4 rounded-tr-lg">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm bg-white">

@@ -2,6 +2,7 @@ import { MdComputer } from "react-icons/md";
 import { FaClipboardCheck } from "react-icons/fa";
 import StatisticsBox from "../../../../components/Dashboard/StatisticsBox/StatisticsBox";
 import { LiaCertificateSolid } from "react-icons/lia";
+import MyCourse from "../../MyCourse/MyCourse";
 
 const StudentStatistic = () => {
     return (
@@ -16,6 +17,8 @@ const StudentStatistic = () => {
                     <StatisticsBox bgColor={'#0cbc871a'} icon={LiaCertificateSolid} iconColor={'#0cbc87'} sizePx={75} title={0} des={'Achieved Certificates'} />
 
                 </div>
+
+                <MyCourse />
 
              
 

@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { IoOptionsOutline } from "react-icons/io5";
 import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
 
 const DashboardProfile = ({ setIsOpen, isOpen }) => {
-    const {user} = useAuth();
+    const { user } = useAuth();
 
     return (
         <section>
@@ -45,7 +46,7 @@ const DashboardProfile = ({ setIsOpen, isOpen }) => {
                                         </ul>
                                     </div>
                                     <div className="w-full md:w-[40%] md:text-end">
-                                        <a href="" className=' px-6 py-2.5 md:px-3 lg:px-6 lg:py-2.5 border border-[#066ac9] rounded-md text-[#066ac9] font-roboto text-base font-medium hover:bg-[#066ac9] hover:text-white transition duration-300'>View my courses</a>
+                                        <Link to={'/dashboard/my-course'} className=' px-6 py-2.5 md:px-3 lg:px-6 lg:py-2.5 border border-[#066ac9] rounded-md text-[#066ac9] font-roboto text-base font-medium hover:bg-[#066ac9] hover:text-white transition duration-300'>View my courses</Link>
                                     </div>
                                 </div>
                             </div>
