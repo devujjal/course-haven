@@ -698,6 +698,20 @@ async function run() {
         })
 
 
+        // Student Statistic
+        app.get('/student-statistic', verifyToken, verifyStudent, async (req, res) => {
+            try {
+                const email = req.user?.email;
+                const query = { userEmail: email };
+                const result = await enrollments.countDocuments(query);
+                res.send({ result });
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the student statistic' })
+            }
+        })
+
+
 
 
         // Create a PaymentIntent with the order amount and currency
