@@ -34,7 +34,7 @@ const StudentStatistic = () => {
 
                 </div>
 
-                <MyCourse />
+                {count > 0 ? <MyCourse /> : <p className="text-center mt-3 font-heebo">You have not enrolled in any courses.</p>}
 
 
 

@@ -32,15 +32,15 @@ const DashboardProfile = ({ setIsOpen, isOpen }) => {
                                         <h2 className='text-[#24292d] font-bold text-2xl lg:text-[26px] font-heebo mb-1.5'>{user?.displayName}</h2>
                                         <ul className='flex items-start md:items-center flex-col md:flex-row'>
                                             <li className='inline-block mr-4'>
-                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>255</span>
+                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>15</span>
                                                 <span className='font-heebo text-[15px] text-[#747579]'>Points</span>
                                             </li>
                                             <li className='inline-block mr-4'>
-                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>7</span>
+                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>0</span>
                                                 <span className='font-heebo text-[15px] text-[#747579]'>Completed courses</span>
                                             </li>
                                             <li className='inline-block'>
-                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>35</span>
+                                                <span className='text-[15px] font-bold text-[#24292d] font-heebo mr-1'>0</span>
                                                 <span className='font-heebo text-[15px] text-[#747579]'>Completed lessons</span>
                                             </li>
                                         </ul>
