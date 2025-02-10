@@ -5,20 +5,34 @@ import StatisticsBox from '../../../../components/Dashboard/StatisticsBox/Statis
 import { Calendar } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { useQuery } from '@tanstack/react-query';
+
 
 const AdminStatistic = () => {
 
+    const axiosSecure = useAxiosSecure();
+
+    const { data = {} } = useQuery({
+        queryKey: ['admin-statistics'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/admin-statistics');
+            return res.data;
+        }
+    })
+
+    console.log(data)
 
     return (
         <div>
             <div className="mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     {/* Total Courses Card */}
-                    <StatisticsBox bgColor={'#FDF6E2'} icon={MdComputer} iconColor={'#f7c32e'} sizePx={74} title={25} des={'Total Courses'} />
+                    <StatisticsBox bgColor={'#FDF6E2'} icon={MdComputer} iconColor={'#f7c32e'} sizePx={74} title={data?.totalCourses} des={'Total Courses'} />
 
-                    <StatisticsBox bgColor={'#F0ECF9'} icon={FaUserGraduate} iconColor={'#6f42c1'} sizePx={60} title={250} des={'Total Students'} />
+                    <StatisticsBox bgColor={'#F0ECF9'} icon={FaUserGraduate} iconColor={'#6f42c1'} sizePx={60} title={data?.totalStudents} des={'Total Students'} />
 
-                    <StatisticsBox bgColor={'#E8F6F8'} icon={MdDiamond} iconColor={'#17a2b8'} sizePx={75} title={30} des={'Enrolled Students'} />
+                    <StatisticsBox bgColor={'#E8F6F8'} icon={MdDiamond} iconColor={'#17a2b8'} sizePx={75} title={data?.enrolledUser} des={'Enrolled Students'} />
 
                 </div>
 

@@ -723,8 +723,8 @@ async function run() {
         })
 
 
-        //Admin Statisctic
-        app.get('/admin-statistic', async (req, res) => {
+        //Admin Statisctics
+        app.get('/admin-statistics', verifyToken, verifyAdmin, async (req, res) => {
             try {
                 const totalStudents = await users.estimatedDocumentCount();
                 const totalCourses = await courses.estimatedDocumentCount();
