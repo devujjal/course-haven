@@ -105,7 +105,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
         }
 
         if (paymentIntent.status === 'succeeded') {
-            // toast.success('Course Purchase Successfully')
+            toast.success('Course Purchase Successfully')
             // console.log("From payment intent: ", paymentIntent);
             // setTransaction(paymentIntent.id);  // we can used state
 

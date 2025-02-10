@@ -730,7 +730,36 @@ async function run() {
                 const totalCourses = await courses.estimatedDocumentCount();
                 const enrolledUser = await enrolledStudents.estimatedDocumentCount();
 
-                res.send({ totalStudents, totalCourses, enrolledUser })
+                const revenueData = await paymentHistories.aggregate([
+                    {
+                        $addFields: {
+                            convertDate: { $toDate: '$date' }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: { $dateToString: { format: "%Y-%m-%d", date: "$convertDate" } },
+                            revenue: { $sum: '$price' }
+                        }
+                    },
+                    {
+                        $sort: { _id: -1 }
+                    },
+                    {
+                        $limit: 7
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            date: '$_id',
+                            revenue: 1
+                        }
+                    }
+                ]).toArray()
+
+
+                res.send({ totalStudents, totalCourses, enrolledUser, revenueData })
+
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to fetch the admin statistic' })

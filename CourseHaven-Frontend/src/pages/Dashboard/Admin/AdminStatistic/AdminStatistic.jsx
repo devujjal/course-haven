@@ -7,11 +7,22 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useQuery } from '@tanstack/react-query';
+import DashedLineChart from "../../../../components/DashedLineChart/DashedLineChart";
+import { useEffect, useState } from "react";
+import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 
 
 const AdminStatistic = () => {
 
     const axiosSecure = useAxiosSecure();
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    }, [])
 
     const { data = {} } = useQuery({
         queryKey: ['admin-statistics'],
@@ -40,8 +51,10 @@ const AdminStatistic = () => {
                     {/* Total Sales Graph */}
                     <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden xl:col-span-2'>
                         {/* Render Chart Here */}
-
-
+                        {
+                            loading ? <PrimarySpinner smallHeight={true} /> : <DashedLineChart data={data?.revenueData} />
+                        }
+                        <span className="text-center font-heebo text-[#24292d] mt-2 mb-2">Earnings from the Past 7 Days</span>
                     </div>
                     {/* Calender */}
                     <div className='relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md overflow-hidden'>

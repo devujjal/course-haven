@@ -114,16 +114,18 @@ const Header = () => {
                             </form>
                         </div> */}
 
-                        <div className='relative'>
+                        <Link to={'/dashboard/my-cart'} className='relative'>
                             <FaShoppingCart size={32} className='cursor-pointer text-gray-700' />
                             <span className='absolute top-1 right-2 z-20 text-white font-bold text-sm'>{user ? carts : ''}</span>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* Profile Section */}
                     <div className='flex items-center justify-between gap-2'>
 
-                        <FaShoppingCart size={32} className='md:hidden' />
+                        <Link to={'/dashboard/my-cart'}>
+                            <FaShoppingCart size={32} className='md:hidden' />
+                        </Link>
 
                         {/* Mobile Menu Button */}
                         <button
