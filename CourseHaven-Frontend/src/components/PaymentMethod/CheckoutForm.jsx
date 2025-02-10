@@ -105,8 +105,8 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
         }
 
         if (paymentIntent.status === 'succeeded') {
-            toast.success('Course Purchase Successfully')
-            console.log("From payment intent: ", paymentIntent);
+            // toast.success('Course Purchase Successfully')
+            // console.log("From payment intent: ", paymentIntent);
             // setTransaction(paymentIntent.id);  // we can used state
 
             if (paymentSource === 'cart') {
@@ -123,14 +123,14 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                 console.log(courseDetails)
 
                 const res = await axiosSecure.post('/payment', courseDetails)
-                console.log(res.data);
+
                 if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
                     setIsLoading(false)
                     nagivate('/dashboard/payment-info')
                 }
 
             } else {
-                const courseDetails = {
+                const courseDetailsInfo = {
                     email: user?.email,
                     price: totalPrice,
                     date: new Date(),
@@ -139,7 +139,7 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     status: 'Paid'
                 }
 
-                const res = await axiosSecure.post('/payment', courseDetails)
+                const res = await axiosSecure.post('/payment', courseDetailsInfo)
                 console.log(res.data);
                 if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
                     setIsLoading(false)

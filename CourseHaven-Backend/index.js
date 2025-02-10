@@ -65,6 +65,7 @@ async function run() {
         const paymentHistories = database.collection('paymentHistories');
         const wishlists = database.collection('wishlists');
         const enrollments = database.collection('enrollments');
+        const enrolledStudents = database.collection('enrolledStudents');
 
 
 
@@ -539,6 +540,15 @@ async function run() {
             try {
                 const courseInfo = req.body
 
+                const isExist = await enrolledStudents.findOne({ email: courseInfo?.email });
+
+                if (!isExist) {
+                    await enrolledStudents.insertOne({
+                        email: courseInfo?.email,
+                        date: new Date()
+                    })
+                }
+
                 if (courseInfo?.cartIds && Array.isArray(courseInfo.cartIds) && courseInfo.cartIds.length > 0) {
                     // Build the query only if cartIds are available
                     const query = {
@@ -561,6 +571,7 @@ async function run() {
                         status: 'active'
                     }))
                 );
+
 
 
                 res.send({ result, course })
@@ -708,6 +719,21 @@ async function run() {
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to fetch the student statistic' })
+            }
+        })
+
+
+        //Admin Statisctic
+        app.get('/admin-statistic', async (req, res) => {
+            try {
+                const totalStudents = await users.estimatedDocumentCount();
+                const totalCourses = await courses.estimatedDocumentCount();
+                const enrolledUser = await enrolledStudents.estimatedDocumentCount();
+
+                res.send({ totalStudents, totalCourses, enrolledUser })
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the admin statistic' })
             }
         })
 
