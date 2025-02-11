@@ -666,19 +666,14 @@ async function run() {
                     options.sort = { lastUpdated: sortValue === 'newest' ? -1 : 1 };
                 }
 
-                const resultQuery = courses.find(query, {
-                    projection: {
-                        _id: 1, image: 1, title: 1, lectures: 1, enrolled: 1, price: 1
-                    }
-                }).skip(page * size).limit(size);
+                const result = await courses.find(query, options).skip(page * size).limit(size).toArray();
 
 
                 // Only apply sort if options.sort is defined
-                if (options.sort) {
-                    resultQuery.sort(options.sort);
-                }
+                // if (options.sort) {
+                //     resultQuery.sort(options.sort);
+                // }
 
-                const result = await resultQuery.toArray();
                 res.send(result);
 
 

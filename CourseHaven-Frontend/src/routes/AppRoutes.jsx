@@ -84,11 +84,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'edit-profile',
-                element: <EditProfile />
+                element: <PrivateRoute><EditProfile /></PrivateRoute>
             },
             {
                 path: 'all-courses',
-                element: <AllCourses />
+                element: <AdminRoute><AllCourses /></AdminRoute>
             },
             {
                 path: 'add-course',

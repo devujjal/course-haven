@@ -9,6 +9,7 @@ import { Link } from "react-router";
 import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import UpdateCourse from "../UpdateCourse/UpdateCourse";
 
 
 const AllCourses = () => {
@@ -18,8 +19,9 @@ const AllCourses = () => {
     const [getSort, setGetSort] = useState('');
     const [totalCourse, setTotalCourse] = useState(0);
     // eslint-disable-next-line no-unused-vars
-    const [perPageItems, setPerPageItems] = useState(10);
+    const [perPageItems, setPerPageItems] = useState(5);
     const [currentPage, setCurrentPage] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const totalPages = totalCourse ? Math.ceil(totalCourse / perPageItems) : 0;
     const pages = [...Array(totalPages).keys()];
@@ -93,7 +95,7 @@ const AllCourses = () => {
             </Helmet>
 
             <div className="w-full border rounded-md">
-                <div className="mx-auto px-3 md:px-0">
+                <div className="relative mx-auto px-3 md:px-0">
                     <div className="p-5 border-b">
                         <h2 className="text-[#24292d] text-3xl font-heebo font-bold">My Courses List
                         </h2>
@@ -197,10 +199,16 @@ const AllCourses = () => {
                                             </td>
                                             <td className="p-4 font-roboto font-normal text-[15px]">
                                                 <div className="flex items-center gap-3">
-                                                    <button className="px-2 rounded-full bg-[#0cbc871a] py-2 text-[#0cbc87] hover:bg-[#0cbc87] hover:text-white transition-all"> <FaEdit size={16} /></button>
+                                                    <button
+                                                        onClick={() => setIsModalOpen(true)}
+                                                        className="px-2 rounded-full bg-[#0cbc871a] py-2 text-[#0cbc87] hover:bg-[#0cbc87] hover:text-white transition-all"> <FaEdit size={16} /></button>
                                                     <button className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white transition-all"> <IoCloseSharp size={16} /></button>
 
                                                 </div>
+
+                                                <UpdateCourse isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={course} />
+
+
                                             </td>
                                         </tr>
                                     ))}
@@ -242,6 +250,7 @@ const AllCourses = () => {
 
                         </div>
                     </div>
+
                 </div>
             </div>
         </>
