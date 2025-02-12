@@ -63,8 +63,12 @@ const AllCourses = () => {
     }
 
 
-    const handleDelete = (id) => {
-        console.log(id)
+    const handleDelete = async (getID) => {
+
+        const res = await axiosSecure.delete(`/course/${getID}`);
+        if (res.data.deletedCount > 0) {
+            toast.success('Successfully Course Deleted')
+        }
     }
 
 
@@ -207,7 +211,7 @@ const AllCourses = () => {
                                                         to={`/dashboard/course/update/${course?._id}`}
                                                         className="px-2 rounded-full bg-[#0cbc871a] py-2 text-[#0cbc87] hover:bg-[#0cbc87] hover:text-white transition-all"> <FaEdit size={16} /></Link>
                                                     <button
-                                                    onClick={() => handleDelete(course?._id)}
+                                                        onClick={() => handleDelete(course?._id)}
                                                         className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white transition-all"> <IoCloseSharp size={16} /></button>
 
                                                 </div>
