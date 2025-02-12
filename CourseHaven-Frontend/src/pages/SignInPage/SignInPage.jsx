@@ -11,14 +11,14 @@ const SignInPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(location)
+    // console.log(location)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const form = new FormData(e.currentTarget);
         const email = form.get('email');
         const password = form.get('password');
-        console.log(email)
+        // console.log(email)
 
         try {
             const userCredential = await userSignIn(email, password)

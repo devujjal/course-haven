@@ -9,7 +9,6 @@ import { Link } from "react-router";
 import PrimarySpinner from "../../../../components/LoadingSpinner/PrimarySpinner";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import UpdateCourse from "../UpdateCourse/UpdateCourse";
 
 
 const AllCourses = () => {
@@ -21,7 +20,6 @@ const AllCourses = () => {
     // eslint-disable-next-line no-unused-vars
     const [perPageItems, setPerPageItems] = useState(5);
     const [currentPage, setCurrentPage] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const totalPages = totalCourse ? Math.ceil(totalCourse / perPageItems) : 0;
     const pages = [...Array(totalPages).keys()];
@@ -160,9 +158,9 @@ const AllCourses = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="text-sm bg-white">
-                                    {courses.map((course, index) => (
+                                    {courses.map((course) => (
                                         <tr
-                                            key={index}
+                                            key={course._id}
                                             className="border-t border-gray-300 hover:bg-[#EFEFEF] cursor-pointer"
                                         >
                                             {/* <td className="p-4 font-heebo font-base font-bold hover:text-[#066ac9] transition-all">
@@ -199,14 +197,13 @@ const AllCourses = () => {
                                             </td>
                                             <td className="p-4 font-roboto font-normal text-[15px]">
                                                 <div className="flex items-center gap-3">
+                                                    <Link
+                                                        to={`/dashboard/course/update/${course?._id}`}
+                                                        className="px-2 rounded-full bg-[#0cbc871a] py-2 text-[#0cbc87] hover:bg-[#0cbc87] hover:text-white transition-all"> <FaEdit size={16} /></Link>
                                                     <button
-                                                        onClick={() => setIsModalOpen(true)}
-                                                        className="px-2 rounded-full bg-[#0cbc871a] py-2 text-[#0cbc87] hover:bg-[#0cbc87] hover:text-white transition-all"> <FaEdit size={16} /></button>
-                                                    <button className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white transition-all"> <IoCloseSharp size={16} /></button>
+                                                        className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white transition-all"> <IoCloseSharp size={16} /></button>
 
                                                 </div>
-
-                                                <UpdateCourse isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={course} />
 
 
                                             </td>

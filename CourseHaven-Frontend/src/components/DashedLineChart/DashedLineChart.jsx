@@ -48,7 +48,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 const DashedLineChart = ({ data }) => {
 
-    console.log(data)
+    // console.log(data)
     return (
         <ResponsiveContainer width="100%" height="100%">
             <LineChart

@@ -682,6 +682,42 @@ async function run() {
             }
         })
 
+
+        //Get individual Course
+        app.get('/singel-course/:id', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const id = req.params.id;
+                const query = { _id: new ObjectId(id) }
+                const result = await courses.findOne(query);
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the singel course' })
+            }
+        })
+
+
+        //Update Course
+        app.put('/update-course/:id', async (req, res) => {
+            try {
+                const updatedDate = req.body;
+                const id = req.params?.id;
+                const filter = { _id: new ObjectId(id) }
+                const options = { upsert: true };
+                const updateDoc = {
+                    $set: {
+                        ...updatedDate
+                    }
+                }
+
+                const result = await courses.updateOne(filter, updateDoc, options);
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch the courses' })
+            }
+        })
+
         //Get the total Products
         app.get('/products-count', verifyToken, verifyAdmin, async (req, res) => {
             try {

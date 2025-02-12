@@ -20,6 +20,8 @@ import Students from "../pages/Dashboard/Admin/Students/Students";
 import AddCourse from "../pages/Dashboard/Admin/AddCourse/AddCourse";
 import AllCourses from "../pages/Dashboard/Admin/AllCourses/AllCourses";
 import Statistic from "../pages/Dashboard/Statistic/Statistic";
+import UpdateCourse from "../pages/Dashboard/Admin/UpdateCourse/UpdateCourse";
+
 
 const router = createBrowserRouter([
     {
@@ -89,6 +91,10 @@ const router = createBrowserRouter([
             {
                 path: 'all-courses',
                 element: <AdminRoute><AllCourses /></AdminRoute>
+            },
+            {
+                path: 'course/update/:id',
+                element: <AdminRoute><UpdateCourse /></AdminRoute>
             },
             {
                 path: 'add-course',

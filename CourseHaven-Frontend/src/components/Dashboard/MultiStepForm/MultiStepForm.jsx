@@ -481,6 +481,7 @@ const MultiStepForm = () => {
                         )}
 
                         <button
+                        type="submit"
                             className={`px-4 py-2 bg-[#066ac9] rounded hover:bg-[#075eb1] ${step === 4 ? 'block' : 'hidden'}`}
                         >
                             Submit

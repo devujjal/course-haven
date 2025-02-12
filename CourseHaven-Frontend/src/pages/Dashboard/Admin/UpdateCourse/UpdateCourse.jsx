@@ -1,26 +1,98 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tooltip } from 'react-tooltip'; // Assuming you're using react-tooltip for tooltips
 import useHandleImg from '../../../../hooks/useHandleImg';
 import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
+import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import { useNavigate, useParams } from 'react-router';
+import PrimarySpinner from '../../../../components/LoadingSpinner/PrimarySpinner';
 
-const UpdateCourse = ({ isOpen, onClose, course }) => {
+const UpdateCourse = () => {
     const { handleImage, isUploading, setIsUploading } = useHandleImg()
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState(course);
+    const [loading, setIsLoading] = useState(false);
+    const axiosSecure = useAxiosSecure();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        // Step 1
+        title: "",
+        category: "",
+        level: "",
+        language: "",
+        price: '',
+        image: "",
+        // Step 2
+        courseDescription: "",
+        introDes: "",
+        finalEndingDescription: "",
+        skills: "",
+        deadline: "",
+        certificate: false,
+        // Step 3
+        curriculum: [],
+        lectures: 0,
+        duration: "",
+        lastUpdated: "",
+        // Step 4
+        rating: "",
+        totalReviewNumber: 0,
+        enrolled: 0,
 
-    // console.log(course)
+    });
+
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        axiosSecure.get(`/singel-course/${id}`)
+            .then(res => {
+                setFormData(res.data);
+                setIsLoading(false)
+            })
+    }, [axiosSecure, id])
+
+
+
+    console.log(formData)
+
+    const { mutateAsync } = useMutation({
+        mutationFn: async (updatedDate) => {
+            const res = await axiosSecure.put(`/update-course/${id}`, updatedDate)
+            return res.data;
+        },
+        onSuccess: (data) => {
+            if (data.modifiedCount > 0) {
+                toast.success('Successfully Updated')
+                navigate('/dashboard/all-courses', { replace: true })
+            }
+        }
+    })
+
+
 
     const imageUpload = async (value) => {
         const finalResult = await handleImage(value);
 
-        if (finalResult.data?.display_url) {
-            // Save the image URL to formData
-            setFormData({ ...formData, image: finalResult.data.display_url })
-            toast.success("Image uploaded successfully!");
-            setIsUploading(false);
-        }
+        setFormData({ ...formData, image: finalResult.data.display_url })
+        toast.success("Image uploaded successfully!");
+        setIsUploading(false);
     }
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const updatedDate = Object.assign({}, formData);
+        delete updatedDate._id;
+
+        await mutateAsync(updatedDate)
+
+
+        // console.log(updatedDate)
+    };
+
 
 
     const handleNext = () => {
@@ -31,14 +103,6 @@ const UpdateCourse = ({ isOpen, onClose, course }) => {
         if (step > 1) setStep(step - 1);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission
-
-        const getFormData = Object.assign({}, formData)
-        console.log(getFormData)
-    };
-
 
     const handelCurriculum = (e) => {
         const textArray = e.target.value.split(',').map(item => item.trim());
@@ -47,17 +111,17 @@ const UpdateCourse = ({ isOpen, onClose, course }) => {
     }
 
 
-    if (!isOpen) return null;
+    if (loading) {
+        return <PrimarySpinner />
+    }
+
+
+
 
     return (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black backdrop-blur-sm">
-            <div className="w-full max-w-2xl p-8 bg-gray-800 text-white rounded-lg shadow-lg transform transition-all duration-300 ease-in-out">
-                <button
-                    onClick={onClose}
-                    className="absolute top-0 right-4  text-[20px] text-gray-400 hover:text-white"
-                >
-                    &times;
-                </button>
+        <div className={`inset-0 z-50 flex py-10 items-center justify-center bg-black backdrop-blur-sm`}>
+            <div className={`w-full max-w-2xl p-8 bg-gray-800 text-white rounded-lg shadow-lg transform transition-all duration-300 ease-in-out`}>
+
 
                 {/* Progress Indicator */}
                 <div className="flex justify-between mb-8">
@@ -300,6 +364,7 @@ const UpdateCourse = ({ isOpen, onClose, course }) => {
                         )}
 
                         <button
+                            type='submit'
                             className={`px-4 py-2 bg-[#066ac9] rounded hover:bg-[#075eb1] ${step === 4 ? 'block' : 'hidden'
                                 }`}
                         >
@@ -314,7 +379,7 @@ const UpdateCourse = ({ isOpen, onClose, course }) => {
 
 UpdateCourse.propTypes = {
     isOpen: PropTypes.bool,
-    onClose: PropTypes.func,
+    setIsModalOpen: PropTypes.func,
     course: PropTypes.object
 }
 
