@@ -5,14 +5,16 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import toast from 'react-hot-toast';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useCartItems from '../../../hooks/useCartItems';
+// import useCartItems from '../../../hooks/useCartItems';
 import { useState } from 'react';
 import ConfirmCart from '../../../components/Modal/ConfirmCart';
+import useCartLength from '../../../hooks/useCartLength';
 
 const TrendingCourses = () => {
 
     const { user } = useAuth();
-    const { refetch } = useCartItems();
+    // const { refetch } = useCartItems();
+    const { refetch } = useCartLength()
     const [isOpen, setIsOpen] = useState(false);
     const axiosPublic = useAxiosPublic();
     const axiosSucure = useAxiosSecure();

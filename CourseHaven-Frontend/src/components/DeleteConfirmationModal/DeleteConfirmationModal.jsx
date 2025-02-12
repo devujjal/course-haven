@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const DeleteConfirmationModal = ({ isModalOpen, closeModal, handleDelete }) => {
+const DeleteConfirmationModal = ({ isModalOpen, closeModal, handleDelete, isStudent }) => {
 
 
     return (
@@ -21,7 +21,7 @@ const DeleteConfirmationModal = ({ isModalOpen, closeModal, handleDelete }) => {
                         </div>
 
                         {/* Modal Body */}
-                        <p className="mb-6">Are you sure you want to delete this item?</p>
+                        <p className="mb-6">{`Are you sure you want to delete this ${isStudent ? 'Student' : 'course'}?`}</p>
 
                         {/* Modal Footer */}
                         <div className="flex justify-end space-x-4">
@@ -49,7 +49,8 @@ const DeleteConfirmationModal = ({ isModalOpen, closeModal, handleDelete }) => {
 DeleteConfirmationModal.propTypes = {
     isModalOpen: PropTypes.bool,
     closeModal: PropTypes.func,
-    handleDelete: PropTypes.func
+    handleDelete: PropTypes.func,
+    isStudent: PropTypes.bool
 }
 
 export default DeleteConfirmationModal;

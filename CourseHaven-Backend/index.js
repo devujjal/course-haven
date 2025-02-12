@@ -202,6 +202,23 @@ async function run() {
         })
 
 
+        //Delete Student/User
+        app.delete('/student-remove/:email', verifyToken, verifyAdmin, async (req, res) => {
+            try {
+                const email = req.params.email;
+                const query = { email: email };
+                const removeEnrolledStudents = await enrolledStudents.deleteOne(query);
+                const removeEnrollments = await enrollments.deleteMany(query);
+                const removePaymentHistories = await paymentHistories.deleteMany(query);
+                const removeStudent = await users.deleteOne(query);
+                res.send({ removeEnrolledStudents, removeEnrollments, removePaymentHistories, removeStudent })
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to remove student' });
+            }
+        })
+
+
         //Popular Courses
         app.get('/courses/:category', async (req, res) => {
             try {

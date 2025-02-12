@@ -1,21 +1,53 @@
 import { MdDelete } from "react-icons/md";
-import { MdBlock } from "react-icons/md";
+// import { MdBlock } from "react-icons/md";
 import { useQuery } from '@tanstack/react-query'
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { Helmet } from 'react-helmet-async';
+import DeleteConfirmationModal from "../../../../components/DeleteConfirmationModal/DeleteConfirmationModal";
+import { useState } from "react";
+import toast from 'react-hot-toast';
 
 
 const Students = () => {
 
     const axiosSecure = useAxiosSecure();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEmail, setIsEmail] = useState(false);
 
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['students'],
         queryFn: async () => {
             const res = await axiosSecure.get('/users');
             return res.data;
         }
     })
+
+
+    const openModal = (email) => {
+        setIsEmail(email);
+        setIsModalOpen(true);
+    }
+
+
+    const closeModal = () => {
+        setIsEmail('')
+        setIsModalOpen(false)
+    }
+
+
+    const handleDeleteStudent = async () => {
+        console.log(isEmail)
+        if (isEmail) {
+            const res = await axiosSecure.delete(`/student-remove/${isEmail}`)
+            console.log(res.data)
+            if (res.data.removeEnrolledStudents && res.data.removeEnrollments && res.data.removePaymentHistories && res.data.removeStudent) {
+                toast.success('Successfully student deleted!')
+                refetch();
+                closeModal();
+            }
+        }
+    }
+
 
 
     return (
@@ -54,10 +86,14 @@ const Students = () => {
                                             </td>
                                             <td className="p-4 font-roboto font-normal text-[15px]">
                                                 <div className="flex items-center gap-3">
-                                                    <button className="px-2 rounded-full bg-[#d6293e1a] py-2 text-[#d6293e] hover:bg-[#d6293e] hover:text-white transition-all"> <MdDelete size={16} /></button>
-                                                    <button className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white"> <MdBlock size={16} /></button>
+                                                    <button
+                                                        onClick={() => openModal(user?.email)}
+                                                        className="px-2 rounded-full bg-[#d6293e1a] py-2 text-[#d6293e] hover:bg-[#d6293e] hover:text-white transition-all"> <MdDelete size={16} /></button>
+                                                    {/* <button className="px-2 bg-[#d6293e1a] text-[#d6293e] py-2 rounded-full hover:bg-[#d6293e] hover:text-white"> <MdBlock size={16} /></button> */}
 
                                                 </div>
+
+                                                <DeleteConfirmationModal isModalOpen={isModalOpen} closeModal={closeModal} handleDelete={handleDeleteStudent} isStudent={true} />
                                             </td>
                                         </tr>
                                     ))}
