@@ -316,6 +316,30 @@ async function run() {
         })
 
 
+        // get all individual category courses for category page
+        app.get('/category-courses/:category', async (req, res) => {
+            try {
+                const category = req.params.category;
+                const query = { category: category };
+                const result = await courses.find(query, {
+                    projection: {
+                        image: 1,
+                        title: 1,
+                        level: 1,
+                        rating: 1,
+                        duration: 1,
+                        lectures: 1
+                    }
+                }).toArray();
+                res.send(result);
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to fetch category data' });
+
+            }
+        })
+
+
         //All Product length count
         app.get('/products-length', async (req, res) => {
             try {

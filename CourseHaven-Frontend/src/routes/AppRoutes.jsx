@@ -21,6 +21,11 @@ import AddCourse from "../pages/Dashboard/Admin/AddCourse/AddCourse";
 import AllCourses from "../pages/Dashboard/Admin/AllCourses/AllCourses";
 import Statistic from "../pages/Dashboard/Statistic/Statistic";
 import UpdateCourse from "../pages/Dashboard/Admin/UpdateCourse/UpdateCourse";
+import WebDesign from "../pages/CategoryPages/WebDesign";
+import Development from "../pages/CategoryPages/Development";
+import GraphicDesign from "../pages/CategoryPages/GraphicDesign";
+import Marketing from "../pages/CategoryPages/Marketing";
+import Finance from "../pages/CategoryPages/Finance";
 
 
 const router = createBrowserRouter([
@@ -40,6 +45,31 @@ const router = createBrowserRouter([
             {
                 path: 'courses/:id',
                 element: <PrivateRoute><CourseDetails /></PrivateRoute>
+            },
+            {
+                path: 'category/web-design',
+                element: <WebDesign />
+
+            },
+            {
+                path: 'category/development',
+                element: <Development />
+
+            },
+            {
+                path: 'category/graphic-design',
+                element: <GraphicDesign />
+
+            },
+            {
+                path: 'category/marketing',
+                element: <Marketing />
+
+            },
+            {
+                path: 'category/finance',
+                element: <Finance />
+
             },
             {
                 path: 'contact',
