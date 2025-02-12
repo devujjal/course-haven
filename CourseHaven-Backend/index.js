@@ -718,6 +718,20 @@ async function run() {
             }
         })
 
+
+        //Delete Course
+        app.delete('/course/:id', async (req, res) => {
+            try {
+                const id = req.params.id;
+                const query = { _id: new ObjectId(id) };
+                const result = await courses.deleteOne(query);
+                res.send(result)
+
+            } catch (error) {
+                res.status(500).send({ message: 'Faild to delete the course' })
+            }
+        })
+
         //Get the total Products
         app.get('/products-count', verifyToken, verifyAdmin, async (req, res) => {
             try {
