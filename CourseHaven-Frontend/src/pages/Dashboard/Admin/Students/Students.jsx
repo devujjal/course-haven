@@ -40,7 +40,7 @@ const Students = () => {
         if (isEmail) {
             const res = await axiosSecure.delete(`/student-remove/${isEmail}`)
             console.log(res.data)
-            if (res.data.removeEnrolledStudents && res.data.removeEnrollments && res.data.removePaymentHistories && res.data.removeStudent) {
+            if (res.data.removeEnrolledStudents && res.data.removeEnrollments && res.data.removeStudent) {
                 toast.success('Successfully student deleted!')
                 refetch();
                 closeModal();

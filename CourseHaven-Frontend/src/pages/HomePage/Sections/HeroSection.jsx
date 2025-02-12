@@ -10,9 +10,16 @@ import { MdOutlineStar } from "react-icons/md";
 // import man from '../../../assets/hero/man.png';
 import MainBg from '../../../assets/hero/main-bg.png';
 import { Link } from "react-router";
+import { useState } from "react";
+import VideoPlayer from "../../../components/Modal/VideoPlayer";
 
 
 const HeroSection = () => {
+
+    const [isVideoOpen, setIsVideoOpen] = useState(false);
+
+    const closeVideo = () => setIsVideoOpen(false)
+
     return (
         <section>
             <div className="container mx-auto px-2">
@@ -53,7 +60,9 @@ const HeroSection = () => {
                         </ul>
                         <div className="flex items-cetner justify-center lg:justify-start">
                             <Link to={'/sign-in'} className="px-6 py-3 bg-[#F9E8EC] font-roboto text-base md:text-lg text-[#d6293e] font-medium rounded-lg hover:bg-[#d6293e] hover:text-white transition mr-6">Get Started</Link>
-                            <div className="flex items-center font-heebo text-base gap-3 cursor-pointer group">
+                            <div
+                                onClick={() => setIsVideoOpen(true)}
+                                className="flex items-center font-heebo text-base gap-3 cursor-pointer group">
                                 <FaPlayCircle
                                     size={40}
                                     color="#346AC9"
@@ -62,8 +71,12 @@ const HeroSection = () => {
                                 Watch Video
                             </div>
 
+                            <VideoPlayer isVideoOpen={isVideoOpen} closeVideo={closeVideo} />
+
+
                         </div>
                     </div>
+
                     <div className="relative mt-14">
 
                         {/* <div>

@@ -209,9 +209,8 @@ async function run() {
                 const query = { email: email };
                 const removeEnrolledStudents = await enrolledStudents.deleteOne(query);
                 const removeEnrollments = await enrollments.deleteMany(query);
-                const removePaymentHistories = await paymentHistories.deleteMany(query);
                 const removeStudent = await users.deleteOne(query);
-                res.send({ removeEnrolledStudents, removeEnrollments, removePaymentHistories, removeStudent })
+                res.send({ removeEnrolledStudents, removeEnrollments, removeStudent })
 
             } catch (error) {
                 res.status(500).send({ message: 'Faild to remove student' });
