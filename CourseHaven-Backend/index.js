@@ -634,7 +634,7 @@ async function run() {
                 const query = { userEmail: email };
                 const result = await enrollments.find(query).toArray();
                 if (!result.length) {
-                    return res.status(404).send({ message: 'Data not found' });
+                    return res.send({ message: 'You have not enrolled in any courses.' });
                 }
 
                 const courseIds = result.map(enrollment => enrollment.courseId)

@@ -12,13 +12,15 @@ const MyCourse = () => {
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure();
 
-    const { data: enrollCourses = [],  isLoading } = useQuery({
+    const { data: enrollCourses = [], isLoading } = useQuery({
         queryKey: ['enroll-courses', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/enrollment/${user?.email}`);
             return res.data;
         }
     })
+
+    console.log(enrollCourses)
 
     // console.log(enrollCourses)
     // if (isError) {
@@ -88,7 +90,7 @@ const MyCourse = () => {
                                         ))}
                                     </tbody>
                                 </table>
-                            ) : <p className="text-center m-3 font-heebo">You have not enrolled in any courses.</p>
+                            ) : <p className="text-center m-3 font-heebo">{enrollCourses.message}</p>
                         }
 
                     </div>

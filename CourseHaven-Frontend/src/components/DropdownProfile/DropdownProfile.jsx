@@ -2,9 +2,11 @@ import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const DropdownProfile = ({ profileToggle, setProfileToggle, handleUserSignOut }) => {
 
+    const { user } = useAuth();
     // Ref to the dropdown container
     const dropdownRef = useRef(null);
 
@@ -32,17 +34,17 @@ const DropdownProfile = ({ profileToggle, setProfileToggle, handleUserSignOut })
                 onClick={() => setProfileToggle(!profileToggle)}
             >
                 <img
-                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+                    src={user?.photoURL}
                     className="inline-block h-10 w-10 cursor-pointer rounded-full object-cover object-center"
                 />
             </button>
 
             <div className={`${profileToggle ? 'block' : 'hidden'} absolute z-50 min-w-[180px] -left-48 top-12 overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-lg shadow-sm focus:outline-none`}>
                 <div className="p-4 bg-white flex items-center space-x-4">
-                    <img src="https://readymadeui.com/team-3.webp" alt="Profile Picture" className="w-12 h-12 rounded-full" />
+                    <img src={user?.photoURL} alt="Profile Picture" className="w-12 h-12 rounded-full" />
                     <div>
-                        <h4 className="text-base font-heebo font-semibold text-[#24292d]">Lori Ferguson</h4>
-                        <p className="text-sm font-roboto text-[#747579]">example@gmail.com</p>
+                        <h4 className="text-base font-heebo font-semibold text-[#24292d]">{user?.displayName}</h4>
+                        <p className="text-sm font-roboto text-[#747579]">{user?.email}</p>
                     </div>
                 </div>
 

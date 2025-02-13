@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 const Footer = ({ bgColor }) => {
     return (
         <footer className={`${bgColor ? bgColor : 'bg-[#f5f7f9]'} py-10`}>
-            <div className="container mx-auto px-24">
+            <div className="container mx-auto px-10 md:px-24">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-800">CourseHaven</h1>
