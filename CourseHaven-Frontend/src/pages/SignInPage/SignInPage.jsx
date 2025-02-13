@@ -1,17 +1,25 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 
 
 const SignInPage = () => {
 
-    const { userSignIn } = useAuth();
+    const { user, userSignIn, isLoading } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     // console.log(location)
+    if(isLoading){
+        return <PrimarySpinner />
+    }
+
+    if (user) {
+        return <Navigate to={'/'} replace={true} />
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()

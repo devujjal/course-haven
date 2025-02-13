@@ -20,7 +20,7 @@ const MyCourse = () => {
         }
     })
 
-    console.log(enrollCourses)
+    // console.log(enrollCourses)
 
     // console.log(enrollCourses)
     // if (isError) {

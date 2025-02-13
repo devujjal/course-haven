@@ -1,21 +1,30 @@
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from 'react-hot-toast'
 import { useState } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
 
 
 const fetchURL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMBB_API}`
 const SignUpPage = () => {
 
-    const { createNewUser, updateUserProfile, isLoading, setIsLoading } = useAuth();
+    const { user, createNewUser, updateUserProfile, isLoading, setIsLoading } = useAuth();
     const [passError, setPassError] = useState('');
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
 
+
+    if (isLoading) {
+        return <PrimarySpinner />
+    }
+
+    if (user) {
+        return <Navigate to={'/'} replace={true} />
+    }
 
 
     const handleSignUp = async (e) => {
