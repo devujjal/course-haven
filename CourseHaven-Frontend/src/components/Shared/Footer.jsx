@@ -4,11 +4,12 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
+import PropTypes from 'prop-types';
 
 
-const Footer = () => {
+const Footer = ({ bgColor }) => {
     return (
-        <footer className="bg-[#FFFFFF] py-10">
+        <footer className={`${bgColor ? bgColor : 'bg-[#f5f7f9]'} py-10`}>
             <div className="container mx-auto px-24">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     <div>
@@ -76,5 +77,9 @@ const Footer = () => {
 
     );
 };
+
+Footer.propTypes = {
+    bgColor: PropTypes.string
+}
 
 export default Footer;
