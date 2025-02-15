@@ -4,6 +4,7 @@ const cors = require('cors');
 var jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const nodemailer = require("nodemailer");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PROT || 5000;
@@ -18,6 +19,8 @@ const options = {
 app.use(cors(options));
 app.use(express.json());
 app.use(cookieParser());
+
+
 
 
 //verify token
@@ -40,6 +43,43 @@ const verifyToken = (req, res, next) => {
     })
 
 }
+
+
+
+//Node Mailer
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.TRANSPORTER_USER,
+        pass: process.env.TRANSPORTER_PASS
+    }
+
+})
+
+
+// transporter.verify((error, success) => {
+//     if (error) {
+//         console.log(error)
+//     } else {
+//         console.log(`Server is ready to take our messages: ${success}`);
+//     }
+// })
+
+
+const emailSend = async (emailAddress, emailData) => {
+
+    const mailOptions = {
+        from: `"Course Haven" <${process.env.TRANSPORTER_USER}>`,
+        to: emailAddress,
+        subject: emailData.subject,
+        html: emailData.message
+    }
+
+    const info = await transporter.sendMail(mailOptions);
+    return info;
+
+}
+
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -578,7 +618,8 @@ async function run() {
         //Payment history
         app.post('/payment', verifyToken, verifyStudent, async (req, res) => {
             try {
-                const courseInfo = req.body
+
+                const courseInfo = req.body;
 
                 const isExist = await enrolledStudents.findOne({ email: courseInfo?.email });
 
@@ -588,6 +629,7 @@ async function run() {
                         date: new Date()
                     })
                 }
+
 
                 if (courseInfo?.cartIds && Array.isArray(courseInfo.cartIds) && courseInfo.cartIds.length > 0) {
                     // Build the query only if cartIds are available
@@ -612,6 +654,11 @@ async function run() {
                     }))
                 );
 
+
+                await emailSend(courseInfo?.email, {
+                    subject: 'Payment Confirmation',
+                    message: `<h3>Dear,</h3> \n <p>Thank you for your Payment.  Your courses have been successfully enrolled.</p>\n\n <p>Transaction ID: ${courseInfo?.transactionId}.</p> \n\n <p>Best regard,</p>\n <p>Course Haven Team</p>`
+                })
 
 
                 res.send({ result, course })

@@ -120,9 +120,11 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     status: 'Paid'
                 }
 
-                console.log(courseDetails)
+                // console.log(courseDetails)
+                // console.log('This is cart')
 
                 const res = await axiosSecure.post('/payment', courseDetails)
+                // console.log(res.data)
 
                 if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
                     setIsLoading(false)
@@ -139,8 +141,12 @@ const CheckoutForm = ({ courseInfo, closeModal, paymentSource }) => {
                     status: 'Paid'
                 }
 
-                const res = await axiosSecure.post('/payment', courseDetailsInfo)
-                console.log(res.data);
+                // console.log('This is not cart')
+
+                const res = await axiosSecure.post('/payment', courseDetailsInfo);
+                // console.log(res.data);
+
+
                 if (res.data.result.insertedId && res.data.course.insertedCount > 0) {
                     setIsLoading(false)
                     nagivate('/dashboard/payment-info')
