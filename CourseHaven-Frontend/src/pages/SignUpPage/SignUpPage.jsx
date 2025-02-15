@@ -203,7 +203,7 @@ const SignUpPage = () => {
                                 <button type="submit"
                                     className="w-full bg-[#066ac9] text-white py-2 rounded-md hover:bg-[#084783] font-roboto text-base font-medium">
                                     {
-                                        isLoading ? <LoadingSpinner /> : 'Login'
+                                        isLoading ? <LoadingSpinner /> : 'Sign up'
                                     }
                                 </button>
                             </form>

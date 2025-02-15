@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
     //         role: 'student'
     //     }
 
-    //     const res = await axios.post('http://localhost:5000/user', newUser);
+    //     const res = await axios.post('https://course-haven-backend.vercel.app/user', newUser);
     //     return res.data;
 
     // }
@@ -70,17 +70,17 @@ const AuthProvider = ({ children }) => {
                 };
 
                 // Sending JWT token request
-                await axios.post('http://localhost:5000/jwt', userEmail, {
+                await axios.post('https://course-haven-backend.vercel.app/jwt', userEmail, {
                     withCredentials: true
                 });
 
                 // console.log(currentUser);
 
                 // Send the user data to be saved
-                await axios.post('http://localhost:5000/user', newUser);
+                await axios.post('https://course-haven-backend.vercel.app/user', newUser);
             } else {
                 // Handle logout
-                await axios.post('http://localhost:5000/api/logout', {}, {
+                await axios.post('https://course-haven-backend.vercel.app/api/logout', {}, {
                     withCredentials: true
                 });
                 // console.log('User is logged out');
