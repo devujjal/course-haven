@@ -39,9 +39,9 @@ const DropdownProfile = ({ profileToggle, setProfileToggle, handleUserSignOut })
                 />
             </button>
 
-            <div className={`${profileToggle ? 'block' : 'hidden'} absolute z-50 min-w-[180px] -left-48 top-12 overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-lg shadow-sm focus:outline-none`}>
-                <div className="p-4 bg-white flex items-center space-x-4">
-                    <img src={user?.photoURL} alt="Profile Picture" className="w-12 h-12 rounded-full" />
+            <div className={`${profileToggle ? 'block' : 'hidden'} absolute z-50 min-w-[270px] -left-52 top-12 overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-lg shadow-sm focus:outline-none`}>
+                <div className="px-2 py-4 bg-white flex items-center space-x-4">
+                    <img src={user?.photoURL} referrerPolicy="no-referrer" alt="Profile Picture" className="w-12 h-12 rounded-full" />
                     <div>
                         <h4 className="text-base font-heebo font-semibold text-[#24292d]">{user?.displayName}</h4>
                         <p className="text-sm font-roboto text-[#747579]">{user?.email}</p>

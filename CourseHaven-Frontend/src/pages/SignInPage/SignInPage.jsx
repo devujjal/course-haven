@@ -1,25 +1,27 @@
-import { FaGoogle } from "react-icons/fa";
-import { FaFacebookF } from "react-icons/fa";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import PrimarySpinner from "../../components/LoadingSpinner/PrimarySpinner";
+import { useState } from "react";
+import SocialLoggedIn from "../../components/SocialLoggedIn/SocialLoggedIn";
 
 
 const SignInPage = () => {
 
-    const { user, userSignIn, isLoading } = useAuth();
+    const { user, userSignIn, isLoading, setIsLoading } = useAuth();
+    const [isType, setIsType] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
     // console.log(location)
-    if(isLoading){
+    if (isLoading) {
         return <PrimarySpinner />
     }
 
     if (user) {
         return <Navigate to={'/'} replace={true} />
     }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -38,6 +40,7 @@ const SignInPage = () => {
             // eslint-disable-next-line no-unused-vars
         } catch (error) {
             toast.error('Invalid Credentials')
+            setIsLoading(false)
         }
 
     }
@@ -89,8 +92,10 @@ const SignInPage = () => {
                                 <div className="mt-4 mb-4">
                                     <label className="text-[#747579] font-normal font-sm font-roboto mb-2 block">Password *</label>
                                     <div className="relative flex items-center">
-                                        <input name="password" type="password" required className="w-full text-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter password" />
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" className="w-[18px] h-[18px] absolute right-4 cursor-pointer" viewBox="0 0 128 128">
+                                        <input name="password" type={isType ? 'text' : 'password'} required className="w-full text-sm font-heebo text-gray-800 bg-gray-100 focus:bg-transparent pl-4 pr-10 py-3 rounded-md border border-gray-100 focus:border-blue-600 outline-none transition-all" placeholder="Enter password" />
+                                        <svg
+                                            onClick={() => setIsType(!isType)}
+                                            xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" className="w-[18px] h-[18px] absolute right-4 cursor-pointer" viewBox="0 0 128 128">
                                             <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
                                         </svg>
                                     </div>
@@ -111,16 +116,8 @@ const SignInPage = () => {
                                     className="w-full bg-[#066ac9] text-white py-2 rounded-md hover:bg-[#084783] font-roboto text-base font-medium">Login</button>
                             </form>
                             <div className="my-6 text-center text-gray-500">Or</div>
-                            <button
-                                className="w-full border border-gray-300 text-white bg-[#3c7ff1] py-2 rounded-md flex gap-2 font-roboto font-medium items-center justify-center mb-2.5 hover:bg-[#3972D9]">
-                                <FaGoogle />
-                                Login with Google
-                            </button>
-                            <button
-                                className="w-full border border-gray-300 text-white bg-[#5475bc] py-2 rounded-md flex gap-2 font-roboto font-medium items-center justify-center hover:bg-[#435e99]">
-                                <FaFacebookF />
-                                Login with Google
-                            </button>
+
+                            <SocialLoggedIn />
 
                             <div className="mt-4 text-center font-roboto text-[#747579] text-base">
                                 <span>Don&lsquo;t have an account? <Link to={'/sign-up'} className="text-[#066ac9]">Signup here</Link>

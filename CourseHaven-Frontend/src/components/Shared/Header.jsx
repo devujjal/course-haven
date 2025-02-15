@@ -153,7 +153,7 @@ const Header = () => {
                         ) : (
                             <Link
                                 to="/sign-in"
-                                className="px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]"
+                                className=" px-2 md:px-4 py-2 text-sm rounded font-semibold text-white border-2 border-[#346AC9] bg-[#346AC9] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#066ac9]"
                             >
                                 Get Started
                             </Link>
